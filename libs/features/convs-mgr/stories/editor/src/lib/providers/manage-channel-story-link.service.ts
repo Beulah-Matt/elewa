@@ -90,4 +90,17 @@ export class ManageChannelStoryLinkService
     const channelRepo = this._getChannelRepo(channel);
     return channelRepo.getDocuments(new Query().where("id", "==", channel.id));
   }
+
+  /**
+   * Updating the channel info
+   * 
+   * CRUD
+   */
+  public updateChannel(channel: CommunicationChannel) {
+    const _channelRepo = this._getChannelRepo(channel);
+  
+    return _channelRepo.write(channel, channel.id as string);
+  }
+  
+  
 }
