@@ -44,11 +44,14 @@ export class AddBotToChannelModal implements OnInit, OnDestroy
 
   addToChannelForm: FormGroup;
 
+  currentChannel: CommunicationChannel;
+
   channels: CommunicationChannel[] = [{type: PlatformType.WhatsApp} as WhatsAppCommunicationChannel];
 
   languages: string[];
   
   isSaving: boolean;
+  isUpdating = false; // <-- Add isUpdating property and initialize it to false, use this to change the button text to update details
 
   constructor(private _fb: FormBuilder,
     private _dialog: MatDialog,
@@ -66,12 +69,24 @@ export class AddBotToChannelModal implements OnInit, OnDestroy
 
   ngOnInit() {
     this._sBs.sink =
-      combineLatest([this._activeStoryStore$$.get(), this._activeOrgStore$$.get()])
-        .pipe(filter(([story, org]) => !!story && !!org))
-        .subscribe(([activeStory, activeOrg]) => {
+      combineLatest([this._activeStoryStore$$.get(), this._activeOrgStore$$.get()]) // add the last changed value
+        .pipe(filter(([story, org]) => !!story && !!org)) //only pass to the observable the values that emitted = true? (kinda like a normal filter method)
+        .subscribe(([activeStory, activeOrg]) => { //notify me of these changes when they happen
           this._activeStoryId = activeStory.id as string;
           this._orgId = activeOrg.id as string;
         });
+
+    // Check if the channel already exists for the story
+    // Search through the channel document to see it the story is linked to the channel
+    // repo.getDocuments
+    
+    // Get the channel details
+
+    this.currentChannel = '' as any;
+
+    // Prepopulate the form with the current channel details
+      
+    this.addToChannelForm.value.accessToken = ''
   }
 
   onSubmit() {
@@ -109,7 +124,7 @@ export class AddBotToChannelModal implements OnInit, OnDestroy
           this.myService.getSomeData()
           .subscribe(data => {
             this.item = data;
-            this.queryForm.patchValue({pcode: this.item.productCode})
+            this.queryForm.patchValue({botname: this.item.botName, phoneId: this.item.phoneID})
         });
       */
     })).subscribe(() => {
