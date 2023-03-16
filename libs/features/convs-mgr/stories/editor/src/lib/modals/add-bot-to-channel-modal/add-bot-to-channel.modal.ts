@@ -104,6 +104,14 @@ export class AddBotToChannelModal implements OnInit, OnDestroy
       } else {
         return;
       }
+      // Where here should I use patchValue to get the saved data?
+      /* Here is what I have in mind
+          this.myService.getSomeData()
+          .subscribe(data => {
+            this.item = data;
+            this.queryForm.patchValue({pcode: this.item.productCode})
+        });
+      */
     })).subscribe(() => {
       this.isSaving = false;
       this.closeDialog();
