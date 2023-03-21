@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { runTransaction, getFirestore, doc } from "firebase/firestore";
 
-import { from } from 'rxjs';
+import { from, Observable } from 'rxjs';
 
 import { concatMap } from 'rxjs/operators';
 
@@ -89,23 +89,26 @@ export class ManageChannelStoryLinkService
   {
     const channelRepo = this._getChannelRepo(channel);
     return channelRepo.getDocuments(new Query().where("id", "==", channel.id));
+  }  
+
+  // public getChannel(channelId: string): Observable<CommunicationChannel> {
+  //   const channelRepo = this._repoFac.getRepo<CommunicationChannel>('channels');
+  //   return channelRepo.getDocument(channelId);
+  // }
+
+  public saveChannel(channel: CommunicationChannel): Observable<CommunicationChannel> {
+    const channelRepo = this._repoFac.getRepo<CommunicationChannel>('channels');
+    return channelRepo.write(channel, channel.id as string);
   }
-
-  /**
-   * Updating the channel info
-   * GETting the channel info
-   * CRUD
-   */
-
-  public getChannel(channel: CommunicationChannel){
-    const _channelRepo = this._getChannelRepo(channel);
-    // Move to getChannelByStory(storyId: string;)
-    _channelRepo.getDocuments(new Query().where('defaultStory', '==', 'storyId'))
-  }
-
-  public updateChannel(channel: CommunicationChannel) {
-    const _channelRepo = this._getChannelRepo(channel);
   
-    return _channelRepo.write(channel, channel.id as string);
-  } 
+  public updateChannel(channel: CommunicationChannel): Observable<CommunicationChannel> {
+    const channelRepo = this._repoFac.getRepo<CommunicationChannel>('channels');
+    return channelRepo.update(channel);
+  }
+
+  public getChannelByStory(storyId: string): Observable<CommunicationChannel[]> {
+    const channelRepo = this._repoFac.getRepo<CommunicationChannel>('channels');
+    const query = new Query().where('storyIds', 'array-contains', storyId);
+    return channelRepo.getDocuments(query);
+  }
 }

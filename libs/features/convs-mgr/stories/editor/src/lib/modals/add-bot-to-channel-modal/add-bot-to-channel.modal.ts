@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog'
 
 import { SubSink } from 'subsink';
 
-import { combineLatest, filter, map } from 'rxjs';
+import { combineLatest, filter, map, Observable } from 'rxjs';
 
 import { __DECODE_AES, __ENCODE_AES } from '@app/elements/base/security-config';
 
@@ -15,10 +15,11 @@ import { WhatsAppCommunicationChannel } from '@app/model/convs-mgr/conversations
 import { CommunicationChannel, PlatformType } from '@app/model/convs-mgr/conversations/admin/system';
 
 import { ManageChannelStoryLinkService } from '../../providers/manage-channel-story-link.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
-  selector: 'conv-add-bot-to-channel',
+  selector: 'convl-add-bot-to-channel',
   templateUrl: 'add-bot-to-channel.modal.html',
   styleUrls: ['./add-bot-to-channel.modal.scss']
 })
@@ -35,8 +36,7 @@ import { ManageChannelStoryLinkService } from '../../providers/manage-channel-st
  *  - On platform specific fields, it will be nice to have a question mark(?) icon next to it that links to the official documentation
  */
 
-export class AddBotToChannelModal implements OnInit, OnDestroy 
-{
+export class AddBotToChannelModal implements OnInit, OnDestroy {
 
   private _sBs = new SubSink();
   private _activeStoryId: string;
@@ -46,19 +46,20 @@ export class AddBotToChannelModal implements OnInit, OnDestroy
 
   currentChannel: CommunicationChannel;
 
-  channels: CommunicationChannel[] = [{type: PlatformType.WhatsApp} as WhatsAppCommunicationChannel];
+  channels: CommunicationChannel[] = [{ type: PlatformType.WhatsApp } as WhatsAppCommunicationChannel];
 
   languages: string[];
-  
+
   isSaving: boolean;
-  isUpdating = false; // <-- Add isUpdating property and initialize it to false, use this to change the button text to update details
+
 
   constructor(private _fb: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router,
     private _dialog: MatDialog,
     private _manageStoryLinkService: ManageChannelStoryLinkService,
     private _activeStoryStore$$: ActiveStoryStore,
-    private _activeOrgStore$$: ActiveOrgStore)
-    {
+    private _activeOrgStore$$: ActiveOrgStore) {
     this.addToChannelForm = this._fb.group({
       channel: this.channels,
       businessPhoneNumberId: [null, [Validators.required]],
@@ -75,25 +76,13 @@ export class AddBotToChannelModal implements OnInit, OnDestroy
           this._activeStoryId = activeStory.id as string;
           this._orgId = activeOrg.id as string;
         });
-
-    // Check if the channel already exists for the story
-    // Search through the channel document to see it the story is linked to the channel
-    // repo.getDocuments
-    
-    // Get the channel details
-
-    this.currentChannel = '' as any;
-
-    // Prepopulate the form with the current channel details
-      
-    this.addToChannelForm.value.accessToken = ''
   }
 
   onSubmit() {
 
     this.isSaving = true;
     const phoneNumberId = this.addToChannelForm.get('businessPhoneNumberId')?.value;
-    var authKey = this.addToChannelForm.get('authenticationKey')?.value;
+    let authKey = this.addToChannelForm.get('authenticationKey')?.value;
     const businessName = this.addToChannelForm.get('channelName')?.value;
 
     authKey = __ENCODE_AES(authKey);
@@ -101,14 +90,23 @@ export class AddBotToChannelModal implements OnInit, OnDestroy
     const channelToSubmit = {
       id: phoneNumberId,
       name: businessName,
-      orgId:this._orgId,
+      orgId: this._orgId,
       defaultStory: this._activeStoryId,
-      n: 1, 
+      n: 1,
       accessToken: authKey
     } as WhatsAppCommunicationChannel;
 
     // TODO: @CHESA =======> Add cipher for channel authKey so that we can store auth key in db
-
+    //Saving channel data
+    this._manageStoryLinkService.addStoryToChannel(channelToSubmit).subscribe(() => {
+      this.addToChannelForm.reset()
+      this.isSaving = false;
+      this.closeDialog()
+    }, 
+    (error: string) => {
+      console.error(error)
+      this.isSaving =false
+    })
     const _storyExistsInChannel$ = this._storyExistsInChannel(channelToSubmit);
 
     this._sBs.sink = _storyExistsInChannel$.pipe(map((exists) => {
@@ -119,14 +117,6 @@ export class AddBotToChannelModal implements OnInit, OnDestroy
       } else {
         return;
       }
-      // Where here should I use patchValue to get the saved data?
-      /* Here is what I have in mind
-          this.myService.getSomeData()
-          .subscribe(data => {
-            this.item = data;
-            this.queryForm.patchValue({botname: this.item.botName, phoneId: this.item.phoneID})
-        });
-      */
     })).subscribe(() => {
       this.isSaving = false;
       this.closeDialog();
@@ -135,6 +125,13 @@ export class AddBotToChannelModal implements OnInit, OnDestroy
 
   private _storyExistsInChannel(channel: CommunicationChannel) {
     return this._manageStoryLinkService.getSingleStoryInChannel(channel).pipe(map(channels => !!channels.length));
+  }
+
+  //check if channel exists for story
+  private _channelExistsForStory(channel: CommunicationChannel){
+    return this._manageStoryLinkService.getChannelByStory(this._activeStoryId).pipe(
+      map(channels => channels.some(c => c.id === channel.id))
+    );
   }
 
   closeDialog = () => this._dialog.closeAll();
