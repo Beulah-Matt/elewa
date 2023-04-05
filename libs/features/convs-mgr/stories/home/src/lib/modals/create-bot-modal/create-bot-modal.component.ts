@@ -119,4 +119,25 @@ export class CreateBotModalComponent implements OnInit {
     this.isSavingStory = true;
     this.modalMode ? this.update() : this.add();
   }
+
+  getImageUrl(){
+    if (this.storyHasImage && this.storyImageFile) {
+      const reader = new FileReader();
+      reader.readAsDataURL(this.storyImageFile);
+      reader.onload = () => {
+        this.botForm.patchValue({
+          botImage: reader.result
+        });
+      };
+    } else if (this.storyHasImage && this.botForm.value.botImage) {
+      return this.botForm.value.botImage;
+    } else {
+      return '';
+    }
+  }
 }
+/*
+Why is an object not being saved or called when it has not been saved?
+ Uncaught (in promise): FirebaseError: Firebase Storage:
+Object 'images/EndStoryIcon.png' does not exist. (storage/object-not-found)
+*/

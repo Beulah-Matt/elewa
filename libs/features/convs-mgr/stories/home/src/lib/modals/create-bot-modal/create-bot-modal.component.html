@@ -33,7 +33,7 @@
       </div>
 
     </div>
-
+    <img *ngIf="storyHasImage" [src]="getImageUrl()" alt="Selected Image" />
     <mat-error>
       <span *ngIf="!fileSizeIsValid">
         The file size is too large. Please upload a file smaller than 1MB.
