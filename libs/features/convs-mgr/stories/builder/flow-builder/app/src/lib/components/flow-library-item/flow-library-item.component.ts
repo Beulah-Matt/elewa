@@ -10,4 +10,5 @@ import { FlowControl } from '@app/model/convs-mgr/stories/flows';
 export class FlowLibraryItemComponent
 {
   @Input() control: FlowControl;
+  @Input() inEditor: boolean;
 }

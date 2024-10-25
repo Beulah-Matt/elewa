@@ -1,6 +1,6 @@
 import { v4 as ___guid } from 'uuid';
 import { Component, OnInit, OnDestroy, ViewContainerRef, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { SubSink } from 'subsink';
@@ -32,6 +32,7 @@ export class FlowEditorComponent implements OnInit, OnDestroy
   droppedItems: any;
   isEditing = false;
   isSideScreenOpen: boolean;
+  inEditor = true;
 
   constructor( private _flowBuilderState: FlowBuilderStateProvider,
                private editorComponentFactory: EditorComponentFactory,
@@ -91,6 +92,9 @@ export class FlowEditorComponent implements OnInit, OnDestroy
 
         this.cdr.detectChanges();
         this._flowBuilderState.setControls(draggedData); // Update the state provider
+    }
+    if(event.previousContainer === event.container){
+      moveItemInArray(this.droppedItems,event.previousIndex, event.currentIndex)
     }
   }
 

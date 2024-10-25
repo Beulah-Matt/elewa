@@ -1,4 +1,5 @@
 <div class="flow-lib-button" mat-raised-button>
+  <img *ngIf="inEditor" src="assets/svgs/blocks/ellipsis.svg" alt="">
   <i *ngIf="control?.icon" class="icon" [class]="control.icon"></i>
   <span>{{ control.label }}</span>
 
