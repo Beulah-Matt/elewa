@@ -29,6 +29,9 @@ export class FlowEditorComponent implements OnInit, OnDestroy
   @ViewChild('vcr', { static: true, read: ViewContainerRef })
   vcr!: ViewContainerRef;
   state: FlowBuilderStateFrame;
+  readonly btnMaxChar = 30;
+  currentCharCount = 0;
+
   droppedItems: any;
   isEditing = false;
   isSideScreenOpen: boolean;
@@ -59,6 +62,16 @@ export class FlowEditorComponent implements OnInit, OnDestroy
 
   editButton() {
     this.isEditing = true;
+  }
+
+  onInputChange(event: KeyboardEvent){
+    const editBtn = event.target as HTMLInputElement;
+    this.currentCharCount = editBtn.value.length;
+
+    if(this.currentCharCount >= this.btnMaxChar){
+      editBtn.value = editBtn.value.slice(0, this.btnMaxChar);
+      this.currentCharCount = this.btnMaxChar;
+    }
   }
 
   toggleSidenav(){

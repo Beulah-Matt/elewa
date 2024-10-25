@@ -52,8 +52,8 @@
 
       <ng-container #vcr> </ng-container>
       <div class="edit-btn" *ngIf="isEditing">
-        <input placeholder="Button" />
-        <span>20/80</span>
+        <input placeholder="Button" (keyup)="onInputChange($event)"/>
+        <span>{{currentCharCount}}/{{btnMaxChar}}</span>
       </div>
     </div>
     
