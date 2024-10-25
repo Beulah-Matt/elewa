@@ -220,6 +220,14 @@
         "MESSAGE": "Êtes-vous sûr de vouloir supprimer ce bot?"
       }
     },
+    "DELETE-MODAL": {
+      "TITLE": "Supprimer l'élément",
+      "CANCEL": "Annuler",
+      "CONFIRM": "Confirmer",
+      "SUBMIT": "Supprimer",
+      "INFO": "Cette action ne peut pas être annulée",
+      "MESSAGE": " Êtes-vous sûr de vouloir supprimer cet élément ?"
+    },
     "CHANNEL":{
       "HEADER":"Connecter le bot au canal",
       "INFO-TEXT1":"Pour créer une nouvelle chaîne, accédez aux paramètres d'administration, puis continuez",
