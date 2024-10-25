@@ -39,19 +39,22 @@
     </div>
 
     <div class="config-container" [ngClass]="droppedItems?.length > 0 ? 'edit-background': ''">
-      <span class="card-title" *ngIf="droppedItems?.length > 0">
-        <p class="screen-title">Screen title</p>
-        <button mat-button [matMenuTriggerFor]="menu">
+      <div class="card-title" *ngIf="droppedItems?.length > 0">
+        <span class="screen-title">Screen title</span>
+        <span class="mat-button" mat-button [matMenuTriggerFor]="menu">
           <i class="fa-solid fa-ellipsis-vertical menu-tooltip"></i>
-        </button>
-      </span>
+        </span>
+      </div>
 
       <mat-menu #menu="matMenu">
         <button mat-menu-item>{{ 'BOTS.SCREEN-SETTNGS' | transloco }}</button>
       </mat-menu>
 
       <ng-container #vcr> </ng-container>
-      <input class="edit-btn" *ngIf="isEditing" placeholder="Button" />
+      <div class="edit-btn" *ngIf="isEditing">
+        <input placeholder="Button" />
+        <span>20/80</span>
+      </div>
     </div>
     
 

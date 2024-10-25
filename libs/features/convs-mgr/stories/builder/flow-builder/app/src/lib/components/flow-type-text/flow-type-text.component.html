@@ -1,31 +1,43 @@
 <div class="wrapper" *ngIf="control && textInputForm">
   <form [formGroup]="textInputForm">
-    <div class="input-holder">
-      @switch(type) {
-        <!-- Heading. Blank value not accept. Max character 80 -->
-        @case (flowControlType.Header) {
-          <input id="{{inputId}}" type="text" class="header" maxlength="80" formControlName="text"/>
+      <div class="input-holder">
+        @switch(type) {
+          <!-- Heading. Blank value not accept. Max character 80 -->
+          @case (flowControlType.Header) {
+            <input id="{{inputId}}" type="text" class="header" maxlength="80" formControlName="text"/>
+          }
+          @case (flowControlType.LightHeader) {
+            <input id="{{inputId}}" type="text" class="light-header" maxlength="80"formControlName="text"/>
+          }
+          @case (flowControlType.Text){
+            <input id="{{inputId}}" type="text" class="text"  maxlength="4096"formControlName="text"/>
+          }
+          @case (flowControlType.Caption) {
+            <input id="{{inputId}}" type="text" class="small-text" maxlength="4096" formControlName="text"/>
+          }
+          @default {
+            <!-- Fallback input if none of the cases match -->
+            <input id="{{inputId}}" type="text" class="fallback" />
+          }
         }
-        @case (flowControlType.LightHeader) {
-          <input id="{{inputId}}" type="text" class="light-header" maxlength="80"formControlName="text"/>
+        <span class="mat-button" mat-button [matMenuTriggerFor]="menu">
+          <i class="fa-solid fa-ellipsis-vertical menu-tooltip"></i>
+        </span>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="deleteElement()">{{ 'BOTS.CREATE-MODAL.FIELDS.DELETE' | transloco }}</button>
+        </mat-menu>
+      </div>
+
+      <div class="char-count">
+        @switch (type) {
+          @case (flowControlType.Header || flowControlType.LightHeader) {
+            <span>char count - 80</span>
+          }
+          @case (flowControlType.Text || flowControlType.Caption) {
+            <span>char count - 4096</span>
+          }
         }
-        @case (flowControlType.Text){
-          <input id="{{inputId}}" type="text" class="text"  maxlength="4096"formControlName="text"/>
-        }
-        @case (flowControlType.Caption) {
-          <input id="{{inputId}}" type="text" class="small-text" maxlength="4096" formControlName="text"/>
-        }
-        @default {
-          <!-- Fallback input if none of the cases match -->
-          <input id="{{inputId}}" type="text" class="fallback" />
-        }
-      }
-      <button mat-button [matMenuTriggerFor]="menu">
-        <i class="fa-solid fa-ellipsis-vertical menu-tooltip"></i>
-      </button>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="deleteElement()">{{ 'BOTS.CREATE-MODAL.FIELDS.DELETE' | transloco }}</button>
-      </mat-menu>
-    </div>
+      </div>
+
   </form>
 </div>
