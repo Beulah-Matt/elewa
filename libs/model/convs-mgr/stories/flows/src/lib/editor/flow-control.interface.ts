@@ -24,5 +24,7 @@ export interface FlowControl extends FlowPageLayoutElementV31
   /** dropped */
   dropped?: boolean
 
-  value?: any | InputsData
+  value?: any | InputsData;
+
+  hasInput?: boolean;
 }
