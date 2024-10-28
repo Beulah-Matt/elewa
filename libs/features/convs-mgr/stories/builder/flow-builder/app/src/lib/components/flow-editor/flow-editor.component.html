@@ -38,8 +38,8 @@
       </div>
     </div>
 
-    <div class="config-container" [ngClass]="droppedItems?.length > 0 ? 'edit-background': ''">
-      <div class="card-title" *ngIf="droppedItems?.length > 0">
+    <div class="config-container" [ngClass]="droppedItems.length > 0 ? 'edit-background': ''">
+      <div class="card-title" *ngIf="droppedItems.length > 0">
         <span class="screen-title">Screen title</span>
         <span class="mat-button" mat-button [matMenuTriggerFor]="menu">
           <i class="fa-solid fa-ellipsis-vertical menu-tooltip"></i>
@@ -58,7 +58,7 @@
     </div>
     
 
-    <div class="screen-config" *ngIf="droppedItems?.length > 0">
+    <div class="screen-config" *ngIf="droppedItems.length > 0">
       <lib-flow-screen-settings></lib-flow-screen-settings>
     </div>
   </div>

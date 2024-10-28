@@ -32,7 +32,7 @@ export class FlowEditorComponent implements OnInit, OnDestroy
   readonly btnMaxChar = 30;
   currentCharCount = 0;
 
-  droppedItems: any;
+  droppedItems: FlowControl[] = [];
   isEditing = false;
   isSideScreenOpen: boolean;
   inEditor = true;
@@ -54,7 +54,7 @@ export class FlowEditorComponent implements OnInit, OnDestroy
 
     this.droppedElements$.pipe(take(1)).subscribe((elements)=> {
       this.droppedItems = elements;
-      elements.forEach((item) => this.createField(item));
+      elements.forEach((item) => this.createInputForm(item));
     })
 
     this._sbS.sink = this.trackerService.change$.subscribe();
@@ -119,31 +119,33 @@ export class FlowEditorComponent implements OnInit, OnDestroy
   }
 
   /** Opening an editable field when user clicks on a dropped element */
-  createField(element: FlowControl, i?: number) {
+  createField(element: FlowControl, i: number) {
 
     if (element.dropped) {
       
       const hasInput = this.droppedItems.filter((c: FlowControl)=> c.hasInput).find((c: FlowControl)=> c.id === element.id);
       
-      if(!hasInput || !i) {
-        const componentRef = this.editorComponentFactory.createEditorComponent(element, this.vcr);
-        
-        componentRef.instance.control = element;
-        
-        const elementForm  = _GetFlowComponentForm(this._fb, element);
-        componentRef.instance.elementForm = elementForm;
-        
-        componentRef.instance.type = element.controlType;  // Pass the value to the component
-        
-        componentRef.changeDetectorRef.detectChanges();
-        
-        if(i) {
-          this.droppedItems[i].hasInput = true;
-        }
+      if(!hasInput) {
+        this.createInputForm(element);
+    
+        this.droppedItems[i].hasInput = true;
       }
     
     }
-  }   
+  }
+  
+  createInputForm(element: FlowControl) {
+    const componentRef = this.editorComponentFactory.createEditorComponent(element, this.vcr);
+        
+    componentRef.instance.control = element;
+    
+    const elementForm  = _GetFlowComponentForm(this._fb, element);
+    componentRef.instance.elementForm = elementForm;
+    
+    componentRef.instance.type = element.controlType;  // Pass the value to the component
+    
+    componentRef.changeDetectorRef.detectChanges();
+  }
 
   ngOnDestroy(): void {
     this._sbS.unsubscribe()
