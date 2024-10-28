@@ -393,10 +393,19 @@
       "CONFIRM": "Confirm",
       "CANCEL": "Cancel"
     },
+    "BUTTON":"Button",
     "CONNECT-BOT-TO-CHANNEL":"Connect bot to channel",
     "PUBLISH-BOT":"Publish Bot",
     "ARCHIVE-BOT":"Archive Bot",
-    "DELETE-BOT":"Delete Bot"
+    "DELETE-BOT":"Delete Bot",
+    "EDIT-CLICK":"Click here to edit",
+    "DRAG-ELEMENT": "Drag an element into this frame",
+    "CHOOSE-FLOW-ELEMENT": "Choose Flow Element"
+  },
+  "FLOW-CATEGORY": {
+    "TEXT-ELS": "Text",
+    "DESIGN-ELS": "Design",
+    "INPUT-ELS": "Input"
   },
   "MODULES": {
     "FIELDS": {

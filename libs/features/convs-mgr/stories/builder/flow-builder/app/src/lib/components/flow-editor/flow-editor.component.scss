@@ -5,45 +5,129 @@
 .editor-container 
 {
   min-width: 800px;
-  height: fit content;
+  width: 100%;
+  height: fit-content;
 
-  background: #F6F6F6;
+  margin: 5rem 0 0 5rem;
   color: #101010;
   
   padding: 20px;
-  border: 1px solid #101010;
   display: flex;
-  gap: 2rem;
+  align-items: flex-start;
+  gap: 1.5rem;
+  transition: margin 0.3s ease;
+
+  &.side-open {
+    margin-left: 18rem;
+  }
 }
 
   #phone-container {
-    width: 280px;
+    width: 520px;
     height: 585px;
-    background-image: url(/assets/images/phone.png);
+    border: 5px solid var(--convs-mgr-color-primary-black);
     background-size: cover;
-    background-color: white;
-    border-radius:40px;
+    background-color: var(--convs-mgr-color-F6F6F6);
+    border-radius: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem 0.4rem 0 0;
+
+    span {
+      width: 60px;
+      height: 8px;
+      border-radius: 1rem;
+      background-color: var(--convs-mgr-color-primary-black);
+    }
   }
   // Acts as an inner container into the phone image.
   //  Allowing us to move things inside.
   .phone-inner {
-    width: 260px;
-    height: 520px;
-    background-color: red;
+    width: 290px;
+    height: 550px;
+  }
+
+  .placeholder-text {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    color: var( --convs-mgr-medium-gray);
   }
 
   #flow-container-drop {
-    height: 100%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 0 5px 0 12px;
+    height: 97%;
+
+    button {
+      margin-top: auto;
+      padding: 10px;
+      border-radius: 0.5rem;
+      border: none;
+      text-align: left;
+      width: 100%;
+      background: var(--convs-mgr-color-text-white);
+      
+      &:hover {
+        cursor: pointer;
+        background-color: var(--convs-mgr-color-lightgray);
+      }
+    }
   }
 
   .config-container{
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
-    width: 100%;
+    width: 120%;
+
     border: 1 px solid black;
     border-radius: 10px;
-    background-color: antiquewhite;
     padding: 1.5rem;  
+    max-height: 490px;
+    overflow-y: auto;
+    
+    &.edit-background {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background-color: var(--convs-mgr-color-text-white);
+    }
   }
   
+  .toggle-btn { 
+    position: absolute;
+    left: 10px;
+    border: none;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+    color: black;
+    padding: 10px;
+    background: none;
+  
+    z-index: 1000000;
+    .tooltip {
+      font-size: 1.2rem;
+    }
+  }
+
+.edit-btn {
+  padding: 1rem 0 1rem 1rem;
+  border-radius: 0.25rem;
+  border: none;
+  background-color: var(--convs-mgr-color-F6F6F6);
+}
+
+.screen-config {
+  width: 120%;
+  padding: 1.2rem;
+  border-radius: 0.625rem;
+  background-color: var(--convs-mgr-color-text-white);
+}
