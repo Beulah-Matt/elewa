@@ -4,13 +4,13 @@
         @switch(type) {
           <!-- Heading. Blank value not accept. Max character 80 -->
           @case (flowControlType.Header) {
-            <input id="{{inputId}}" type="text" class="header" maxlength="80" formControlName="text"/>
+            <input id="{{inputId}}" type="text" class="header" maxlength="80" formControlName="text" (keyup)="onInputChange($event)"/>
           }
           @case (flowControlType.LightHeader) {
-            <input id="{{inputId}}" type="text" class="light-header" maxlength="80"formControlName="text"/>
+            <input id="{{inputId}}" type="text" class="light-header" maxlength="80" formControlName="text" (keyup)="onInputChange($event)"/>
           }
           @case (flowControlType.Text){
-            <input id="{{inputId}}" type="text" class="text"  maxlength="4096"formControlName="text"/>
+            <input id="{{inputId}}" type="text" class="text"  maxlength="4096" formControlName="text"/>
           }
           @case (flowControlType.Caption) {
             <input id="{{inputId}}" type="text" class="small-text" maxlength="4096" formControlName="text"/>
@@ -31,10 +31,7 @@
       <div class="char-count">
         @switch (type) {
           @case (flowControlType.Header || flowControlType.LightHeader) {
-            <span>char count - 80</span>
-          }
-          @case (flowControlType.Text || flowControlType.Caption) {
-            <span>char count - 4096</span>
+            <span>{{currentCharCount}}/{{headerMaxChar}}</span>
           }
         }
       </div>

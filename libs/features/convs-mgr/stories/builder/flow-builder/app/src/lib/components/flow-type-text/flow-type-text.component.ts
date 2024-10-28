@@ -31,6 +31,9 @@ export class FlowTypeTextComponent implements OnInit {
   inputId = '';
   vrc = inject(ViewContainerRef)
 
+  readonly headerMaxChar = 80;
+  currentCharCount = 0;
+  
   textInputForm: FormGroup;
   textElement: FlowPageTextV31
   private _sbS = new SubSink();
@@ -45,6 +48,8 @@ export class FlowTypeTextComponent implements OnInit {
   ngOnInit(): void {
     this.inputId = `input-${this.control.controlType}`;
     this.textInputForm = this.elementForm;
+    
+    this.currentCharCount = this.textInputForm.get('text')?.value.length;
 
     // Subscribe to form value changes
     this._sbS.sink = this.textInputForm.get('text')?.valueChanges
@@ -52,6 +57,16 @@ export class FlowTypeTextComponent implements OnInit {
       .subscribe(value=> {
       this.buildV31Element(value);
     });
+  }
+
+  onInputChange(event: KeyboardEvent){
+    const input = event.target as HTMLInputElement;
+    this.currentCharCount = input.value.length;
+
+    if(this.currentCharCount >= this.headerMaxChar){
+      input.value = input.value.slice(0, this.headerMaxChar);
+      this.currentCharCount = this.headerMaxChar;
+    }
   }
 
   deleteElement(){
