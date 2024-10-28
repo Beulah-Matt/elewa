@@ -1,11 +1,13 @@
+import { v4 as ___guid } from 'uuid';
+
 import { SubSink } from "subsink";
-import { BehaviorSubject, combineLatest, filter, map, Observable, of, switchMap } from "rxjs";
+import { BehaviorSubject, combineLatest, map, Observable, switchMap } from "rxjs";
 
 import { FlowBuilderStateFrame } from "../model/flow-builder-state-frame.interface";
 import { __StoryToFlowFrame, _CreateScreen } from "../model/story-to-flow-frame.function";
 
 import { WFlowService } from "@app/state/convs-mgr/wflows";
-import { FlowControl, FlowControlType, FlowPageLayoutElementV31, FlowScreenV31 } from "@app/model/convs-mgr/stories/flows";
+import { FlowScreenV31 } from "@app/model/convs-mgr/stories/flows";
 import { Injectable } from "@angular/core";
 import { _MapToFlowControl } from "../utils/map-to-flow-element.util";
 
@@ -14,15 +16,11 @@ export class FlowBuilderStateProvider
 {
   private _sbS = new SubSink();
 
-  private _isLoaded = false;
-  private _activeInstance?: FlowBuilderStateFrame;
-
   /** Index of the active screen. For now it will only show the first screen */
   private activeScreen = new BehaviorSubject<number>(0);
   activeScreen$ = this.activeScreen.asObservable();
 
   /** BehaviorSubject to track changes in control state */
-  private _controls$$ = new BehaviorSubject<FlowControl[]>([]);
   private _screens = new BehaviorSubject<FlowScreenV31[]>([]);
   screens$ = this._screens.asObservable();
 
@@ -72,12 +70,16 @@ export class FlowBuilderStateProvider
     }))
   }
 
-  getControls() {
-    return this.get().pipe(switchMap((state)=> {
+  /**
+   * Get the elements from the state and map them into controls.
+   * 
+   * @returns FlowControls
+   */
+  initControls() {
+    return this.get().pipe(map((state)=> {
       const elements  = state.flow.flow.screens[0].layout.children;
       const controls = elements.map((e)=>  _MapToFlowControl(e))
-      this._controls$$.next(controls);
-      return this._controls$$;
+      return controls;
     }))
   }
 
@@ -116,24 +118,9 @@ export class FlowBuilderStateProvider
   //   return this._controls$$.asObservable();
   // }
 
-  /**
-   * Updates the list of controls and notifies subscribers.
-   * @param controls - The new list of controls.
-   */
-  setControls(control: FlowControl)
-  {
-    const current = this._controls$$.getValue();
-    current.push(control);
-    this._controls$$.next(current);
-  }
-
-
-
   /** Done at ngOnDelete of Flow builder page. Used to avoid memory leaks at the flow level. */
   unset()
   {
-    this._isLoaded = false;
-    this._activeInstance = undefined;
     this._state$$ = new BehaviorSubject<FlowBuilderStateFrame>(null as any);
 
     this._sbS.unsubscribe();
