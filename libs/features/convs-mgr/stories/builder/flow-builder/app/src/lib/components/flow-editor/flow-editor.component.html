@@ -22,7 +22,7 @@
           <ng-container *ngIf="droppedItems.length > 0; else noDroppedItems">
             @for(item of droppedItems; track item)
             {
-              <app-flow-library-item [control]="item" (click)="createField(item)" [inEditor]="inEditor" cdkDrag>  </app-flow-library-item>
+              <app-flow-library-item [control]="item" (click)="createField(item, $index)" [inEditor]="inEditor" cdkDrag>  </app-flow-library-item>
             }
             <button (click)="editButton()">{{ 'BOTS.BUTTON' | transloco}}</button>  
           </ng-container>
