@@ -50,7 +50,7 @@ export class FlowEditorComponent implements OnInit, OnDestroy
     // Fetch saved elements from the DB
     this.droppedElements$ = this._flowBuilderState.getControls();
 
-    this.droppedElements$.subscribe((elements)=> {
+    this._sbS.sink = this.droppedElements$.subscribe((elements)=> {
       // Clear all the views from the container
       this.vcr.clear();
 
@@ -116,7 +116,10 @@ export class FlowEditorComponent implements OnInit, OnDestroy
   }   
 
   ngOnDestroy(): void {
-    this._sbS.unsubscribe()
+    // Flush the container
+    this.vcr.clear();
+    
+    this._sbS.unsubscribe();
    }
 }
 
