@@ -102,6 +102,7 @@ export class FlowBuilderStateProvider
 
   setScreens(screens: FlowScreenV31[]) {
     this._screens.next(screens);
+    return this.screens$;
   }
 
   changeScreen(i: number) {

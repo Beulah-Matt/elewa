@@ -1,6 +1,6 @@
 
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, combineLatest, switchMap, take } from 'rxjs';
+import { BehaviorSubject, combineLatest, of, switchMap, take } from 'rxjs';
 // import { FlowBuilderStateFrame, FlowBuilderStateProvider } from '@app/features/convs-mgr/stories/builder/flow-builder/state';
 import { WFlow, FlowJSONV31, FlowScreenV31, FlowPageLayoutElementV31 } from '@app/model/convs-mgr/stories/flows';
 import { WFlowService } from '@app/state/convs-mgr/wflows';
@@ -48,7 +48,23 @@ export class ChangeTrackerService {
           return this._wFlowService.initFlow(wflow);
         }
       }));
-    }
+  }
+
+  updateScreens(screens: FlowScreenV31[]) {
+    const state = this._flowBuilderState.get();
+
+    return state.pipe(take(1),switchMap((state) => {
+
+      const wFlow = state.flow;
+      if(!wFlow || !wFlow.flow.id) {
+        return of(null);
+      }
+
+      wFlow.flow.screens = screens;
+      
+      return this._wFlowService.add(wFlow);
+    }));
+  }
   
 
   private _generateFlow(state: FlowBuilderStateFrame, update: FlowPageLayoutElementV31,screenIndex: number, screen: FlowScreenV31) {
