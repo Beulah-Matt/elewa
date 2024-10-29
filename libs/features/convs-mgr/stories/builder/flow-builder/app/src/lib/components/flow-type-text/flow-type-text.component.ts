@@ -31,8 +31,13 @@ export class FlowTypeTextComponent implements OnInit {
   inputId = '';
   vrc = inject(ViewContainerRef)
 
-  readonly headerMaxChar = 80;
   currentCharCount = 0;
+  readonly charLimits: { [key in FlowControlType]?: number } = {
+    [FlowControlType.Header]: 80,
+    [FlowControlType.LightHeader]: 80,
+    [FlowControlType.Text]: 4096,
+    [FlowControlType.Caption]: 409
+  };
   
   textInputForm: FormGroup;
   textElement: FlowPageTextV31
@@ -61,11 +66,12 @@ export class FlowTypeTextComponent implements OnInit {
 
   onInputChange(event: KeyboardEvent){
     const input = event.target as HTMLInputElement;
+    const maxChar = this.charLimits[this.type]; 
     this.currentCharCount = input.value.length;
 
-    if(this.currentCharCount >= this.headerMaxChar){
-      input.value = input.value.slice(0, this.headerMaxChar);
-      this.currentCharCount = this.headerMaxChar;
+    if(maxChar && this.currentCharCount >= maxChar){
+      input.value = input.value.slice(0, maxChar);
+      this.currentCharCount = maxChar;
     }
   }
 

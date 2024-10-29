@@ -29,11 +29,7 @@
       </div>
 
       <div class="char-count">
-        @switch (type) {
-          @case (flowControlType.Header || flowControlType.LightHeader) {
-            <span>{{currentCharCount}}/{{headerMaxChar}}</span>
-          }
-        }
+          <span>{{currentCharCount}}/{{charLimits[type]}}</span>        
       </div>
 
   </form>
