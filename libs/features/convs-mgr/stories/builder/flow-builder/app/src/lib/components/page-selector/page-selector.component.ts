@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { FlowBuilderStateFrame, FlowBuilderStateProvider, FlowBuilderStateService } from '@app/features/convs-mgr/stories/builder/flow-builder/state';
+import { FlowBuilderStateFrame, FlowBuilderStateProvider } from '@app/features/convs-mgr/stories/builder/flow-builder/state';
 import { FlowScreenV31 } from '@app/model/convs-mgr/stories/flows';
 
 @Component({
@@ -10,22 +10,24 @@ import { FlowScreenV31 } from '@app/model/convs-mgr/stories/flows';
   templateUrl: './page-selector.component.html',
   styleUrls: ['./page-selector.component.scss']
 })
-export class FlowPageSelectorComponent
+export class FlowPageSelectorComponent implements OnInit
 {
-  screens: FlowScreenV31[];
-  private flowBuilderState$$: FlowBuilderStateProvider;
+  screens$: Observable<FlowScreenV31[]>;
   state$: Observable<FlowBuilderStateFrame>;
 
-  constructor(private _flowBuilderState: FlowBuilderStateService) 
-  { 
-    this.flowBuilderState$$ = this._flowBuilderState.get();
-    this.state$ = this.flowBuilderState$$.get();
+  constructor(private _flowBuilderState: FlowBuilderStateProvider) 
+  { }
+
+  ngOnInit(): void
+  {
+    this.screens$ = this._flowBuilderState.getScreens();
   }
 
   changeScreen(i: number) {
-    this.flowBuilderState$$.changeScreen(i);
+    this._flowBuilderState.changeScreen(i);
   }
+  
   addScreen() {
-    this.flowBuilderState$$.addScreen();
+    this._flowBuilderState.addScreen()
   }
 }

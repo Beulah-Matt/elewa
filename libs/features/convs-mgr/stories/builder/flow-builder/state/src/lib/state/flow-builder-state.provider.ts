@@ -1,21 +1,24 @@
 import { SubSink } from "subsink";
-import { BehaviorSubject, combineLatest, filter, map, Observable, of, switchMap } from "rxjs";
+import { BehaviorSubject, combineLatest, map, Observable, switchMap } from "rxjs";
 
 import { FlowBuilderStateFrame } from "../model/flow-builder-state-frame.interface";
 import { __StoryToFlowFrame, _CreateScreen } from "../model/story-to-flow-frame.function";
 
 import { WFlowService } from "@app/state/convs-mgr/wflows";
-import { FlowControl, FlowControlType, FlowPageLayoutElementV31, FlowScreenV31 } from "@app/model/convs-mgr/stories/flows";
-import { Injectable } from "@angular/core";
+import { FlowControl, FlowPageLayoutElementV31, FlowScreenV31 } from "@app/model/convs-mgr/stories/flows";
+import { Injectable, ViewContainerRef } from "@angular/core";
 import { _MapToFlowControl } from "../utils/map-to-flow-element.util";
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class FlowBuilderStateProvider
 {
   private _sbS = new SubSink();
 
   private _isLoaded = false;
   private _activeInstance?: FlowBuilderStateFrame;
+  private vcr: ViewContainerRef;
 
   /** Index of the active screen. For now it will only show the first screen */
   private activeScreen = new BehaviorSubject<number>(0);
@@ -51,32 +54,29 @@ export class FlowBuilderStateProvider
       // this._elements.next(this.state.flow.flow.screens[screen].layout.children);
       return this.state;
     }));
-
-    // const story = await this._flow$$.get();
-
-    // const [story, flow] = await Promise.all([this._flow$$.get(), 
-    //                                          this._flow$$.getLatestFlowConfig()]);    
-
-    // this._activeInstance = __StoryToFlowFrame(story, flow);
-
-    // this._state$$.next(this._activeInstance);
-
-    // return this._state$$.asObservable();
   }
 
   getScreens() {
-    return this._state$.pipe(switchMap((state)=> {
-      this._screens.next(state.flow.flow.screens);
-
-      return this.screens$;
-    }))
+    return this.screens$;
   }
 
   getControls() {
-    return this.get().pipe(switchMap((state)=> {
-      const elements  = state.flow.flow.screens[0].layout.children;
+
+     return combineLatest([this.get(), this.activeScreen$]).pipe(switchMap(([state, screen])=> {
+      let elements:  FlowPageLayoutElementV31[] = [];
+      const activeScreen  = state.flow.flow.screens[screen];
+
+      if(!activeScreen) {
+        const newScreen = _CreateScreen(state.story.id as string, activeScreen);
+
+        elements = newScreen.layout.children;
+      } else {
+        elements  = activeScreen.layout.children;
+      }
+
       const controls = elements.map((e)=>  _MapToFlowControl(e))
       this._controls$$.next(controls);
+      this._screens.next(state.flow.flow.screens);
       return this._controls$$;
     }))
   }
@@ -84,20 +84,28 @@ export class FlowBuilderStateProvider
   addScreen()
   {
     const currentScreen = this.activeScreen.getValue();
+    const screens = this._screens.getValue();
     const newScreenIndex = currentScreen + 1;
 
-    const newScreen = _CreateScreen(this.state.story.id as string, newScreenIndex + 1);
+    const newScreen  = _CreateScreen(this.state.story.id as string, newScreenIndex + 1);
 
-    this.state.flow.flow.screens.push(newScreen);
+    screens.push(newScreen);
     // Update the state with the current screens
     // this._state$$.next(this.state);
 
     // Move the user to the new screen
     this.changeScreen(newScreenIndex);
+
+    return screens;
   }
 
   changeScreen(i: number) {
+    this.vcr.clear();
     this.activeScreen.next(i);
+  }
+
+  setContainerRef(vcr: ViewContainerRef) {
+    this.vcr = vcr
   }
 
   /**

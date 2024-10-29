@@ -47,8 +47,11 @@ export class FlowEditorComponent implements OnInit, OnDestroy
       this.isSideScreenOpen = isOpen;
     })
     this.droppedElements$ = this._flowBuilderState.getControls();
+    this._flowBuilderState.setContainerRef(this.vcr);
 
-    this.droppedElements$.pipe(take(1)).subscribe((elements)=> {
+    this.droppedElements$.subscribe((elements)=> {
+      this.vcr.clear();
+      
       this.droppedItems = elements;
       elements.forEach(item => this.createField(item));
     })
