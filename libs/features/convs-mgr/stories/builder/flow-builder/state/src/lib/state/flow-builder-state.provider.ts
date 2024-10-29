@@ -18,7 +18,6 @@ export class FlowBuilderStateProvider
 
   private _isLoaded = false;
   private _activeInstance?: FlowBuilderStateFrame;
-  private vcr: ViewContainerRef;
 
   /** Index of the active screen. For now it will only show the first screen */
   private activeScreen = new BehaviorSubject<number>(0);
@@ -100,12 +99,7 @@ export class FlowBuilderStateProvider
   }
 
   changeScreen(i: number) {
-    this.vcr.clear();
     this.activeScreen.next(i);
-  }
-
-  setContainerRef(vcr: ViewContainerRef) {
-    this.vcr = vcr
   }
 
   /**

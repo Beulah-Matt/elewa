@@ -46,17 +46,17 @@ export class FlowEditorComponent implements OnInit, OnDestroy
     this._sbS.sink = this.sideScreen.sideScreen$.subscribe((isOpen) => {
       this.isSideScreenOpen = isOpen;
     })
+
+    // Fetch saved elements from the DB
     this.droppedElements$ = this._flowBuilderState.getControls();
-    this._flowBuilderState.setContainerRef(this.vcr);
 
     this.droppedElements$.subscribe((elements)=> {
+      // Clear all the views from the container
       this.vcr.clear();
-      
+
       this.droppedItems = elements;
       elements.forEach(item => this.createField(item));
     })
-
-    this._sbS.sink = this.trackerService.change$.subscribe();
   }
 
   editButton() {
