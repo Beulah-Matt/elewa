@@ -38,6 +38,7 @@ import { TextAreaInputComponent } from './components/text-area-input/text-area-i
 import { ImageTypeInputComponent } from './components/image-type-input/image-type-input.component';
 import { FlowScreenSettingsComponent } from './components/flow-screen-settings/flow-screen-settings.component';
 import { ConfirmDeleteElementComponent } from './modals/confirm-delete-element.component';
+import { FlowOptInComponent } from './components/flow-opt-in/flow-opt-in.component';
 
 @NgModule({
   imports: [
@@ -79,6 +80,7 @@ import { ConfirmDeleteElementComponent } from './modals/confirm-delete-element.c
     TextAreaInputComponent,
     ImageTypeInputComponent,
     ConfirmDeleteElementComponent,
+    FlowOptInComponent,
   ],
   providers: [WhatsappFlowsStore],
 })

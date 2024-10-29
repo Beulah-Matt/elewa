@@ -1,0 +1,21 @@
+<form class="wrapper">
+    <div class="input-holder">
+        <div class="input-holder-top">
+            <input id="" type="text" class="header" formControlName="text" (keyup)="onInputChange($event)"/>
+            <span>{{currentCharCount}}/{{maxOptChar}}</span>   
+        </div> 
+        <span class="mat-button" mat-button [matMenuTriggerFor]="menu">
+            <i class="fa-solid fa-ellipsis-vertical menu-tooltip"></i>
+        </span>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item>{{ 'BOTS.CREATE-MODAL.FIELDS.DELETE' | transloco }}</button>
+        </mat-menu>
+    </div>
+
+    <div class="required">
+        <mat-slide-toggle></mat-slide-toggle>
+        <span>Required</span>
+    </div>
+
+</form>
+  
