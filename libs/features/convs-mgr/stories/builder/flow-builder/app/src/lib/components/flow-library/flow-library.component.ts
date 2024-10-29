@@ -25,7 +25,7 @@ export class FlowLibraryComponent implements OnInit, OnDestroy
   {}
 
   ngOnInit(): void {
-    this.sideScreen.sideScreen$.subscribe((isOpen) => {
+   this._sbS.sink = this.sideScreen.sideScreen$.subscribe((isOpen) => {
       this.isSideScreenOpen = isOpen;
     })
   }
