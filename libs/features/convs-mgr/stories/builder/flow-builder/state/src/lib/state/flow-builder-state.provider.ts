@@ -82,13 +82,15 @@ export class FlowBuilderStateProvider
 
   addScreen()
   {
-    const currentScreen = this.activeScreen.getValue();
     const screens = this._screens.getValue();
-    const newScreenIndex = currentScreen + 1;
+    const lastScreenIndex = screens.length - 1;
+    const newScreenIndex = lastScreenIndex + 1;
 
     const newScreen  = _CreateScreen(this.state.story.id as string, newScreenIndex + 1);
 
     screens.push(newScreen);
+
+    this._screens.next(screens);
     // Update the state with the current screens
     // this._state$$.next(this.state);
 
