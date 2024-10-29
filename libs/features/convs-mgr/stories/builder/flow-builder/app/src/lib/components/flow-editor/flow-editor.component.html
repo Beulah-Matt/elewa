@@ -1,38 +1,51 @@
-<div fxFlexFill fxLayout="row" fxLayoutAlign="center center" class="flow-editor-container">
-
-  <div class="editor-container mat-elevation-z1" >
+<div fxFlexFill fxLayout="row" fxLayoutAlign="center" class="flow-editor-container">
+  <button *ngIf="!isSideScreenOpen" class="toggle-btn" (click)="toggleSidenav()">
+    <span><i class="fas fa-chevron-right"></i></span>
+  </button>
+  <div class="editor-container" [ngClass]="isSideScreenOpen? 'side-open': ''" >
     <!-- Image of the phone -->
-    <div id="phone-container" fxLayoutAlign="center center">
+    <div id="phone-container">
        <!-- Inner area inside the phone container. Smaller box centered into the phone, 
         making it look it's "behind" the phone image when in fact, it's in front. -->
+        <span></span>
       <div class="phone-inner">
         <!-- Fixed elements such as page title -->
 
         <!-- Target for custom elements-->
         <div id="flow-container-drop" 
-          *ngIf="droppedElements$ | async as droppedItems"
+          *ngIf="droppedItems"
           cdkDropList 
           [cdkDropListData]="droppedItems" 
           [cdkDropListConnectedTo]="['libraryDropList']" 
-          (cdkDropListDropped)="drop($event)">
-          @for(item of droppedItems; track item)
-          {
-            <app-flow-library-item [control]="item" (click)="createField(item)" cdkDrag>  </app-flow-library-item>
-          }
+          (cdkDropListDropped)="drop($event)"
+        >
+          <ng-container *ngIf="droppedItems.length > 0; else noDroppedItems">
+            @for(item of droppedItems; track item)
+            {
+              <app-flow-library-item [control]="item" (click)="createField(item)" cdkDrag>  </app-flow-library-item>
+            }
+            <button (click)="editButton()">{{ 'BOTS.BUTTON' | transloco}}</button>  
+          </ng-container>
+
+          <ng-template #noDroppedItems>
+            <div class="placeholder-text">
+              {{ 'BOTS.DRAG-ELEMENT' | transloco}}
+            </div>
+          </ng-template>
         </div>
 
         <!-- Fixed elements such as footer -->
       </div>
     </div>
 
-    <div class="config-container">
+    <div class="config-container" [ngClass]="droppedItems?.length > 0 ? 'edit-background': ''">
       <ng-container #vcr> </ng-container>
+      <input class="edit-btn" *ngIf="isEditing" placeholder="Button" />
     </div>
-  </div>
 
-
-  <div class="screen-config">
-
+    <div class="screen-config" *ngIf="droppedItems?.length > 0">
+      <lib-flow-screen-settings></lib-flow-screen-settings>
+    </div>
   </div>
 
 </div>
