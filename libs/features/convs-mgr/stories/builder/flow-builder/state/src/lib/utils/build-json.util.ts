@@ -9,18 +9,18 @@ import { getUUID } from "./get-uuid.util";
 /**
  * Build the FlowJSONV31 object
  */
-export function buildFlowJSON(state: FlowBuilderStateFrame, update: FlowPageLayoutElementV31, screen = 0): FlowJSONV31
+export function buildFlowJSON(state: FlowBuilderStateFrame, update: FlowPageLayoutElementV31, screenIndex: number, screen: FlowScreenV31): FlowJSONV31
 {
   // Group controls by screen
   let allScreens = state.flow.flow.screens;
 
-  let updatedScreen: FlowScreenV31;
+  // let updatedScreen: FlowScreenV31;
 
   if(!allScreens || allScreens.length === 0) {
-    updatedScreen = getScreen(screen.toString(), [update]);
-    allScreens = [updatedScreen];
+    // updatedScreen = getScreen(screen.toString(), [update]);
+    allScreens = [screen];
   } else {
-    let existingElements = allScreens[screen].layout.children;
+    let existingElements = screen.layout.children;
 
     if(existingElements?.length > 0) {
       existingElements.push(update);
@@ -28,7 +28,8 @@ export function buildFlowJSON(state: FlowBuilderStateFrame, update: FlowPageLayo
       existingElements = [update];
     }
 
-    allScreens[screen] = getScreen(screen.toString(), existingElements)
+    screen.layout.children = existingElements;
+    allScreens[screenIndex] = screen;
   }
 
 
@@ -41,20 +42,6 @@ export function buildFlowJSON(state: FlowBuilderStateFrame, update: FlowPageLayo
   };
 }
 
-  /**
-   * Create a single screen from a controlId and its new value
-   */
-  function getScreen(screenId: string, controls: FlowPageLayoutElementV31[]): FlowScreenV31 {
-    return {
-      id: screenId,
-      layout: {
-        type: 'SingleColumnLayout',
-        children: controls,  // Grouped controls for this screen
-      },
-      title: `SCREEN ${screenId +1}`,
-    };
-  }
-  
   /**
    * Build routing model for screen navigation
    */

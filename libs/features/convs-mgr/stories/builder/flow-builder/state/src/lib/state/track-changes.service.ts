@@ -1,6 +1,6 @@
 
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, switchMap, take } from 'rxjs';
+import { BehaviorSubject, combineLatest, switchMap, take } from 'rxjs';
 // import { FlowBuilderStateFrame, FlowBuilderStateProvider } from '@app/features/convs-mgr/stories/builder/flow-builder/state';
 import { WFlow, FlowJSONV31, FlowScreenV31, FlowPageLayoutElementV31 } from '@app/model/convs-mgr/stories/flows';
 import { WFlowService } from '@app/state/convs-mgr/wflows';
@@ -21,11 +21,8 @@ import { buildFlowJSON } from '../utils/build-json.util';
  */
 export class ChangeTrackerService {
   private changeSubject = new BehaviorSubject<{ controlId: string; newValue: any, screenId?: number }[]>([]);
-  private flowBuilderState$$: FlowBuilderStateProvider;
 
-  constructor(private _wFlowService: WFlowService, private _flowBuilderState: FlowBuilderStateService) {
-    this.flowBuilderState$$ = _flowBuilderState.get();
-  }
+  constructor(private _wFlowService: WFlowService, private _flowBuilderState: FlowBuilderStateProvider) { }
 
   public change$ = this.changeSubject.asObservable();
 
@@ -34,10 +31,13 @@ export class ChangeTrackerService {
    */
   updateValue(newValue: FlowPageLayoutElementV31) {
       // Build and post the updated flow with all screens and controls
-      
-      return this.flowBuilderState$$.get().pipe(take(1),switchMap((state) => {
+      const state = this._flowBuilderState.get();
+      const activeScreen = this._flowBuilderState.activeScreen$;
+      const screens = this._flowBuilderState.getScreens();
 
-        const wflow = this._generateFlow(state, newValue);
+      return combineLatest([state, activeScreen, screens]).pipe(take(1),switchMap(([state, activeScreen, screens]) => {
+
+        const wflow = this._generateFlow(state, newValue, activeScreen, screens[activeScreen]);
 
         const config = state.flow;
         if (config && config.flow.id) {
@@ -51,9 +51,9 @@ export class ChangeTrackerService {
     }
   
 
-  private _generateFlow(state: FlowBuilderStateFrame, update: FlowPageLayoutElementV31, screen?: number) {
+  private _generateFlow(state: FlowBuilderStateFrame, update: FlowPageLayoutElementV31,screenIndex: number, screen: FlowScreenV31) {
     const wflow: WFlow = {
-      flow: buildFlowJSON(state, update, screen),
+      flow: buildFlowJSON(state, update,screenIndex, screen),
       name: `Flow_${Date.now()}`,
       validation_errors: [],
       timestamp: new Date().getTime(),
