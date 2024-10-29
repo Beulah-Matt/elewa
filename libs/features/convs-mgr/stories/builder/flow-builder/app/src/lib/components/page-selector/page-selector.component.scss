@@ -5,27 +5,60 @@
 .screen-list {
   display: flex;
   cursor: pointer;
-  
-  .span {
-    padding: 10px;
-    border-radius: 10px 10px 0 0;
-  }
+  flex-direction: row;
   
   .screen-title {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    padding: 10px;
+    border-radius: 10px 10px 0 0;
     background-color: var(--convs-mgr-color-F6F6F6);
     color: var(--convs-mgr-color-bright-teal);
     border: 1px solid var(--convs-mgr-color-bright-teal);
+    box-sizing: border-box;
   }
 
   .add-screen {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    padding: 10px;
+    border-radius: 10px 10px 0 0;
     font-size: 0.9rem;
     background-color: var(--convs-mgr-color-text-white);
   }
 
+}
+
+
+.drag-handle {
+  cursor: move;
+}
+
+.cdk-drag-preview {
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 10px;
+  border-radius: 10px 10px 0 0;
+  background-color: var(--convs-mgr-color-F6F6F6);
+  color: var(--convs-mgr-color-bright-teal);
+  border: 1px solid var(--convs-mgr-color-bright-teal);
+  box-sizing: border-box;
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.screen-list.cdk-drop-list-dragging .screen-title:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }

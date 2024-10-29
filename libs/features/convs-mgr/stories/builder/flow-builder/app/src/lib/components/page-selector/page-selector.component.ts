@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray} from '@angular/cdk/drag-drop';
 
 import { Observable } from 'rxjs';
 
@@ -12,7 +13,7 @@ import { FlowScreenV31 } from '@app/model/convs-mgr/stories/flows';
 })
 export class FlowPageSelectorComponent implements OnInit
 {
-  screens$: Observable<FlowScreenV31[]>;
+  screens: FlowScreenV31[];
   state$: Observable<FlowBuilderStateFrame>;
 
   constructor(private _flowBuilderState: FlowBuilderStateProvider) 
@@ -20,7 +21,17 @@ export class FlowPageSelectorComponent implements OnInit
 
   ngOnInit(): void
   {
-    this.screens$ = this._flowBuilderState.getScreens();
+    this._flowBuilderState.getScreens().subscribe((screens)=> {
+      this.screens = screens;
+    });
+  }
+
+  /** Function handling drag and drop functionality for a component */
+  drop(event: CdkDragDrop<FlowScreenV31[]>) {
+    moveItemInArray(this.screens, event.previousIndex, event.currentIndex);
+
+    /** Update the order of screens */
+    this._flowBuilderState.setScreens(this.screens);
   }
 
   changeScreen(i: number) {

@@ -75,7 +75,7 @@ export class FlowBuilderStateProvider
 
       const controls = elements.map((e)=>  _MapToFlowControl(e))
       this._controls$$.next(controls);
-      this._screens.next(state.flow.flow.screens);
+      this.setScreens(state.flow.flow.screens);
       return this._controls$$;
     }))
   }
@@ -90,7 +90,7 @@ export class FlowBuilderStateProvider
 
     screens.push(newScreen);
 
-    this._screens.next(screens);
+    this.setScreens(screens);
     // Update the state with the current screens
     // this._state$$.next(this.state);
 
@@ -98,6 +98,10 @@ export class FlowBuilderStateProvider
     this.changeScreen(newScreenIndex);
 
     return screens;
+  }
+
+  setScreens(screens: FlowScreenV31[]) {
+    this._screens.next(screens);
   }
 
   changeScreen(i: number) {

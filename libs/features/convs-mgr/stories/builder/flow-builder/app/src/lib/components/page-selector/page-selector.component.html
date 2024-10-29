@@ -1,10 +1,17 @@
-<div class="page-selector" *ngIf="screens$ | async as screens">
-  <div class="screen-list" >
-    <div class="span screen-title"*ngFor="let screen of screens; index as i" (click)="changeScreen(i)"> 
-      <img src="assets/svgs/blocks/ellipsis.svg" alt="">
-      {{screen.title}} 
-    </div>
-    <div class="span add-screen" (click)="addScreen()">
+<div class="page-selector">
+  <div class="screen-list" 
+      *ngIf="screens"
+      cdkDropList 
+      cdkDropListOrientation="horizontal"
+      (cdkDropListDropped)="drop($event)">
+
+      @for(screen of screens; track screen) {
+          <div class="span screen-title" (click)="changeScreen($index)" cdkDrag> 
+            <img class="drag-handle" src="assets/svgs/blocks/ellipsis.svg" alt="" cdkDragHandle>
+            <span>{{screen.title}} </span>
+          </div>
+      }
+    <div class="add-screen" (click)="addScreen()">
       <i class="fa-solid fa-plus"></i>
       {{"WHATSAPP-FLOWS.ADD-SCREEN" | transloco}}
     </div>
