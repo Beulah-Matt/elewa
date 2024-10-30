@@ -31,7 +31,7 @@ export class FlowBuilderStateProvider
   state: FlowBuilderStateFrame;
 
   private _state$$ = new BehaviorSubject<FlowBuilderStateFrame>(null as any);
-  private _state$: Observable<FlowBuilderStateFrame>;
+  state$ = this._state$$.asObservable();
 
   constructor(private _flow$$: WFlowService)
   { }
