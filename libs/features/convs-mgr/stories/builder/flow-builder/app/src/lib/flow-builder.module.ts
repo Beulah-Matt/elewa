@@ -38,6 +38,8 @@ import { TextAreaInputComponent } from './components/text-area-input/text-area-i
 import { ImageTypeInputComponent } from './components/image-type-input/image-type-input.component';
 import { FlowScreenSettingsComponent } from './components/flow-screen-settings/flow-screen-settings.component';
 
+import { SafePipe } from './pipes/safe.pipe';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -77,6 +79,9 @@ import { FlowScreenSettingsComponent } from './components/flow-screen-settings/f
     FlowCheckboxOptionsComponent,
     TextAreaInputComponent,
     ImageTypeInputComponent,
+
+    // Pipes
+    SafePipe
   ],
   providers: [WhatsappFlowsStore],
 })

@@ -1,2 +1,7 @@
-
-TEST FLOW PREVIEW
+<div class="preview-wrapper">
+    <span class="title">Preview</span>
+    <button>Refresh</button>
+    <div class="preview-frame">
+      <iframe class="iframe" scrolling="no" *ngIf="preview?.url" [src]="preview.url | safe : 'resourceUrl'"  height="1000" width="100%"> </iframe>
+    </div>
+</div>

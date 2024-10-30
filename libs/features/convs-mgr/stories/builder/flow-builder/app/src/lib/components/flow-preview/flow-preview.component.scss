@@ -1,0 +1,21 @@
+.preview-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 2rem;
+  width: 430px;
+  background-color: #f1f4f7;
+}
+
+.iframe > * {
+  overflow: hidden;
+}
+
+.iframe * {
+  overflow: hidden;
+}
+
+.iframe {
+  margin-top: -230px;
+  border: none;
+}
