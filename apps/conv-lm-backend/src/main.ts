@@ -45,3 +45,4 @@ export * from './app/ai-agent/intent/get-intent.function';
 // Whatsapp flows
 export * from './app/whatsapp-flows/on-create-whatsapp-flow.function';
 export * from './app/whatsapp-flows/on-update-whatsapp-flow.function';
+export * from './app/whatsapp-flows/get-whatsapp-flow-preview.function';
