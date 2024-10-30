@@ -41,3 +41,7 @@ app-flow-page-selector {
   bottom: 0;
   left: 500px;
 }
+
+::ng-deep .mat-drawer-inner-container {
+  background-color: #f1f4f7;
+}
