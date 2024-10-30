@@ -23,7 +23,7 @@ export class GetWhatsappFlowPreviewHandler extends FunctionHandler<{flowId: stri
   {
     try {
       const channel = await this._getChannel(data.orgId, tools);
-      tools.Logger.log(()=> `🟤 Channel: ${channel}`)
+      tools.Logger.log(()=> `🟤 Channel: ${JSON.stringify(channel)}`)
 
       if(!channel && channel.length < 1) {
         throw 'Channel does not exist for org: ' + data.orgId;
@@ -44,21 +44,21 @@ export class GetWhatsappFlowPreviewHandler extends FunctionHandler<{flowId: stri
       // Update the flow ID
       const resp = await axios.get(base_url, {
         headers: {
-          'Content-Type': `application/json`,
           'Authorization': `Bearer ${GRAPH_ACCESS_TOKEN}`
         }
       })
   
       if(resp.data && resp.data.preview) {
     
+        tools.Logger.error(()=> `Fetching flow preview success!`);
         return {data: resp.data, success: true};
       } else {
-        tools.Logger.error(()=> `Error when creating flow :: ${JSON.stringify(resp.data || "")}`)
+        tools.Logger.error(()=> `Error when getting flow preview :: ${resp.data}`)
         return {success: false, error: resp.data};
       }
       
     } catch (error) {
-      tools.Logger.error(()=> `Error when creating flow :: ${error}`)
+      tools.Logger.error(()=> `Error when getting flow preview :: ${error}`)
       return {success: false, error: error};
     }
   }
