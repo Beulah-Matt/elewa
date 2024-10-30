@@ -116,6 +116,25 @@ export class WFlowService
       }));
   }
 
+  getPreview(flowId: string) {
+
+     return this._activeOrg.get().pipe(
+        switchMap((org)=> {
+          const payload = {
+            flowId,
+            orgId: org.id
+          }
+          return this._aff.httpsCallable('getWhatsappFlowPreview')(payload)
+        }), 
+        map((resp)=> {
+          if(resp.success) {
+            return resp.data;
+          } else {
+            return {error: resp.error};
+          }
+        }))
+  }
+
   /**
    * Get the latest flow configuration
    * @returns {Promise<WFlow>}
