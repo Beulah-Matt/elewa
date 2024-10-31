@@ -7,7 +7,7 @@ form {
 
 .wrapper{
     width: 98%;
-    padding: 1rem 0 1rem 0.5rem;
+    padding: 1rem 0;
     border-radius: 0.625rem;
     background-color: var(--convs-mgr-color-F6F6F6);
 }
@@ -52,7 +52,6 @@ form {
     .mat-button {
       align-self: flex-start;
       cursor: pointer;
-      padding: 0 0.3rem;
     }
 }
 
