@@ -1281,7 +1281,9 @@
     "LABELS": {
       "NAME": "Name",
       "LABEL": "Label",
-      "REQUIRED": "Required"
+      "REQUIRED": "Required",
+      "OPTIONS": "Options",
+      "ADD-OPTION": "Add Option"
     },
     "BUTTON-DESC": "Add or Delete Options",
     "BUTTON-SAVE": "Save",

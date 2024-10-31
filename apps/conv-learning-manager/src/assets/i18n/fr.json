@@ -919,6 +919,10 @@
 
   "WHATSAPP-FLOWS": {
     "CONFIGURATIONS": {
+      "LABELS": {
+        "OPTIONS": "Possibilités",
+        "ADD-OPTION": "Ajouter une option"
+      },
       "INSTRUCTIONS": "Instructions (facultatif)",
       "REQUIRED":"Requis"
     },
