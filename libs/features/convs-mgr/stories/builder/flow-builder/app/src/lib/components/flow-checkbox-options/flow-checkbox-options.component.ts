@@ -30,6 +30,15 @@ export class FlowCheckboxOptionsComponent implements OnInit, OnDestroy
   /** Toggle view state */
   showConfigs = true;
 
+  charCounts = {
+    label: 0,
+    option: 0,
+  };
+  readonly maxChars = {
+    label: 30,
+    option: 30,
+  };
+
   private _sBS = new SubSink()
 
   constructor(private optionGroupFormService: OptionGroupFormService,
@@ -40,6 +49,18 @@ export class FlowCheckboxOptionsComponent implements OnInit, OnDestroy
 
   ngOnInit(): void {
     this.checkboxGroupForm = this.optionGroupFormService.createRadioGroupForm(this.flowGroup);
+  }
+
+  onInputChange(event: KeyboardEvent) {
+    const input = event.target as HTMLInputElement;
+    const inputId = input.id as keyof typeof this.charCounts;
+
+    if (this.charCounts[inputId] !== undefined) {
+      if (input.value.length > this.maxChars[inputId]) {
+        input.value = input.value.slice(0, this.maxChars[inputId]);
+      }
+      this.charCounts[inputId] = input.value.length;
+    }
   }
   
   /** Options controls */
