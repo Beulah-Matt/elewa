@@ -32,6 +32,15 @@ export class TextAreaInputComponent implements OnInit
   element: FlowTextAreaInput;
   showConfigs = true;
 
+  charCounts = {
+    label: 0,
+    name: 0,
+  };
+  readonly maxChars = {
+    label: 30,
+    name: 80,
+  };
+
   /** View Container */
   vrc = inject(ViewContainerRef);
 
@@ -47,10 +56,25 @@ export class TextAreaInputComponent implements OnInit
     this.inputId = `input-${this.type}`;
     this.textInputForm = this.elementForm;
 
+    this.charCounts.label = this.textInputForm.get('label')?.value?.length || 0;
+    this.charCounts.name = this.textInputForm.get('name')?.value?.length || 0;
+
     // Setup autosave with debounce
     this.textInputForm.valueChanges.pipe(debounceTime(300)).subscribe((value) => {
       this.triggerAutosave(value);
     });
+  }
+
+  onInputChange(event: KeyboardEvent) {
+    const input = event.target as HTMLInputElement;
+    const inputId = input.id as keyof typeof this.charCounts;
+
+    if (this.charCounts[inputId] !== undefined) {
+      if (input.value.length > this.maxChars[inputId]) {
+        input.value = input.value.slice(0, this.maxChars[inputId]);
+      }
+      this.charCounts[inputId] = input.value.length;
+    }
   }
 
   deleteElement(){

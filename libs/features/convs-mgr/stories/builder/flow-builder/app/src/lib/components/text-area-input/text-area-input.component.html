@@ -1,32 +1,31 @@
 <div class="wrapper">
+  <div class="mat-button-holder">
+    <span class="mat-button" mat-button [matMenuTriggerFor]="menu">
+      <i class="fa-solid fa-ellipsis-vertical menu-tooltip"></i>
+    </span>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="deleteElement()">{{ 'BOTS.CREATE-MODAL.FIELDS.DELETE' | transloco }}</button>
+    </mat-menu>
+  </div>
   <div class="configs" *ngIf="showConfigs">
     <form *ngIf="textInputForm && control " [formGroup]="textInputForm">
-      <span class="mat-button" mat-button [matMenuTriggerFor]="menu">
-        <i class="fa-solid fa-ellipsis-vertical menu-tooltip"></i>
-      </span>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="deleteElement()">{{ 'BOTS.CREATE-MODAL.FIELDS.DELETE' | transloco }}</button>
-      </mat-menu>
-      <div class="inputConfigs">
-        <label for="name">Name:</label>
-        <input type="text" id="name" formControlName="name">
+      <div class="inputConfigs label-holder">
+        <input type="text" id="label" formControlName="label" (keyup)="onInputChange($event)">
+        <span>{{charCounts.label}}/{{maxChars.label}}</span>
       </div>
-      <div class="inputConfigs">
-        <label for="label">Label:</label>
-        <input type="text" id="label" formControlName="label">
+      <div class="inputConfigs name-holder">
+        <div>{{ 'WHATSAPP-FLOWS.CONFIGURATIONS.INSTRUCTIONS' | transloco }}</div>
+        <div class="input-holder">
+          <input type="text" id="name" formControlName="name" (keyup)="onInputChange($event)">
+          <span>{{charCounts.name}}/{{maxChars.name}}</span>
+        </div>
       </div>
-      <div class="inputConfigs">
-        <label for="required">Required:</label>
-        <input type="checkbox" id="required" formControlName="required">
+      <div class="inputConfigs required">
+        <mat-slide-toggle id="required" formControlName="required">
+          {{ 'WHATSAPP-FLOWS.CONFIGURATIONS.REQUIRED' | transloco }}
+        </mat-slide-toggle>
       </div>
-      <div class="inputConfigs">
-        <label for="visible">Visible:</label>
-        <input type="checkbox" id="visible" formControlName="visible">
-      </div>
-      <div class="inputConfigs">
-        <label for="enabled">Enabled:</label>
-        <input type="checkbox" id="enabled" formControlName="enabled">
-      </div>
+      
       <div class="saveBtn">
         <button type="submit" (click)="saveInputConfig()"> Save </button>
       </div>
