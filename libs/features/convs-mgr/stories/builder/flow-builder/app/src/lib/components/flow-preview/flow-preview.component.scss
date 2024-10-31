@@ -7,15 +7,11 @@
   background-color: #f1f4f7;
 }
 
-.iframe > * {
-  overflow: hidden;
-}
-
-.iframe * {
-  overflow: hidden;
+.preview-frame {
+  padding-top: 2rem;
 }
 
 .iframe {
-  margin-top: -230px;
+  margin-top: -190px;
   border: none;
 }

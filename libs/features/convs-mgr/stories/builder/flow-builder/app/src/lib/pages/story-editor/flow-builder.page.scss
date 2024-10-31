@@ -15,18 +15,49 @@ mat-sidenav, app-flow-library {
 #preview-toggle {
   position: fixed;
   top: 100px;
-  right: 0;  
-
   border: 1px solid #eee;
   font-size: 20px;
   line-height: 20px;
   font-weight: 100;
-
-  border-radius: 10px 0 0 10px;
-  padding: 20px 10px;
-
+  padding: 0.5rem 1rem;
   z-index: 20;
+  background-color: #fff;
 }
+
+.open {
+  right: 492px;
+  animation: openAnim 0.2s ease-in 0s 1 normal forwards;
+}
+
+.closed {
+  right: 0;
+  animation: myAnim 0.3s ease-out 0s 1 normal forwards;
+}
+
+@keyframes openAnim {
+	0% {
+		opacity: 0;
+		transform: translateX(50px);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+@keyframes closeAnim {
+	100% {
+		opacity: 0;
+		transform: translateX(250px);
+	}
+
+	0% {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
   #preview-toggle:hover {
     cursor: pointer;
     background-color: #ddd;

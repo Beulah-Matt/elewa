@@ -4,10 +4,14 @@
 </ng-template>
 
 <!-- Preview Sidenav toggle -->
-<button type="button" id="preview-toggle" (click)="preview.toggle()">
-  <span *ngIf="preview.opened">&gt;</span>
-  <span *ngIf="!preview.opened">&lt;</span>
+<button *ngIf="!preview.opened" type="button" id="preview-toggle" class="closed" (click)="preview.toggle()">
+  <span><i class="fas fa-chevron-left"></i></span>
 </button>
+
+<button *ngIf="preview.opened" type="button" id="preview-toggle" class="open" (click)="preview.toggle()">
+  <span><i class="fas fa-chevron-right"></i></span>
+</button>
+
 
 <!-- Main body page -->
 <div class="page-inner" fxFlexFill>
@@ -23,10 +27,10 @@
       <app-flow-library></app-flow-library>
     </mat-sidenav>
 
-    <!-- Right sidenav. Can be opened -->
-    <mat-sidenav position="end" mode="over" #preview>
-      <app-flow-preview></app-flow-preview>
-    </mat-sidenav>
+      <!-- Right sidenav. Can be opened -->
+      <mat-sidenav position="end" mode="over" #preview>
+        <app-flow-preview></app-flow-preview>
+      </mat-sidenav>
 
     <!-- Main body content -->
     
