@@ -1,3 +1,10 @@
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  padding: 0.5rem 0.8rem 0.5rem 0.5rem;
+  border-radius: 0.625rem;
+  background-color: var(--convs-mgr-color-F6F6F6);
+}
 form{
   width: 100%;
 }
@@ -17,30 +24,20 @@ form{
   align-items: center;
 }
 
-.groupForm{
-  width: 100%;
 
-  .saveBtn{
-    button{
-      outline: none;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      padding: 0.5rem;
-    }
-  }
-
+button{
+  outline: none;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 0.5rem;
+  margin-left: 0.5rem;
 }
+  
 .configs{
   display: flex;
   flex-direction: column;
-  padding: 0.5rem 0.8rem 0.5rem 0.5rem;
-  border-radius: 0.625rem;
-  background-color: var(--convs-mgr-color-F6F6F6);
-
-  .card-menu {
-    align-self: flex-end;
-  }
+  width: 100%;
 
   .inputConfigs{
     display: flex;
@@ -58,6 +55,12 @@ form{
       }
   }
 }
+
+.card-menu {
+  cursor: pointer;
+  order: 1;
+}
+
 .flex-container {
   display: flex;
   flex-wrap: wrap;
@@ -66,4 +69,9 @@ form{
 
 .column {
   width: 100%;
+}
+
+.img-preview {
+  border-radius: 0.625rem;
+  background-color: var(--convs-mgr-color-F6F6F6);
 }
