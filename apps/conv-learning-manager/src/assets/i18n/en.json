@@ -1284,7 +1284,9 @@
       "REQUIRED": "Required"
     },
     "BUTTON-DESC": "Add or Delete Options",
-    "BUTTON-SAVE": "Save"
+    "BUTTON-SAVE": "Save",
+    "INSTRUCTIONS": "Instructions (optional)",
+    "REQUIRED":"Required"
   },
   "ADD-SCREEN": "Add screen"
 }

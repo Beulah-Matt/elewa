@@ -918,6 +918,10 @@
   },
 
   "WHATSAPP-FLOWS": {
+    "CONFIGURATIONS": {
+      "INSTRUCTIONS": "Instructions (facultatif)",
+      "REQUIRED":"Requis"
+    },
     "ADD-SCREEN": "Ajouter un écran"
     }
 }
