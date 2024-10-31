@@ -36,6 +36,15 @@ export class FlowTypeInputComponent implements OnInit
   /** Array of allowed html input types */
   htmlElementTypes = ['text', 'number', 'email', 'password', 'passcode', 'phone'];
   
+  charCounts = {
+    label: 0,
+    helperText: 0,
+  };
+  readonly maxChars = {
+    label: 20,
+    helperText: 80,
+  };
+
   /** View Container */
   vrc = inject(ViewContainerRef)
   private autosaveSubject = new Subject<any>();
@@ -50,6 +59,21 @@ export class FlowTypeInputComponent implements OnInit
   ngOnInit(): void {
     this.inputId = `input-${this.type}`;
     this.textInputForm = this.elementForm;
+
+    this.charCounts.label = this.textInputForm.get('label')?.value?.length || 0;
+    this.charCounts.helperText = this.textInputForm.get('helperText')?.value?.length || 0;
+  }
+
+  onInputChange(event: KeyboardEvent) {
+    const input = event.target as HTMLInputElement;
+    const inputId = input.id as keyof typeof this.charCounts;
+
+    if (this.charCounts[inputId] !== undefined) {
+      if (input.value.length > this.maxChars[inputId]) {
+        input.value = input.value.slice(0, this.maxChars[inputId]);
+      }
+      this.charCounts[inputId] = input.value.length;
+    }
   }
   
   saveInputConfig(): void 
