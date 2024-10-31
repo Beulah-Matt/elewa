@@ -6,6 +6,8 @@ import { debounceTime } from 'rxjs';
 
 import { ChangeTrackerService } from '@app/features/convs-mgr/stories/builder/flow-builder/state';
 import { FlowControl, FlowControlType, FlowTextAreaInput } from '@app/model/convs-mgr/stories/flows';
+import { ConfirmDeleteElementComponent } from '../../modals/confirm-delete-element.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'lib-text-area-input',
@@ -35,7 +37,10 @@ export class TextAreaInputComponent implements OnInit
 
   private _sbS = new SubSink ();
 
-  constructor(private trackerService: ChangeTrackerService) {}
+  constructor(
+    private trackerService: ChangeTrackerService,
+    private _dialog: MatDialog
+  ) {}
 
   ngOnInit(): void 
   {
@@ -46,6 +51,10 @@ export class TextAreaInputComponent implements OnInit
     this.textInputForm.valueChanges.pipe(debounceTime(300)).subscribe((value) => {
       this.triggerAutosave(value);
     });
+  }
+
+  deleteElement(){
+    this._dialog.open(ConfirmDeleteElementComponent)
   }
   
   /** Trigger autosave */

@@ -8,6 +8,8 @@ import { buildV31CheckboxGroup } from '../../utils/build-checkbox-group.util';
 import { ChangeTrackerService } from '@app/features/convs-mgr/stories/builder/flow-builder/state';
 import { FlowControlType, FlowControl } from '@app/model/convs-mgr/stories/flows';
 import { SubSink } from 'subsink';
+import { ConfirmDeleteElementComponent } from '../../modals/confirm-delete-element.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'lib-flow-checkbox-options',
@@ -32,7 +34,8 @@ export class FlowCheckboxOptionsComponent implements OnInit, OnDestroy
 
   constructor(private optionGroupFormService: OptionGroupFormService,
               private fb: FormBuilder,
-              private _trackerService: ChangeTrackerService
+              private _trackerService: ChangeTrackerService,
+              private _dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -51,6 +54,10 @@ export class FlowCheckboxOptionsComponent implements OnInit, OnDestroy
       label: ['', Validators.required]
     });
     this.options.push(optionGroup);
+  }
+
+  deleteElement(){
+    this._dialog.open(ConfirmDeleteElementComponent)
   }
 
   removeOption(index: number) {

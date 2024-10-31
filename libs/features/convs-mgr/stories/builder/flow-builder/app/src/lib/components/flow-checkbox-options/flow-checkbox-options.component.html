@@ -1,5 +1,11 @@
 <div class="__inputDesc flexDiv">
   <form [formGroup]="checkboxGroupForm" class="__groupForm">
+    <span class="mat-button" mat-button [matMenuTriggerFor]="menu">
+      <i class="fa-solid fa-ellipsis-vertical menu-tooltip"></i>
+    </span>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="deleteElement()">{{ 'BOTS.CREATE-MODAL.FIELDS.DELETE' | transloco }}</button>
+    </mat-menu>
     <div class="__configs" *ngIf="showConfigs">
       <div class="__saveBtn">
         <button type="submit" (click)="saveRadioConfig()"> Save </button>

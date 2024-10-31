@@ -1,3 +1,14 @@
+.wrapper {
+  border-radius: 0.625rem;
+  background-color: var(--convs-mgr-color-F6F6F6);
+}
+form {
+  display: flex;
+  flex-direction: column;
+}
+.mat-button {
+  text-align: right;
+}
 .inputDesc {
   width: 98%;
   padding: 1rem 0 1rem 1rem;
