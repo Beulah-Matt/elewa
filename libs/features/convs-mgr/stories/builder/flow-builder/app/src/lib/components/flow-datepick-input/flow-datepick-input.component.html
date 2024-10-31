@@ -1,35 +1,45 @@
-<div class="configs" *ngIf="showConfigs">
-  <form *ngIf="textInputForm && control " [formGroup]="textInputForm">
-    <div class="inputConfigs">
-      <label for="name">Name:</label>
-      <input type="text" id="name" formControlName="name">
-    </div>
-    <div class="inputConfigs">
-      <label for="label">Label:</label>
-      <input type="text" id="label" formControlName="label">
-    </div>
-    <div class="inputConfigs">
-      <label for="required">Required:</label>
-      <input type="checkbox" id="required" formControlName="required">
-    </div>
-    <div class="inputConfigs">
-      <label for="'helper-text'">Helper Text:</label>
-      <input type="text" id="'helper-text'" formControlName="helperText">
-    </div>
-    <div class="saveBtn">
-      <button type="submit" (click)="saveInputConfig(textInputForm.value)"> Save </button>
-    </div>
-  </form>
-</div>
-
-<div class="flex-container" *ngIf="!showConfigs">
-  <div class="column">
-    <label [for]="element.name">{{ element.label }}</label>
-    <input type="date"
-      class="text-area-input"
-      [name]="element.name"
-      [id]="element.name"
-      [required]="element.required"
-    />
+<div class="wrapper">
+  <div class="mat-button-holder">
+    <span mat-button [matMenuTriggerFor]="menu">
+      <i class="fa-solid fa-ellipsis-vertical menu-tooltip"></i>
+    </span>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="deleteElement()">{{ 'BOTS.CREATE-MODAL.FIELDS.DELETE' | transloco }}</button>
+    </mat-menu>
   </div>
-</div> 
+  <div class="configs" *ngIf="showConfigs">
+    <form *ngIf="textInputForm && control " [formGroup]="textInputForm">
+      <div class="inputConfigs label-holder">
+        <input type="text" id="label" formControlName="label" (keyup)="onInputChange($event)">
+        <span>{{charCounts.label}}/{{maxChars.label}}</span>
+      </div>
+      <div class="inputConfigs helperText-holder">
+        <div>{{ 'WHATSAPP-FLOWS.CONFIGURATIONS.INSTRUCTIONS' | transloco }}</div>
+        <div class="input-holder">
+          <input type="text" id="helperText" formControlName="helperText" (keyup)="onInputChange($event)">
+          <span>{{charCounts.helperText}}/{{maxChars.helperText}}</span>
+        </div>
+      </div>
+      <div class="inputConfigs required">
+        <mat-slide-toggle id="required" formControlName="required">
+          {{ 'WHATSAPP-FLOWS.CONFIGURATIONS.REQUIRED' | transloco }}
+        </mat-slide-toggle>
+      </div>
+      <div class="saveBtn">
+        <button type="submit" (click)="saveInputConfig(textInputForm.value)"> Save </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="flex-container" *ngIf="!showConfigs">
+    <div class="column">
+      <label [for]="element.name">{{ element.label }}</label>
+      <input type="date"
+        class="text-area-input"
+        [name]="element.name"
+        [id]="element.name"
+        [required]="element.required"
+      />
+    </div>
+  </div> 
+</div>
