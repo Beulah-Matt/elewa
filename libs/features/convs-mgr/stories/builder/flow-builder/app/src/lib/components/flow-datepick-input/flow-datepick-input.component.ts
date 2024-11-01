@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, inject, Input, OnInit, ViewContainerRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { SubSink } from 'subsink';
@@ -6,6 +6,8 @@ import { debounceTime } from 'rxjs';
 
 import { ChangeTrackerService } from '@app/features/convs-mgr/stories/builder/flow-builder/state';
 import { FlowControl, FlowControlType, FlowDatePickerInput, FlowPageLayoutElementTypesV31, FlowTextAreaInput, FlowTextInput } from '@app/model/convs-mgr/stories/flows';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDeleteElementComponent } from '../../modals/confirm-delete-element.component';
 
 @Component({
   selector: 'lib-flow-datepick-input',
@@ -14,6 +16,7 @@ import { FlowControl, FlowControlType, FlowDatePickerInput, FlowPageLayoutElemen
 })
 export class FlowDatepickInputComponent implements OnInit
 { 
+  @Input() elementForm: FormGroup;
   /** The type of input, for text inputs */
   type: FlowControlType
   /** Type of control enum */
@@ -29,21 +32,49 @@ export class FlowDatepickInputComponent implements OnInit
   element: FlowTextInput | FlowDatePickerInput | FlowTextAreaInput
   showConfigs = true;
 
+  charCounts = {
+    label: 0,
+    helperText: 0,
+  };
+  readonly maxChars = {
+    label: 20,
+    helperText: 80,
+  };
+
   /** View Container */
   vrc = inject(ViewContainerRef)
 
   private _sbS = new SubSink ()
 
-  constructor(private trackerService: ChangeTrackerService ) {}
+  constructor(
+    private trackerService: ChangeTrackerService,
+    private _dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.inputId = `input-${this.type}`;
+    this.textInputForm = this.elementForm;
 
     this.textInputForm.valueChanges
     .pipe(debounceTime(10000))  //10 seconds
       .subscribe(value=> {
       this.triggerAutosave(value);
     });
+  }
+  onInputChange(event: KeyboardEvent) {
+    const input = event.target as HTMLInputElement;
+    const inputId = input.id as keyof typeof this.charCounts;
+
+    if (this.charCounts[inputId] !== undefined) {
+      if (input.value.length > this.maxChars[inputId]) {
+        input.value = input.value.slice(0, this.maxChars[inputId]);
+      }
+      this.charCounts[inputId] = input.value.length;
+    }
+  }
+
+  deleteElement(){
+    this._dialog.open(ConfirmDeleteElementComponent)
   }
   
   saveInputConfig(_values: FlowDatePickerInput): void {

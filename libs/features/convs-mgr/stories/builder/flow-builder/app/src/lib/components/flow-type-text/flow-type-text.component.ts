@@ -9,6 +9,8 @@ import { ChangeTrackerService } from '@app/features/convs-mgr/stories/builder/fl
 
 import { TextElementFormService } from '../../services/text-elements-form.service';
 import { EditableTextElement } from '../../models/fe-flow-text-element.model';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDeleteElementComponent } from '../../modals/confirm-delete-element.component';
 
 @Component({
   selector: 'lib-flow-header-text',
@@ -29,6 +31,14 @@ export class FlowTypeTextComponent implements OnInit {
   inputId = '';
   vrc = inject(ViewContainerRef)
 
+  currentCharCount = 0;
+  readonly charLimits: { [key in FlowControlType]?: number } = {
+    [FlowControlType.Header]: 80,
+    [FlowControlType.LightHeader]: 80,
+    [FlowControlType.Text]: 4096,
+    [FlowControlType.Caption]: 409
+  };
+  
   textInputForm: FormGroup;
   textElement: FlowPageTextV31
   private _sbS = new SubSink();
@@ -36,12 +46,15 @@ export class FlowTypeTextComponent implements OnInit {
   constructor(
     private trackerService: ChangeTrackerService,
     private textFormService: TextElementFormService, 
-    private _wFlowStore: WhatsappFlowsStore
+    private _wFlowStore: WhatsappFlowsStore,
+    private _dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
     this.inputId = `input-${this.control.controlType}`;
     this.textInputForm = this.elementForm;
+    
+    this.currentCharCount = this.textInputForm.get('text')?.value.length;
 
     // Subscribe to form value changes
     this._sbS.sink = this.textInputForm.get('text')?.valueChanges
@@ -51,6 +64,20 @@ export class FlowTypeTextComponent implements OnInit {
     });
   }
 
+  onInputChange(event: KeyboardEvent){
+    const input = event.target as HTMLInputElement;
+    const maxChar = this.charLimits[this.type]; 
+    this.currentCharCount = input.value.length;
+
+    if(maxChar && this.currentCharCount >= maxChar){
+      input.value = input.value.slice(0, maxChar);
+      this.currentCharCount = maxChar;
+    }
+  }
+
+  deleteElement(){
+    this._dialog.open(ConfirmDeleteElementComponent)
+  }
   buildV31Element(value: string) {
     const formValue = {
       text: value,

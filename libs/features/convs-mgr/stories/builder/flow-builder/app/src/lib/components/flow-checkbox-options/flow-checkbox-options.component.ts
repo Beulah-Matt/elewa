@@ -8,6 +8,8 @@ import { buildV31CheckboxGroup } from '../../utils/build-checkbox-group.util';
 import { ChangeTrackerService } from '@app/features/convs-mgr/stories/builder/flow-builder/state';
 import { FlowControlType, FlowControl } from '@app/model/convs-mgr/stories/flows';
 import { SubSink } from 'subsink';
+import { ConfirmDeleteElementComponent } from '../../modals/confirm-delete-element.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'lib-flow-checkbox-options',
@@ -28,15 +30,37 @@ export class FlowCheckboxOptionsComponent implements OnInit, OnDestroy
   /** Toggle view state */
   showConfigs = true;
 
+  charCounts = {
+    label: 0,
+    option: 0,
+  };
+  readonly maxChars = {
+    label: 30,
+    option: 30,
+  };
+
   private _sBS = new SubSink()
 
   constructor(private optionGroupFormService: OptionGroupFormService,
               private fb: FormBuilder,
-              private _trackerService: ChangeTrackerService
+              private _trackerService: ChangeTrackerService,
+              private _dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
     this.checkboxGroupForm = this.optionGroupFormService.createRadioGroupForm(this.flowGroup);
+  }
+
+  onInputChange(event: KeyboardEvent) {
+    const input = event.target as HTMLInputElement;
+    const inputId = input.id as keyof typeof this.charCounts;
+
+    if (this.charCounts[inputId] !== undefined) {
+      if (input.value.length > this.maxChars[inputId]) {
+        input.value = input.value.slice(0, this.maxChars[inputId]);
+      }
+      this.charCounts[inputId] = input.value.length;
+    }
   }
   
   /** Options controls */
@@ -51,6 +75,10 @@ export class FlowCheckboxOptionsComponent implements OnInit, OnDestroy
       label: ['', Validators.required]
     });
     this.options.push(optionGroup);
+  }
+
+  deleteElement(){
+    this._dialog.open(ConfirmDeleteElementComponent)
   }
 
   removeOption(index: number) {

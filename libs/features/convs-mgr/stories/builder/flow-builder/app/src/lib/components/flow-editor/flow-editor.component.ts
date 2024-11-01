@@ -1,6 +1,6 @@
 import { v4 as ___guid } from 'uuid';
 import { Component, OnInit, OnDestroy, ViewContainerRef, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { SubSink } from 'subsink';
@@ -29,9 +29,13 @@ export class FlowEditorComponent implements OnInit, OnDestroy
   @ViewChild('vcr', { static: true, read: ViewContainerRef })
   vcr!: ViewContainerRef;
   state: FlowBuilderStateFrame;
-  droppedItems: any;
+  readonly btnMaxChar = 30;
+  currentCharCount = 0;
+
+  droppedItems: FlowControl[] = [];
   isEditing = false;
   isSideScreenOpen: boolean;
+  inEditor = true;
 
   constructor( private _flowBuilderState: FlowBuilderStateProvider,
                private editorComponentFactory: EditorComponentFactory,
@@ -55,12 +59,22 @@ export class FlowEditorComponent implements OnInit, OnDestroy
       this.vcr.clear();
 
       this.droppedItems = elements;
-      elements.forEach(item => this.createField(item));
+      elements.forEach((item) => this.createInputForm(item));
     })
   }
 
   editButton() {
     this.isEditing = true;
+  }
+
+  onInputChange(event: KeyboardEvent){
+    const editBtn = event.target as HTMLInputElement;
+    this.currentCharCount = editBtn.value.length;
+
+    if(this.currentCharCount >= this.btnMaxChar){
+      editBtn.value = editBtn.value.slice(0, this.btnMaxChar);
+      this.currentCharCount = this.btnMaxChar;
+    }
   }
 
   toggleSidenav(){
@@ -70,12 +84,8 @@ export class FlowEditorComponent implements OnInit, OnDestroy
   /** Function handling drag and drop functionality for a component */
   drop(event: CdkDragDrop<FlowControl[]>) {
     const draggedData = event.item.data;
-
     if (draggedData) {
       // Assign a unique ID using UUID
-      draggedData.id = ___guid(); 
-      draggedData.dropped = true;
-      
       // Handle array item transfers
         // if (event.previousContainer === event.container) {
           // this.droppedElements.subscribe((_val) => {
@@ -92,28 +102,53 @@ export class FlowEditorComponent implements OnInit, OnDestroy
         //   );
         // }
 
-        this.cdr.detectChanges();
-        this._flowBuilderState.setControls(draggedData); // Update the state provider
+      this.addToDroppedItems(draggedData);
+      
+      this.cdr.detectChanges();
+    }
+    if(event.previousContainer === event.container){
+      moveItemInArray(this.droppedItems,event.previousIndex, event.currentIndex)
     }
   }
 
+  addToDroppedItems(draggedData: any) {
+    const control = {
+      ...draggedData,
+      dropped: true,
+      id: ___guid()
+    }
+
+    this.droppedItems.push(control);
+  }
+
   /** Opening an editable field when user clicks on a dropped element */
-  createField(element: FlowControl) {
+  createField(element: FlowControl, i: number) {
 
     if (element.dropped) {
-
-      const componentRef = this.editorComponentFactory.createEditorComponent(element, this.vcr);
-          
-      componentRef.instance.control = element;
-
-      const elementForm  = _GetFlowComponentForm(this._fb, element);
-      componentRef.instance.elementForm = elementForm;
-
-      componentRef.instance.type = element.controlType;  // Pass the value to the component
-
-      componentRef.changeDetectorRef.detectChanges();
+      
+      const hasInput = this.droppedItems.filter((c: FlowControl)=> c.hasInput).find((c: FlowControl)=> c.id === element.id);
+      
+      if(!hasInput) {
+        this.createInputForm(element);
+    
+        this.droppedItems[i].hasInput = true;
+      }
+    
     }
-  }   
+  }
+  
+  createInputForm(element: FlowControl) {
+    const componentRef = this.editorComponentFactory.createEditorComponent(element, this.vcr);
+        
+    componentRef.instance.control = element;
+    
+    const elementForm  = _GetFlowComponentForm(this._fb, element);
+    componentRef.instance.elementForm = elementForm;
+    
+    componentRef.instance.type = element.controlType;  // Pass the value to the component
+    
+    componentRef.changeDetectorRef.detectChanges();
+  }
 
   ngOnDestroy(): void {
     // Flush the container

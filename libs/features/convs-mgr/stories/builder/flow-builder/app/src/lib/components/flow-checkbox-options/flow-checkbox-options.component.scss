@@ -1,51 +1,101 @@
 .__inputDesc {
-  width: 98%;
-  padding: 1rem 0 1rem 1rem;
-  border-radius: 4px;
+  display: flex;
   border: none;
+  border-radius: 0.625rem;
+  background-color: var(--convs-mgr-color-F6F6F6);
+  padding: 1rem 0 1rem 0.5rem;
+}
+form {
+  display: flex;
+  flex-direction: column;
+}
+.mat-button-holder {
+  cursor: pointer;
+  text-align: right;
+  margin-right: 0.8rem;
+  order: 1;
 }
 
 .flexDiv {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: start;
-  gap: 1rem;
-  align-items: center;
 }
 
 .__groupForm{
   width: 100%;
-
   .__configs{
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+
     .__inputConfigs{
       display: flex;
-      justify-content: start;
+      align-items: center;
       gap: 1rem;
-      padding: 0.5rem;
         label{
           padding: 0.5rem;
         }
         input{
           border: none;
           outline: none;
-          border-radius: 4px;
-          padding: 0.5rem;
+          padding: 0.5rem 0 0.5rem 0.8rem;;
+          width: 98%;
+          border-radius: 0.625rem;
+          background-color: var(--convs-mgr-color-F6F6F6);
+        }
+        &.label-holder {
+          margin-right: 0.5rem;
+          border-radius: 0.625rem;
+          background-color: var(--convs-mgr-color-tertiary);
+          input {
+            background-color: var(--convs-mgr-color-tertiary);
+          }
+        }
+        span {
+          padding-right: 0.8rem;
+          font-size: 0.9rem;
+          color: var(--convs-mgr-medium-gray);
         }
     }
+  }
+  .required {
+    margin-left: auto;   
   }
   .__optionsArray{
     display: flex;
     flex-direction: column;
-    .add__options{
-      display: flex;
-      gap: 2rem;
+    gap: 1.2rem;
 
-      button{
-        outline: none;
+    .option {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0;
+      
+      .__input-holder {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        border-radius: 0.625rem;
+        border: 1px solid var(--convs-mgr-color-text-black);
+      }
+      button {
         border: none;
-        border-radius: 4px;
         cursor: pointer;
-        padding: 0.5rem;
+      }
+    }
+
+    .add__options{
+      cursor: pointer;
+      span {
+        margin-left: 1rem;
+        font-size: 0.8rem;
+        color: var(--convs-mgr-medium-gray);
+
+        &:hover {
+          text-decoration: underline;
+        }
       }
     }
   }

@@ -7,8 +7,8 @@
       <button mat-menu-item (click)="deleteElement()">{{ 'BOTS.CREATE-MODAL.FIELDS.DELETE' | transloco }}</button>
     </mat-menu>
   </div>
-  <form [formGroup]="radioGroupForm" class="groupForm">
-    <div class="configs" *ngIf="showConfigs">
+  <form class="groupForm">
+    <div class="configs">
       <div class="inputConfigs label-holder">
         <input type="text" id="label" formControlName="label" (keyup)="onInputChange($event)">
         <span>{{charCounts.label}}/{{maxChars.label}}</span>
@@ -16,15 +16,15 @@
       
       <div formArrayName="options" class="optionsArray">
         <div>{{ 'WHATSAPP-FLOWS.CONFIGURATIONS.LABELS.OPTIONS' | transloco }}</div>
-        <div *ngFor="let option of options.controls; let i = index" [formGroupName]="i" class="inputConfigs option">
+        <!-- <div *ngFor="let option of options.controls; let i = index" [formGroupName]="i" class="inputConfigs option"> -->
           <div class="input-holder">
             <input type="text" formControlName="label" placeholder="Option label">
             <span>0/{{maxChars.option}}</span> 
           </div>
-          <button type="button" (click)="removeOption(i)"><i class="fas fa-trash-alt delete-tooltip"></i></button>
-        </div>
+          <!-- <button type="button" (click)="removeOption(i)"><i class="fas fa-trash-alt delete-tooltip"></i></button> -->
+        <!-- </div> -->
         <div class="addoptions">
-          <span (click)="addOption()">{{"WHATSAPP-FLOWS.CONFIGURATIONS.LABELS.ADD-OPTION" | transloco}} </span>
+          <!-- <span (click)="addOption()">{{"WHATSAPP-FLOWS.CONFIGURATIONS.LABELS.ADD-OPTION" | transloco}} </span> -->
         </div>
       </div>
       <div class="inputConfigs required">
@@ -33,17 +33,13 @@
         </mat-slide-toggle>
       </div>
       <div class="saveBtn">
-        <button type="submit" (click)="saveRadioConfig()"> {{"WHATSAPP-FLOWS.CONFIGURATIONS.BUTTON-SAVE" | transloco}}  </button>
+        <!-- <button type="submit" (click)="saveRadioConfig()"> {{"WHATSAPP-FLOWS.CONFIGURATIONS.BUTTON-SAVE" | transloco}}  </button> -->
       </div>
     </div>
 
-    <!-- Display saved radio buttons -->
-    <div *ngIf="!showConfigs && flowGroup" class="labelDiv">
-      <h6>{{ flowGroup.label }}</h6>
-      <div *ngFor="let option of flowGroup.options" class="inputConfigs">
-        <input class=".radio " type="radio" [name]="flowGroup.name" [id]="option.label" [required]="flowGroup.required">
-        <label [for]="option.label">{{ option.label }}</label>
-      </div>
+    <!-- Dropdown preview -->
+    <div class="labelDiv">
+      
     </div>
   </form>
 </div>

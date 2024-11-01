@@ -8,6 +8,8 @@ import { ChangeTrackerService } from '@app/features/convs-mgr/stories/builder/fl
 import { FlowControl, FlowControlType, FlowImage } from '@app/model/convs-mgr/stories/flows';
 import { FileStorageService } from '@app/state/file';
 import { ImageInputFormService } from '../../utils/build-image-input-form.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDeleteElementComponent } from '../../modals/confirm-delete-element.component';
 
 @Component({
   selector: 'lib-image-type-input',
@@ -46,6 +48,7 @@ export class ImageTypeInputComponent implements OnInit
   constructor(private trackerService: ChangeTrackerService,
               private _formService: ImageInputFormService,
               private _uploadService: FileStorageService,
+              private _dialog: MatDialog
 ) {}
 
   ngOnInit(): void
@@ -118,6 +121,10 @@ export class ImageTypeInputComponent implements OnInit
         this.imageInputForm.patchValue({ src: downloadURL, mediaPath: filePath });
         this.isUploading = false;
     });
+  }
+
+  deleteElement(){
+    this._dialog.open(ConfirmDeleteElementComponent)
   }
 
   saveConfigurations()

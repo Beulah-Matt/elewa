@@ -220,6 +220,14 @@
         "MESSAGE": "Êtes-vous sûr de vouloir supprimer ce bot?"
       }
     },
+    "DELETE-MODAL": {
+      "TITLE": "Supprimer l'élément",
+      "CANCEL": "Annuler",
+      "CONFIRM": "Confirmer",
+      "SUBMIT": "Supprimer",
+      "INFO": "Cette action ne peut pas être annulée",
+      "MESSAGE": " Êtes-vous sûr de vouloir supprimer cet élément ?"
+    },
     "CHANNEL":{
       "HEADER":"Connecter le bot au canal",
       "INFO-TEXT1":"Pour créer une nouvelle chaîne, accédez aux paramètres d'administration, puis continuez",
@@ -241,7 +249,8 @@
     "DELETE-BOT":"Supprimer le robot",
     "EDIT-CLICK":"Cliquez ici pour modifier",
     "DRAG-ELEMENT": "Faites glisser un élément dans ce cadre",
-    "CHOOSE-FLOW-ELEMENT": "Choisir l'élément de flux"
+    "CHOOSE-FLOW-ELEMENT": "Choisir l'élément de flux",
+    "SCREEN-SETTNGS": "Afficher les paramètres de l'écran"
   },
   "FLOW-CATEGORY": {
     "TEXT-ELS": "Texte",
@@ -909,6 +918,14 @@
   },
 
   "WHATSAPP-FLOWS": {
+    "CONFIGURATIONS": {
+      "LABELS": {
+        "OPTIONS": "Possibilités",
+        "ADD-OPTION": "Ajouter une option"
+      },
+      "INSTRUCTIONS": "Instructions (facultatif)",
+      "REQUIRED":"Requis"
+    },
     "ADD-SCREEN": "Ajouter un écran"
     }
 }

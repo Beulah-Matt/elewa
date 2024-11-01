@@ -358,7 +358,9 @@
     "DELETE-MODAL": {
       "TITLE": "Delete Element",
       "CANCEL": "Cancel",
+      "CONFIRM": "Confirm",
       "SUBMIT": "Delete",
+      "INFO": "This action cannot be undone",
       "MESSAGE": " Are you sure you want to delete this element?"
     },
     "BOTS-PAGE" : {
@@ -400,7 +402,8 @@
     "DELETE-BOT":"Delete Bot",
     "EDIT-CLICK":"Click here to edit",
     "DRAG-ELEMENT": "Drag an element into this frame",
-    "CHOOSE-FLOW-ELEMENT": "Choose Flow Element"
+    "CHOOSE-FLOW-ELEMENT": "Choose Flow Element",
+    "SCREEN-SETTNGS": "View Screen Settings"
   },
   "FLOW-CATEGORY": {
     "TEXT-ELS": "Text",
@@ -1278,10 +1281,14 @@
     "LABELS": {
       "NAME": "Name",
       "LABEL": "Label",
-      "REQUIRED": "Required"
+      "REQUIRED": "Required",
+      "OPTIONS": "Options",
+      "ADD-OPTION": "Add Option"
     },
     "BUTTON-DESC": "Add or Delete Options",
-    "BUTTON-SAVE": "Save"
+    "BUTTON-SAVE": "Save",
+    "INSTRUCTIONS": "Instructions (optional)",
+    "REQUIRED":"Required"
   },
   "ADD-SCREEN": "Add screen"
 }

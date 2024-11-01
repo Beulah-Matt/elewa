@@ -18,7 +18,7 @@ export class CreateWhatsappFlowHandler extends FunctionHandler<{flow: WFlow, org
   {
     try {
       const channel = await this._getChannel(data.orgId, tools);
-      tools.Logger.log(()=> `🟤 This is the channel: ${channel}`)
+      tools.Logger.log(()=> `🟤 This is the channel: ${JSON.stringify(channel[0])}`)
 
       if(!channel && channel.length < 1) {
         throw 'Channel does not exist for org: ' + data.orgId;
@@ -33,7 +33,7 @@ export class CreateWhatsappFlowHandler extends FunctionHandler<{flow: WFlow, org
       const base_url= `${GRAPH_API}/${API_VERSION}/${WABA_ID}/flows`;
   
       const payload = this._prepareData(data.flow);
-      tools.Logger.log(()=> `🟤 This is the payload: ${payload}`)
+      tools.Logger.log(()=> `🟤 This is the payload: ${JSON.stringify(payload)}`)
   
       // Update the flow ID
       const resp = await axios.post(base_url, payload, {
@@ -66,7 +66,7 @@ export class CreateWhatsappFlowHandler extends FunctionHandler<{flow: WFlow, org
 
   private _prepareData(flowConfig: WFlow){
     return {
-      flow: flowConfig.flow,
+      categories: ["OTHER"],
       name: flowConfig.name,
       // endpoint_uri: flowConfig.endpoint_uri
     };

@@ -9,6 +9,7 @@ export function _MapToFlowControl(element: FlowPageLayoutElementV31)
     switch (element.type) {
       case  FlowPageLayoutElementTypesV31.TEXT:
         control.dropped = true;
+        control.hasInput = true;
         return control.controlType === FlowControlType.Header;
      
       default:

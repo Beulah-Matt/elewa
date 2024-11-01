@@ -37,6 +37,9 @@ import { FlowCheckboxOptionsComponent } from './components/flow-checkbox-options
 import { TextAreaInputComponent } from './components/text-area-input/text-area-input.component';
 import { ImageTypeInputComponent } from './components/image-type-input/image-type-input.component';
 import { FlowScreenSettingsComponent } from './components/flow-screen-settings/flow-screen-settings.component';
+import { ConfirmDeleteElementComponent } from './modals/confirm-delete-element.component';
+import { FlowOptInComponent } from './components/flow-opt-in/flow-opt-in.component';
+import { FlowDropdownComponent } from './components/flow-dropdown/flow-dropdown.component';
 
 import { SafePipe } from './pipes/safe.pipe';
 
@@ -81,7 +84,10 @@ import { SafePipe } from './pipes/safe.pipe';
     ImageTypeInputComponent,
 
     // Pipes
-    SafePipe
+    SafePipe,
+    ConfirmDeleteElementComponent,
+    FlowOptInComponent,
+    FlowDropdownComponent,
   ],
   providers: [WhatsappFlowsStore],
 })

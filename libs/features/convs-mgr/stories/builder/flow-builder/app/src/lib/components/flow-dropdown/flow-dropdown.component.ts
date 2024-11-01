@@ -1,51 +1,40 @@
 import { Component, inject, Input, OnInit, ViewContainerRef } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-
-import { SubSink } from 'subsink';
-import { debounceTime } from 'rxjs';
-
-import { ChangeTrackerService } from '@app/features/convs-mgr/stories/builder/flow-builder/state';
-import { FlowControl, FlowControlType, FlowTextAreaInput } from '@app/model/convs-mgr/stories/flows';
 import { ConfirmDeleteElementComponent } from '../../modals/confirm-delete-element.component';
 import { MatDialog } from '@angular/material/dialog';
+import { FormGroup } from '@angular/forms';
+import { FlowControl, FlowControlType, FlowDropDownInput } from '@app/model/convs-mgr/stories/flows';
+import { debounceTime } from 'rxjs';
+import { ChangeTrackerService } from '@app/features/convs-mgr/stories/builder/flow-builder/state';
 
 @Component({
-  selector: 'lib-text-area-input',
-  templateUrl: './text-area-input.component.html',
-  styleUrl: './text-area-input.component.scss',
+  selector: 'lib-flow-dropdown',
+  templateUrl: './flow-dropdown.component.html',
+  styleUrl: './flow-dropdown.component.scss',
 })
-export class TextAreaInputComponent implements OnInit
-{
+export class FlowDropdownComponent implements OnInit {
   @Input() elementForm: FormGroup;
-  /** The type of input, for text inputs */
-  type: FlowControlType;
-  /** Type of control enum */
-  flowControlType = FlowControlType;
-  /** Specific control */
-  control: FlowControl;
 
-  /** Dynamic input id */
+  type: FlowControlType;
+  flowControlType = FlowControlType;
+
+  control: FlowControl;
   inputId = '';
-  /** Form fields for inputs */
   textInputForm: FormGroup;
 
-  element: FlowTextAreaInput;
+  element: FlowDropDownInput;
   showConfigs = true;
+
+  vrc = inject(ViewContainerRef)
 
   charCounts = {
     label: 0,
-    name: 0,
+    option: 0,
   };
   readonly maxChars = {
-    label: 30,
-    name: 80,
+    label: 20,
+    option: 80,
   };
-
-  /** View Container */
-  vrc = inject(ViewContainerRef);
-
-  private _sbS = new SubSink ();
-
+  
   constructor(
     private trackerService: ChangeTrackerService,
     private _dialog: MatDialog
@@ -57,7 +46,6 @@ export class TextAreaInputComponent implements OnInit
     this.textInputForm = this.elementForm;
 
     this.charCounts.label = this.textInputForm.get('label')?.value?.length || 0;
-    this.charCounts.name = this.textInputForm.get('name')?.value?.length || 0;
 
     // Setup autosave with debounce
     this.textInputForm.valueChanges.pipe(debounceTime(300)).subscribe((value) => {
@@ -80,17 +68,11 @@ export class TextAreaInputComponent implements OnInit
   deleteElement(){
     this._dialog.open(ConfirmDeleteElementComponent)
   }
-  
-  /** Trigger autosave */
   private triggerAutosave(newValue: any): void 
   {
     this.trackerService.updateValue(newValue);
   }
 
-  /**
-   * Function called to save inputs 
-   * Important to setting view mode as well for forms with multiple inputs for configuration.
-   */
   saveInputConfig(): void 
   {
     if (this.textInputForm.valid) {

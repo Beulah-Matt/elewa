@@ -12,5 +12,6 @@ export enum FlowControlType
   Select = 'select',
   Radio = 'radio',
   OptIn = 'checkbox',
-  Datepick = 'datepick'
+  Datepick = 'datepick',
+  Dropdown = 'dropdown'
 }

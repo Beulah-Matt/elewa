@@ -7,6 +7,8 @@ import { FlowControlType, FlowControl } from '@app/model/convs-mgr/stories/flows
 import { OptionGroupFormService } from '../../services/input-options-group-form.service';
 import { __buildV31RadioGroup } from '../../utils/build-radio-options-group.util';
 import { FEFlowOptionGroup } from '../../models/fe-flow-option-element.model';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDeleteElementComponent } from '../../modals/confirm-delete-element.component';
 
 @Component({
   selector: 'lib-flow-button-group',
@@ -28,10 +30,19 @@ export class FlowButtonGroupComponent implements OnInit
   /** Toggle view state */
   showConfigs = true;
 
+  charCounts = {
+    label: 0,
+    option: 0,
+  };
+  readonly maxChars = {
+    label: 30,
+    option: 30,
+  };
+
   constructor(private radioOptionGroupFormService: OptionGroupFormService,
               private fb: FormBuilder,
-              private _trackerService: ChangeTrackerService
-
+              private _trackerService: ChangeTrackerService,
+              private _dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -39,9 +50,25 @@ export class FlowButtonGroupComponent implements OnInit
     this.radioGroupForm = this.radioOptionGroupFormService.createRadioGroupForm(this.flowGroup)
   }
 
+  onInputChange(event: KeyboardEvent) {
+    const input = event.target as HTMLInputElement;
+    const inputId = input.id as keyof typeof this.charCounts;
+
+    if (this.charCounts[inputId] !== undefined) {
+      if (input.value.length > this.maxChars[inputId]) {
+        input.value = input.value.slice(0, this.maxChars[inputId]);
+      }
+      this.charCounts[inputId] = input.value.length;
+    }
+  }
+
   /** Options controls */
   get options() {
     return this.radioGroupForm.get('options') as FormArray;
+  }
+
+  deleteElement(){
+    this._dialog.open(ConfirmDeleteElementComponent)
   }
 
   /** Adding another option */

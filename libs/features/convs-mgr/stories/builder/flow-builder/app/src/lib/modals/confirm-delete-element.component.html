@@ -1,0 +1,28 @@
+<div class="modal-wrapper">
+  <span class="modal-header">
+    <span class="modal-title">
+      <i class="fas fa-trash-alt delete-tooltip"></i>
+      {{ 'BOTS.DELETE-MODAL.TITLE' | transloco }}
+    </span>
+    <button mat-icon-button aria-label="close dialog" mat-dialog-close>
+      <mat-icon>close</mat-icon>
+    </button>
+  </span>
+
+  <p class="modal-message">{{ 'BOTS.DELETE-MODAL.MESSAGE' | transloco }}</p>
+
+  <div class="modal-info">
+    <mat-icon class="material-symbols-outlined">info</mat-icon>
+    <span>{{ 'BOTS.DELETE-MODAL.INFO' | transloco }}</span>
+  </div>
+  
+  <div class="modal-btns">
+    <button mat-stroked-button mat-dialog-close class="modal-cancel">
+      {{ 'BOTS.DELETE-MODAL.CANCEL' | transloco }}
+    </button>
+    <button mat-raised-button class="add-btn" color="primary" class="modal-confirm">
+      {{ 'BOTS.DELETE-MODAL.CONFIRM' | transloco }}
+    </button>
+  </div>
+
+</div>
