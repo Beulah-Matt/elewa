@@ -42,6 +42,28 @@ export class WFlowService
     return this._flowStore.add(flow);
   }
 
+  updateFlow(flow: WFlow) {
+
+    return this._activeOrg.get().pipe(
+      switchMap((org)=> {
+        const payload = {
+          data: flow,
+          orgId: org.id
+        }
+        debugger
+        return this._aff.httpsCallable('updateWhatsappFlow')(payload)
+      }), 
+      switchMap((resp)=> {
+        debugger
+        if(resp.success) {
+          // TODO: Display flow validation errors 
+          return this.add(flow);
+        } else {
+          return of(null);
+        }
+      }))
+  }
+
   /**
    * If its the first time we are creating the flow, we send a request
    *  to whatsapp to get the flow id, then append it to the flow

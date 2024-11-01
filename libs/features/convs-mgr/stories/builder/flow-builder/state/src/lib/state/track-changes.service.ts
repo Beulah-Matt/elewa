@@ -1,6 +1,6 @@
 
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, combineLatest, of, switchMap, take } from 'rxjs';
+import { BehaviorSubject, combineLatest, concatMap, of, switchMap, take } from 'rxjs';
 // import { FlowBuilderStateFrame, FlowBuilderStateProvider } from '@app/features/convs-mgr/stories/builder/flow-builder/state';
 import { WFlow, FlowPageLayoutElementV31, FlowScreenV31 } from '@app/model/convs-mgr/stories/flows';
 import { WFlowService } from '@app/state/convs-mgr/wflows';
@@ -41,9 +41,8 @@ export class ChangeTrackerService {
         const config = state.flow;
         if (config && config.flow.id) {
 
-          return this._wFlowService.add(wflow);
+          return this._wFlowService.updateFlow(wflow);
         } else {
-          wflow.flow.id = config.flow.id;
           return this._wFlowService.initFlow(wflow);
         }
       }));
@@ -61,7 +60,7 @@ export class ChangeTrackerService {
 
       wFlow.flow.screens = screens;
       
-      return this._wFlowService.add(wFlow);
+      return this._wFlowService.updateFlow(wFlow);
     }));
   }
   
