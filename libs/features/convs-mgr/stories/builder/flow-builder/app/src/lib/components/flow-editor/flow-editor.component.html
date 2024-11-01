@@ -47,7 +47,7 @@
       </div>
 
       <mat-menu #menu="matMenu">
-        <button mat-menu-item>{{ 'BOTS.SCREEN-SETTNGS' | transloco }}</button>
+        <button mat-menu-item (click)="openScreenSettings()">{{ 'BOTS.SCREEN-SETTNGS' | transloco }}</button>
       </mat-menu>
 
       <ng-container #vcr> </ng-container>
@@ -59,7 +59,9 @@
     
 
     <div class="screen-config" *ngIf="droppedItems.length > 0">
-      <lib-flow-screen-settings></lib-flow-screen-settings>
+      <lib-flow-screen-settings 
+        *ngIf="showScreenSettings" 
+        (showScreenSettings)="toggleScreenSettings()"></lib-flow-screen-settings>
     </div>
   </div>
 

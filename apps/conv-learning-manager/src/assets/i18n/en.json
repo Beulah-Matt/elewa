@@ -1281,8 +1281,13 @@
     "LABELS": {
       "NAME": "Name",
       "LABEL": "Label",
-      "REQUIRED": "Required"
+      "REQUIRED": "Required",
+      "SCREEN-NAME": "Screen name",
+      "SCREEN-SETTINGS": "Screen settings",
+      "TERMINAL": "Terminal"
     },
+    "NAV-DESC": "Next screen upon completion",
+    "FLOW-ENDS-DESC": "Flow ends on complete",
     "BUTTON-DESC": "Add or Delete Options",
     "BUTTON-SAVE": "Save"
   },

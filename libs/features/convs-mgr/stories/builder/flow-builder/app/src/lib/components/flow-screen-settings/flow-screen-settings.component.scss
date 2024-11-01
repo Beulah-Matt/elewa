@@ -1,0 +1,80 @@
+.screen-settings-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    padding: 1.2rem;
+    border-radius: 0.625rem;
+    background-color: var(--convs-mgr-color-text-white);
+}
+
+p {
+    margin-bottom: 0.5rem;
+}
+
+span {
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: var(--convs-mgr-medium-gray);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .screen-title {
+        font-size: 1rem;
+        font-weight: 500;
+        color: var(--convs-mgr-color-primary-black);
+    }
+    .close {
+        font-size: 0.9rem;
+        color: var(--convs-mgr-color-primary-grey);
+        cursor: pointer;
+    }
+}
+
+.screen-name-holder {
+    width: 99%;
+
+    .input-holder {
+        display: flex;
+        align-items: center;
+        border-radius: 0.625rem;
+        padding: 0.5rem;
+        border: 1px solid var(--convs-mgr-medium-gray);
+
+        input {
+            width: 100%;
+            border: none;
+
+            &:focus {
+                outline: none;
+            }
+        }
+    }
+}
+
+.terminal-holder {
+    display: flex;
+    justify-content: space-between;
+
+    input {
+        height: 2.2rem;
+        width: 1.4rem;
+    }
+}
+
+.nav-holder {
+    display: flex;
+    flex-direction: column;
+
+    select {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid var(--convs-mgr-medium-gray);
+        border-radius: 0.625rem;
+        margin-top: 0.5rem;
+    }
+    
+}
