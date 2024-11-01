@@ -2,7 +2,7 @@ import { Component, inject, Input, ViewContainerRef } from '@angular/core';
 import { ConfirmDeleteElementComponent } from '../../modals/confirm-delete-element.component';
 import { MatDialog } from '@angular/material/dialog';
 import { FormGroup } from '@angular/forms';
-import { FlowControl, FlowControlType } from '@app/model/convs-mgr/stories/flows';
+import { FlowControl, FlowControlType, FlowDropDownInput } from '@app/model/convs-mgr/stories/flows';
 
 @Component({
   selector: 'lib-flow-dropdown',
