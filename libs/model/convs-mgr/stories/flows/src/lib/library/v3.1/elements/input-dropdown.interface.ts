@@ -7,13 +7,23 @@ import { FlowPageLayoutElementTypesV31, FlowPageLayoutElementV31 } from "./flow-
  */
 export interface FlowDropDownInput extends FlowPageLayoutElementV31
 {
-  /** The input variable name */
-//   name: string;
-
-  /** The label to show on the input. Max 20 characters */
-  label: string;
-
-  required: boolean;
 
   type: FlowPageLayoutElementTypesV31.OUTLINE_OPTIONS;
+
+  label: string;
+
+  "data-source": string[];
+  
+  required?: boolean;
+  
+  enabled?: boolean;
+  
+  visible?: boolean;
+
+  "on-select-action"?: string;
+
+  "init-value"?: string;
+
+  "error-message"?: string;
+
 }
