@@ -6,23 +6,29 @@ form {
 }
 
 .wrapper{
-    width: 98%;
-    padding: 1rem 0;
-    border-radius: 0.625rem;
-    background-color: var(--convs-mgr-color-F6F6F6);
+  display: flex;
+  padding: 1rem 0;
+  border-radius: 0.625rem;
+  background-color: var(--convs-mgr-color-F6F6F6);
 }
 
+.mat-button-holder {
+  cursor: pointer;
+  text-align: right;
+  margin-right: 0.8rem;
+  order: 1;
+}
 .input-holder {
     padding: 0 0 0 0.5rem;
     border-radius: 0.625rem;
-    width: 93%;
+    width: 98%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: var(--convs-mgr-color-F6F6F6);
     
     .input-holder-top {
-      width: 100%;
+      width: 95%;
       display: flex;
       flex-direction: column;
       background-color: var(--convs-mgr-color-tertiary);
@@ -30,15 +36,15 @@ form {
       padding: 0 0.5rem 0.5rem 0;
 
       input{
-          border-radius: 0.625rem 0.625rem 0 0;
-          border: none;
-          height: 48px;
-          background-color: var(--convs-mgr-color-tertiary);
-          padding: 0 0 0 1rem;
+        border-radius: 0.625rem 0.625rem 0 0;
+        border: none;
+        height: 48px;
+        background-color: var(--convs-mgr-color-tertiary);
+        padding: 0 0 0 1rem;
   
-          &:focus {
+        &:focus {
           outline: none;
-          }
+        }
       }
 
       span {
@@ -56,9 +62,7 @@ form {
 }
 
 .required {
-  width: 93%;
   text-align: end;
-  padding-right: 0.8rem;
   margin-top: 2rem;
 
   span {
