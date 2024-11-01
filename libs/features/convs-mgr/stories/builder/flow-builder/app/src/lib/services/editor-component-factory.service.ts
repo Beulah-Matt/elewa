@@ -10,6 +10,7 @@ import { FlowCheckboxOptionsComponent } from '../components/flow-checkbox-option
 import { ImageTypeInputComponent } from '../components/image-type-input/image-type-input.component';
 import { TextAreaInputComponent } from '../components/text-area-input/text-area-input.component';
 import { FlowOptInComponent } from '../components/flow-opt-in/flow-opt-in.component';
+import { FlowDropdownComponent } from '../components/flow-dropdown/flow-dropdown.component';
 
 
 @Injectable({
@@ -34,6 +35,10 @@ export class EditorComponentFactory {
         }
         case FlowControlType.OptIn: {  
             componentType = FlowOptInComponent;
+            break;
+        }
+        case FlowControlType.Dropdown: {  
+            componentType = FlowDropdownComponent;
             break;
         }
         case FlowControlType.TextArea:{

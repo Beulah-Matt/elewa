@@ -39,6 +39,7 @@ import { ImageTypeInputComponent } from './components/image-type-input/image-typ
 import { FlowScreenSettingsComponent } from './components/flow-screen-settings/flow-screen-settings.component';
 import { ConfirmDeleteElementComponent } from './modals/confirm-delete-element.component';
 import { FlowOptInComponent } from './components/flow-opt-in/flow-opt-in.component';
+import { FlowDropdownComponent } from './components/flow-dropdown/flow-dropdown.component';
 
 @NgModule({
   imports: [
@@ -81,6 +82,7 @@ import { FlowOptInComponent } from './components/flow-opt-in/flow-opt-in.compone
     ImageTypeInputComponent,
     ConfirmDeleteElementComponent,
     FlowOptInComponent,
+    FlowDropdownComponent,
   ],
   providers: [WhatsappFlowsStore],
 })

@@ -1,0 +1,45 @@
+<div class="inputDesc flexDiv">
+  <div class="mat-button-holder">
+    <span class="mat-button" mat-button [matMenuTriggerFor]="menu">
+      <i class="fa-solid fa-ellipsis-vertical menu-tooltip"></i>
+    </span>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="deleteElement()">{{ 'BOTS.CREATE-MODAL.FIELDS.DELETE' | transloco }}</button>
+    </mat-menu>
+  </div>
+  <form class="groupForm">
+    <div class="configs">
+      <div class="inputConfigs label-holder">
+        <input type="text" id="label" formControlName="label" (keyup)="onInputChange($event)">
+        <span>{{charCounts.label}}/{{maxChars.label}}</span>
+      </div>
+      
+      <div formArrayName="options" class="optionsArray">
+        <div>{{ 'WHATSAPP-FLOWS.CONFIGURATIONS.LABELS.OPTIONS' | transloco }}</div>
+        <!-- <div *ngFor="let option of options.controls; let i = index" [formGroupName]="i" class="inputConfigs option"> -->
+          <div class="input-holder">
+            <input type="text" formControlName="label" placeholder="Option label">
+            <span>0/{{maxChars.option}}</span> 
+          </div>
+          <!-- <button type="button" (click)="removeOption(i)"><i class="fas fa-trash-alt delete-tooltip"></i></button> -->
+        <!-- </div> -->
+        <div class="addoptions">
+          <!-- <span (click)="addOption()">{{"WHATSAPP-FLOWS.CONFIGURATIONS.LABELS.ADD-OPTION" | transloco}} </span> -->
+        </div>
+      </div>
+      <div class="inputConfigs required">
+        <mat-slide-toggle id="required" formControlName="required">
+          {{"WHATSAPP-FLOWS.CONFIGURATIONS.LABELS.REQUIRED" | transloco}}
+        </mat-slide-toggle>
+      </div>
+      <div class="saveBtn">
+        <!-- <button type="submit" (click)="saveRadioConfig()"> {{"WHATSAPP-FLOWS.CONFIGURATIONS.BUTTON-SAVE" | transloco}}  </button> -->
+      </div>
+    </div>
+
+    <!-- Dropdown preview -->
+    <div class="labelDiv">
+      
+    </div>
+  </form>
+</div>
