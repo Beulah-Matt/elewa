@@ -1,1 +1,31 @@
-<p>screen-settings</p>
+<div class="screen-settings-container">
+    <div class="header">
+        <span class="screen-title">{{ 'WHATSAPP-FLOWS.CONFIGURATIONS.LABELS.SCREEN-SETTINGS' | transloco}}</span>
+        <div (click)="closeScreenSettings()"><i class="fa-solid fa-x close" (click)="closeScreenSettings()"></i></div>
+    </div>
+
+    <div class="screen-name-holder">
+        <p class="screen-name">{{ 'WHATSAPP-FLOWS.CONFIGURATIONS.LABELS.SCREEN-NAME' | transloco}}</p>
+        <div class="input-holder">
+            <input type="text" name="" id="" maxlength="20" placeholder="Screen 1" (keyup)="onInputChange($event)">
+            <span>{{currentScreenChar}}/{{screenMaxChar}}</span>
+        </div>
+    </div>
+
+    <div class="terminal-holder">
+        <div class="terminal-holder-top">
+            <p class="terminal-label">{{ 'WHATSAPP-FLOWS.CONFIGURATIONS.LABELS.TERMINAL' | transloco}}</p>
+            <span class="terminal-desc">{{ 'WHATSAPP-FLOWS.CONFIGURATIONS.FLOW-ENDS-DESC' | transloco}}</span>
+        </div>
+        <input type="checkbox" name="" id="" [(ngModel)]="isChecked">
+    </div>
+
+    <div class="nav-holder">
+        <p>Nav</p>
+        <span>{{ 'WHATSAPP-FLOWS.CONFIGURATIONS.NAV-DESC' | transloco}}</span>
+        <select name="" id="" class="select" [disabled]="isChecked">
+            <option value="">Select next screen</option>
+        </select>
+    </div>
+
+</div>

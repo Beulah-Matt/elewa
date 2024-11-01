@@ -36,6 +36,7 @@ export class FlowEditorComponent implements OnInit, OnDestroy
   isEditing = false;
   isSideScreenOpen: boolean;
   inEditor = true;
+  showScreenSettings = true;
 
   constructor( private _flowBuilderState: FlowBuilderStateProvider,
                private editorComponentFactory: EditorComponentFactory,
@@ -66,6 +67,15 @@ export class FlowEditorComponent implements OnInit, OnDestroy
   editButton() {
     this.isEditing = true;
   }
+
+  openScreenSettings() {
+    this.showScreenSettings = true;
+  }
+
+  toggleScreenSettings() {
+    this.showScreenSettings = !this.showScreenSettings;
+  }
+  
 
   onInputChange(event: KeyboardEvent){
     const editBtn = event.target as HTMLInputElement;
