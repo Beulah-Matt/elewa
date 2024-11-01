@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject, Input, ViewContainerRef } from '@angular/core';
 import { ConfirmDeleteElementComponent } from '../../modals/confirm-delete-element.component';
 import { MatDialog } from '@angular/material/dialog';
+import { FormGroup } from '@angular/forms';
+import { FlowControl, FlowControlType } from '@app/model/convs-mgr/stories/flows';
 
 @Component({
   selector: 'lib-flow-dropdown',
@@ -8,6 +10,20 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrl: './flow-dropdown.component.scss',
 })
 export class FlowDropdownComponent {
+  @Input() elementForm: FormGroup;
+
+  type: FlowControlType;
+  flowControlType = FlowControlType;
+
+  control: FlowControl;
+  inputId = '';
+  textInputForm: FormGroup;
+
+  element: FlowDropDownInput;
+  showConfigs = true;
+
+  vrc = inject(ViewContainerRef)
+
   charCounts = {
     label: 0,
     option: 0,

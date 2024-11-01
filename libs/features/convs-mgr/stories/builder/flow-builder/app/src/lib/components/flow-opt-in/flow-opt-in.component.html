@@ -4,19 +4,19 @@
             <i class="fa-solid fa-ellipsis-vertical menu-tooltip"></i>
         </span>
         <mat-menu #menu="matMenu">
-            <button mat-menu-item>{{ 'BOTS.CREATE-MODAL.FIELDS.DELETE' | transloco }}</button>
+            <button mat-menu-item (click)="deleteElement()">{{ 'BOTS.CREATE-MODAL.FIELDS.DELETE' | transloco }}</button>
         </mat-menu>
     </div>
-    <form>
+    <form *ngIf="textInputForm && control" [formGroup]="textInputForm">
         <div class="input-holder">
             <div class="input-holder-top">
-                <input id="" type="text" class="header" formControlName="text" (keyup)="onInputChange($event)"/>
+                <input id="label" type="text" class="header" formControlName="label" (keyup)="onInputChange($event)"/>
                 <span>{{currentCharCount}}/{{maxOptChar}}</span>   
             </div> 
         </div>
 
         <div class="required">
-            <mat-slide-toggle>
+            <mat-slide-toggle id="required" formControlName="required">
                 {{ 'WHATSAPP-FLOWS.CONFIGURATIONS.REQUIRED' | transloco }}
             </mat-slide-toggle>
         </div>
