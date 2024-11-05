@@ -1,26 +1,31 @@
 import axios from 'axios';
-import * as fs from "fs/promises";
+import * as fsPromise from "fs/promises";
+import * as fs from "fs";
+import { tmpdir } from 'os';
 import * as path from 'path';
-import { FlowJSONV31, WFlow } from "@app/model/convs-mgr/stories/flows";
+import * as FormData from 'form-data';
+
 import { HandlerTools } from '@iote/cqrs';
 import { FunctionContext, FunctionHandler } from '@ngfi/functions';
-import { WhatsAppCommunicationChannel } from '@app/model/convs-mgr/conversations/admin/system';
 import { Query } from '@ngfi/firestore-qbuilder';
-import { tmpdir } from 'os';
 
+import { WhatsAppCommunicationChannel } from '@app/model/convs-mgr/conversations/admin/system';
+import { FlowJSONV31 } from "@app/model/convs-mgr/stories/flows";
 
 const GRAPH_API = process.env['GRAPH_API'];
 const API_VERSION: string = process.env['API_VERSION'] || 'v18.0';
 
-export class UpdateWhatsappFlowHandler extends FunctionHandler<{data: WFlow, orgId: string}, {success: boolean, validationErrors?: any[];}> {
+export class UpdateWhatsappFlowHandler extends FunctionHandler<{data: FlowJSONV31, orgId: string}, {success: boolean, validationErrors?: any[];}> {
   _tools: HandlerTools;
 
-  async execute(req: {data: WFlow, orgId: string}, context: FunctionContext, tools: HandlerTools): Promise<{success: boolean, validationErrors?: any[];}> 
+  async execute(req: {data: FlowJSONV31, orgId: string}, context: FunctionContext, tools: HandlerTools): Promise<{success: boolean, validationErrors?: any[];}> 
   {
     this._tools = tools;
 
     try {
-      const base_url= `${GRAPH_API}/${API_VERSION}/${req.data.flow.id}/assets`;
+      tools.Logger.log(()=> `🟤 Incoming payload: ${JSON.stringify(req)}`)
+
+      const base_url= `${GRAPH_API}/${API_VERSION}/${req.data.id}/assets`;
     
       const channel = await this._getChannel(req.orgId, tools);
       tools.Logger.log(()=> `🟤 This is the channel: ${channel}`)
@@ -33,7 +38,7 @@ export class UpdateWhatsappFlowHandler extends FunctionHandler<{data: WFlow, org
   
       const GRAPH_ACCESS_TOKEN = whatsappChannel.accessToken;
   
-      const jsonPath = await this.createJSON(req.data.flow);
+      const jsonPath = await this.createJSON(req.data);
   
       if(!jsonPath) {
         throw 'Error creating JSON file';
@@ -41,13 +46,16 @@ export class UpdateWhatsappFlowHandler extends FunctionHandler<{data: WFlow, org
   
       const formData = this._prepareData(jsonPath);
   
-      return axios.post(base_url, formData, {
+      const response = await axios.post(base_url, formData, {
         headers: {
-          'Authorization': `Bearer ${GRAPH_ACCESS_TOKEN}`
+          'Authorization': `Bearer ${GRAPH_ACCESS_TOKEN}`,
+          ...formData.getHeaders()
         }
       })
+
+      return response.data;
     } catch (error) {
-      this._tools.Logger.error(()=> `Error when updating flow :: ${error}`);
+      this._tools.Logger.error(()=> `Error when updating flow :: ${JSON.stringify(error.response.data)}`);
       return {success: false};
     }
   }
@@ -57,8 +65,15 @@ export class UpdateWhatsappFlowHandler extends FunctionHandler<{data: WFlow, org
     try {
       const tempFilePath = path.join(tmpdir(), ('flow.json'));
 
-      await fs.writeFile(tempFilePath, JSON.stringify(flowJson))
+      delete flowJson['id'];
+
+      await fsPromise.writeFile(tempFilePath, JSON.stringify(flowJson), 'utf8')
       this._tools.Logger.log(()=> `JSON saved: ${tempFilePath}`);
+
+      fsPromise.readFile(tempFilePath, 'utf8')
+        .then((data) => {
+          this._tools.Logger.log(()=> `JSON read: ${data}`);
+        })
       
       return tempFilePath;
     } catch (error) {
@@ -66,13 +81,12 @@ export class UpdateWhatsappFlowHandler extends FunctionHandler<{data: WFlow, org
     }
   }
 
-  private _prepareData(path: string): FormData{
+  private _prepareData(jsonPath: string): FormData{
     const formData = new FormData();
 
     formData.append('asset_type', 'FLOW_JSON');
     formData.append('name', 'flow.json');
-    formData.append('file', path);
-    formData.append('type', 'application/json');
+    formData.append('file', fs.createReadStream(jsonPath));
     
     return formData;
   }

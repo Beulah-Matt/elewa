@@ -4,7 +4,6 @@
 import { FlowJSONV31, FlowPageLayoutElementV31, FlowScreenV31 } from "@app/model/convs-mgr/stories/flows";
 
 import { FlowBuilderStateFrame } from "../model/flow-builder-state-frame.interface";
-import { getUUID } from "./get-uuid.util";
 
 /**
  * Build the FlowJSONV31 object
@@ -34,7 +33,7 @@ export function buildFlowJSON(state: FlowBuilderStateFrame, update: FlowPageLayo
 
 
   return {
-    id: getUUID(),
+    id: state.flow.flow.id || '',
     version: '3.1',
     screens: allScreens,
     data_api_version: '3.0',

@@ -47,14 +47,12 @@ export class WFlowService
     return this._activeOrg.get().pipe(
       switchMap((org)=> {
         const payload = {
-          data: flow,
+          data: flow.flow,
           orgId: org.id
         }
-        debugger
         return this._aff.httpsCallable('updateWhatsappFlow')(payload)
       }), 
       switchMap((resp)=> {
-        debugger
         if(resp.success) {
           // TODO: Display flow validation errors 
           return this.add(flow);
