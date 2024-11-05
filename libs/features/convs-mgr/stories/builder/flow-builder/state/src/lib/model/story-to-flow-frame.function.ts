@@ -1,6 +1,7 @@
 import { Story } from "@app/model/convs-mgr/stories/main";
 import { FlowBuilderStateFrame } from "./flow-builder-state-frame.interface";
 import { FlowScreenV31, FlowStory, WFlow } from "@app/model/convs-mgr/stories/flows";
+import { generateId } from "../utils/get-uuid.util";
 
 /**
  * Function to load in a new story
@@ -13,12 +14,12 @@ export function __StoryToFlowFrame(story: Story, flow?: WFlow): FlowBuilderState
 {
   return {
     story: story as FlowStory,
-    flow: flow ?? _initFrame(story)
+    flow: flow ?? _initFrame()
   };
 }
 
 /** Initialise the default story configuration */
-function _initFrame(story: Story): WFlow
+function _initFrame(): WFlow
 {
   return {
     flow: {
@@ -27,7 +28,7 @@ function _initFrame(story: Story): WFlow
       data_api_version: '3.0',
       routing_model: {
       },
-      screens: [_CreateScreen(story.id as string, 1)]
+      screens: [_CreateScreen(1)]
     },
     validation_errors: [],
     timestamp: new Date().getTime()
@@ -40,9 +41,9 @@ function _initFrame(story: Story): WFlow
  *              Screen 1. If it is the first screen pass 1.
  * @returns FlowScreenV31
  */
-export function _CreateScreen(storyId: string, n: number): FlowScreenV31 {
+export function _CreateScreen(n: number): FlowScreenV31 {
   return {
-    id: `${storyId}_${n}`,
+    id: `${generateId()}`,
     layout: {
       type: 'SingleColumnLayout',
       children: []

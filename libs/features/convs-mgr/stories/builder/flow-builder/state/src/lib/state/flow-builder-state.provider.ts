@@ -66,7 +66,7 @@ export class FlowBuilderStateProvider
       const activeScreen  = state.flow.flow.screens[screen];
 
       if(!activeScreen) {
-        const newScreen = _CreateScreen(state.story.id as string, activeScreen);
+        const newScreen = _CreateScreen(activeScreen);
 
         elements = newScreen.layout.children;
       } else {
@@ -86,7 +86,7 @@ export class FlowBuilderStateProvider
     const lastScreenIndex = screens.length - 1;
     const newScreenIndex = lastScreenIndex + 1;
 
-    const newScreen  = _CreateScreen(this.state.story.id as string, newScreenIndex + 1);
+    const newScreen  = _CreateScreen(newScreenIndex + 1);
 
     screens.push(newScreen);
 
