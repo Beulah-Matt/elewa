@@ -5,7 +5,7 @@ export interface FlowPageTextV31 extends FlowPageLayoutElementV31
   /** The text to show */
   text?: string;
 
-  size?: FlowPageTextSizesV31;
+  // size?: FlowPageTextSizesV31;
 }
 
 export enum FlowPageTextSizesV31 
