@@ -1,9 +1,7 @@
 import { Injectable } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 
-import { FlowControlType, FlowPageLayoutElementTypesV31, FlowPageTextSizesV31, FlowPageTextV31 } from "@app/model/convs-mgr/stories/flows";
-import { EditableTextElement} from "../models/fe-flow-text-element.model";
-
+import { FlowPageTextV31 } from "@app/model/convs-mgr/stories/flows";
 
 @Injectable({providedIn: 'root'})
 
