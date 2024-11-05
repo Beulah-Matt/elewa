@@ -3,16 +3,16 @@
       <div class="input-holder">
         @switch(type) {
           <!-- Heading. Blank value not accept. Max character 80 -->
-          @case (flowControlType.Header) {
+          @case (flowControlType.TextHeading) {
             <input id="{{inputId}}" type="text" class="header" maxlength="80" formControlName="text" (keyup)="onInputChange($event)"/>
           }
-          @case (flowControlType.LightHeader) {
+          @case (flowControlType.TextSubHeading) {
             <input id="{{inputId}}" type="text" class="light-header" maxlength="80" formControlName="text" (keyup)="onInputChange($event)"/>
           }
-          @case (flowControlType.Text){
+          @case (flowControlType.TextBody){
             <input id="{{inputId}}" type="text" class="text"  maxlength="4096" formControlName="text"/>
           }
-          @case (flowControlType.Caption) {
+          @case (flowControlType.TextCaption) {
             <input id="{{inputId}}" type="text" class="small-text" maxlength="4096" formControlName="text"/>
           }
           @default {

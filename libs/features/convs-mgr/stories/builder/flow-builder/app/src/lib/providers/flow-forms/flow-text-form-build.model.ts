@@ -11,7 +11,6 @@ import { FlowPageTextV31 } from "@app/model/convs-mgr/stories/flows";
 export function _CreateFlowTextForm(_fb: FormBuilder, blockData?: FlowPageTextV31): FormGroup {
   return _fb.group({
     text: [blockData?.text ?? ''],
-    type: [blockData?.type ?? ''],
-    size: [blockData?.size ?? '']
+    type: [blockData?.type ?? '']
   })
 }

@@ -8,7 +8,7 @@ import { FlowPageLayoutElementTypesV31, FlowPageLayoutElementV31 } from "./flow-
 export interface FlowDropDownInput extends FlowPageLayoutElementV31
 {
 
-  type: FlowPageLayoutElementTypesV31.OUTLINE_OPTIONS;
+  type: FlowPageLayoutElementTypesV31.DROPDOWN;
 
   label: string;
 

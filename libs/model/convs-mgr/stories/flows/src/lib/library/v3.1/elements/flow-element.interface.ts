@@ -18,7 +18,7 @@ export interface FlowPageLayoutElementV31
  * 
  * Max number of elements per page is 50!
  */
-export enum     FlowPageLayoutElementTypesV31 
+export enum  FlowPageLayoutElementTypesV31 
 {
   //
   // Structural elements
@@ -33,7 +33,15 @@ export enum     FlowPageLayoutElementTypesV31
    * A text header 
    *  On text types, use the 'size' attribute to determine what to send to WhatsApp API
   */
-  TEXT = '__text__',
+  // TEXT = '__text__',
+
+  TextHeading = 'TextHeading',
+
+  TextSubHeading = 'TextSubHeading',
+
+  TextBody = 'TextBody',
+
+  TextCaption = 'TextCaption',
 
   /** Image */
   IMAGE= 'Image',
@@ -62,5 +70,5 @@ export enum     FlowPageLayoutElementTypesV31
   INLINE_RADIO_BUTTONS = 'RadioButtonsGroup',
 
   /** Single select options */
-  OUTLINE_OPTIONS = 'Dropdown'
+  DROPDOWN = 'Dropdown'
 }

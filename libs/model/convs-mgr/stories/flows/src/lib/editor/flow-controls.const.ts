@@ -4,22 +4,22 @@ import { FlowControl } from "./flow-control.interface";
 
 /** List of all flow controls (wrapped into a function to avoid direct editing of the list) */
 export const FLOW_CONTROLS: () => FlowControl[] = () => [
-  { id: '1',  group: 'FLOW-CATEGORY.TEXT-ELS', label:'Large heading',       controlType: FlowControlType.Header,       icon:'fa-solid fa-heading' },
-  { id: '2',  group: 'FLOW-CATEGORY.TEXT-ELS', label:'Small heading', controlType: FlowControlType.LightHeader,       icon:'fa-solid fa-bold' },
-  { id: '3',  group: 'FLOW-CATEGORY.TEXT-ELS', label:'Body',         controlType: FlowControlType.Text,     icon:'fa-solid fa-font' },
-  { id: '4',  group: 'FLOW-CATEGORY.TEXT-ELS', label:'Caption',   controlType: FlowControlType.Caption,  icon:'fa-solid fa-subscript' },
+  { id: '1',  group: 'FLOW-CATEGORY.TEXT-ELS', label:'Large heading',     controlType: FlowControlType.TextHeading,       icon:'fa-solid fa-heading' },
+  { id: '2',  group: 'FLOW-CATEGORY.TEXT-ELS', label:'Small heading', controlType: FlowControlType.TextSubHeading,       icon:'fa-solid fa-bold' },
+  { id: '3',  group: 'FLOW-CATEGORY.TEXT-ELS', label:'Body',         controlType: FlowControlType.TextBody,     icon:'fa-solid fa-font' },
+  { id: '4',  group: 'FLOW-CATEGORY.TEXT-ELS', label:'Caption',   controlType: FlowControlType.TextCaption,  icon:'fa-solid fa-subscript' },
 
-  { id: '5',  group: 'FLOW-CATEGORY.DESIGN-ELS', label:'Image',  controlType: FlowControlType.Image,  icon:'fa-regular fa-image' },
-  { id: '6',  group: 'FLOW-CATEGORY.DESIGN-ELS', label:'Link',   controlType: FlowControlType.Link,   icon:'fa-solid fa-link' },
-  { id: '7',  group: 'FLOW-CATEGORY.DESIGN-ELS', label:'Footer', controlType: FlowControlType.Footer, icon:'fa-solid fa-window-minimize' },
+  { id: '5',  group: 'FLOW-CATEGORY.DESIGN-ELS', label:'Image',  controlType: FlowControlType.IMAGE,  icon:'fa-regular fa-image' },
+  { id: '6',  group: 'FLOW-CATEGORY.DESIGN-ELS', label:'Link',   controlType: FlowControlType.LINK,   icon:'fa-solid fa-link' },
+  { id: '7',  group: 'FLOW-CATEGORY.DESIGN-ELS', label:'Footer', controlType: FlowControlType.FOOTER, icon:'fa-solid fa-window-minimize' },
 
-  { id: '8',  group: 'FLOW-CATEGORY.INPUT-ELS', label:'Short answer', controlType: FlowControlType.TextInput,  icon:'fa-solid fa-font' },
-  { id: '9',  group: 'FLOW-CATEGORY.INPUT-ELS', label:'Long answer',        controlType: FlowControlType.TextArea,   icon:'fa-solid fa-pen-fancy' },
-  { id: '10', group: 'FLOW-CATEGORY.INPUT-ELS', label:'Multiple choice',   controlType:  FlowControlType.Select,   icon:'fa-solid fa-list-check' },
-  { id: '12', group: 'FLOW-CATEGORY.INPUT-ELS', label:'Single choice',    controlType: FlowControlType.Radio,      icon:'fa-solid fa-circle-dot' },
-  { id: '13', group: 'FLOW-CATEGORY.INPUT-ELS', label:'Opt in',           controlType: FlowControlType.OptIn,      icon:'fa-solid fa-square-check' },
-  { id: '14', group: 'FLOW-CATEGORY.INPUT-ELS', label:'Date picker',      controlType: FlowControlType.Datepick,   icon:'fa-solid fa-calendar-days' },
-  { id: '14', group: 'FLOW-CATEGORY.INPUT-ELS', label:'Dropdown',      controlType: FlowControlType.Dropdown,   icon:'fa-solid fa-list' },
+  { id: '8',  group: 'FLOW-CATEGORY.INPUT-ELS', label:'Short answer', controlType: FlowControlType.TEXT_INPUT,  icon:'fa-solid fa-font' },
+  { id: '9',  group: 'FLOW-CATEGORY.INPUT-ELS', label:'Long answer',        controlType: FlowControlType.TEXT_AREA_INPUT,   icon:'fa-solid fa-pen-fancy' },
+  { id: '10', group: 'FLOW-CATEGORY.INPUT-ELS', label:'Multiple choice',   controlType:  FlowControlType.INLINE_CHECKBOX_INPUT,   icon:'fa-solid fa-list-check' },
+  { id: '12', group: 'FLOW-CATEGORY.INPUT-ELS', label:'Single choice',    controlType: FlowControlType.INLINE_RADIO_BUTTONS,      icon:'fa-solid fa-circle-dot' },
+  { id: '13', group: 'FLOW-CATEGORY.INPUT-ELS', label:'Opt in',           controlType: FlowControlType.OPT_IN,      icon:'fa-solid fa-square-check' },
+  { id: '14', group: 'FLOW-CATEGORY.INPUT-ELS', label:'Date picker',      controlType: FlowControlType.DATE_PICKER_INPUT,   icon:'fa-solid fa-calendar-days' },
+  { id: '14', group: 'FLOW-CATEGORY.INPUT-ELS', label:'Dropdown',      controlType: FlowControlType.DROPDOWN,   icon:'fa-solid fa-list' },
 ]
 
 /**

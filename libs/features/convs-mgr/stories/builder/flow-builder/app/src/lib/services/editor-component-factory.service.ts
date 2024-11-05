@@ -21,35 +21,35 @@ export class EditorComponentFactory {
   createEditorComponent(flowControl: FlowControl, vcr: ViewContainerRef): any {
     let componentType: Type<any>;
 
-    switch (flowControl.controlType) {
-        case FlowControlType.Header:
-        case FlowControlType.LightHeader:
-        case FlowControlType.Caption:
-        case FlowControlType.Text: {
+    switch (flowControl.type as unknown as FlowControlType) {
+        case FlowControlType.TextHeading:
+        case FlowControlType.TextSubHeading:
+        case FlowControlType.TextCaption:
+        case FlowControlType.TextBody: {
             componentType = FlowTypeTextComponent;
             break;
         }
-        case FlowControlType.Image: {
+        case FlowControlType.IMAGE: {
             componentType = ImageTypeInputComponent;
             break;
         }
-        case FlowControlType.OptIn: {  
+        case FlowControlType.OPT_IN: {  
             componentType = FlowOptInComponent;
             break;
         }
-        case FlowControlType.Dropdown: {  
+        case FlowControlType.DROPDOWN: {  
             componentType = FlowDropdownComponent;
             break;
         }
-        case FlowControlType.TextArea:{
+        case FlowControlType.TEXT_AREA_INPUT:{
           componentType = TextAreaInputComponent;
             break;
         }
-        case FlowControlType.Datepick: {
+        case FlowControlType.DATE_PICKER_INPUT: {
           componentType = FlowDatepickInputComponent;
             break;
         }
-        case FlowControlType.TextInput:
+        case FlowControlType.TEXT_INPUT:
           {
             componentType = FlowTypeInputComponent;
             break;
@@ -58,11 +58,11 @@ export class EditorComponentFactory {
         //   componentType = FlowTypeLinkComponent;
         //   break;
         // }
-        case FlowControlType.Radio: {
+        case FlowControlType.INLINE_RADIO_BUTTONS: {
           componentType = FlowButtonGroupComponent;
           break;
         }
-        case FlowControlType.Select: {
+        case FlowControlType.INLINE_CHECKBOX_INPUT: {
           componentType = FlowCheckboxOptionsComponent
           break;
         }

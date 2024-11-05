@@ -1,8 +1,6 @@
 import { DataSource } from "@angular/cdk/collections";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { FlowDropDownInput } from "@app/model/convs-mgr/stories/flows";
-import {FlowPageLayoutElementTypesV31} from "@app/model/convs-mgr/stories/flows";
-
+import { FlowControlType, FlowDropDownInput } from "@app/model/convs-mgr/stories/flows";
 /**
  * 
  * @param _fb instance of formbuilder that creates formgroups controls etc
@@ -11,7 +9,7 @@ import {FlowPageLayoutElementTypesV31} from "@app/model/convs-mgr/stories/flows"
  */
 export function _CreateDropDownInputForm(_fb: FormBuilder, blockData?: FlowDropDownInput): FormGroup {
   return _fb.group({
-    type: FlowPageLayoutElementTypesV31.OUTLINE_OPTIONS,
+    type: FlowControlType.DROPDOWN,
     label: [blockData?.label ?? "", Validators.required],
     "data-source": [blockData?.["data-source"] ?? [], Validators.required],
     required: [blockData?.required ?? false],

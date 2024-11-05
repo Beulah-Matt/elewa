@@ -8,7 +8,6 @@ import { WhatsappFlowsStore } from '@app/state/convs-mgr/wflows';
 import { ChangeTrackerService } from '@app/features/convs-mgr/stories/builder/flow-builder/state';
 
 import { TextElementFormService } from '../../services/text-elements-form.service';
-import { EditableTextElement } from '../../models/fe-flow-text-element.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDeleteElementComponent } from '../../modals/confirm-delete-element.component';
 
@@ -33,10 +32,10 @@ export class FlowTypeTextComponent implements OnInit {
 
   currentCharCount = 0;
   readonly charLimits: { [key in FlowControlType]?: number } = {
-    [FlowControlType.Header]: 80,
-    [FlowControlType.LightHeader]: 80,
-    [FlowControlType.Text]: 4096,
-    [FlowControlType.Caption]: 409
+    [FlowControlType.TextHeading]: 80,
+    [FlowControlType.TextSubHeading]: 80,
+    [FlowControlType.TextBody]: 4096,
+    [FlowControlType.TextCaption]: 409
   };
   
   textInputForm: FormGroup;
@@ -51,7 +50,7 @@ export class FlowTypeTextComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.inputId = `input-${this.control.controlType}`;
+    this.inputId = `input-${this.control.type}`;
     this.textInputForm = this.elementForm;
     
     this.currentCharCount = this.textInputForm.get('text')?.value.length;
@@ -79,13 +78,11 @@ export class FlowTypeTextComponent implements OnInit {
     this._dialog.open(ConfirmDeleteElementComponent)
   }
   buildV31Element(value: string) {
-    const formValue = {
-      text: value,
-      size: this.control.controlType,
-      type: FlowPageLayoutElementTypesV31.TEXT,
-    } as EditableTextElement;
 
-    const textElement = this.textFormService.transformElement(formValue);
+    const textElement = {
+      text: value,
+      type: this.type as unknown as FlowPageLayoutElementTypesV31
+    };
 
     this.trackerService.updateValue(textElement).subscribe((_res: any) =>{
       console.log(_res)
