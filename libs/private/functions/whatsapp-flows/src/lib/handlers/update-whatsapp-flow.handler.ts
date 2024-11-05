@@ -69,11 +69,6 @@ export class UpdateWhatsappFlowHandler extends FunctionHandler<{data: FlowJSONV3
 
       await fsPromise.writeFile(tempFilePath, JSON.stringify(flowJson), 'utf8')
       this._tools.Logger.log(()=> `JSON saved: ${tempFilePath}`);
-
-      fsPromise.readFile(tempFilePath, 'utf8')
-        .then((data) => {
-          this._tools.Logger.log(()=> `JSON read: ${data}`);
-        })
       
       return tempFilePath;
     } catch (error) {
