@@ -9,7 +9,7 @@
 export interface FlowPageLayoutElementV31 
 { 
   /** Type of the layout element */
-  type?: FlowPageLayoutElementTypesV31;
+  type: FlowPageLayoutElementTypesV31;
 
 }
 
@@ -72,3 +72,18 @@ export enum  FlowPageLayoutElementTypesV31
   /** Single select options */
   DROPDOWN = 'Dropdown'
 }
+
+export const isInputElement = (type: FlowPageLayoutElementTypesV31) => {
+  switch (type) {
+    case FlowPageLayoutElementTypesV31.OPT_IN:
+    case FlowPageLayoutElementTypesV31.TEXT_INPUT:
+    case FlowPageLayoutElementTypesV31.TEXT_AREA_INPUT:
+    case FlowPageLayoutElementTypesV31.DATE_PICKER_INPUT:
+    case FlowPageLayoutElementTypesV31.INLINE_CHECKBOX_INPUT:
+    case FlowPageLayoutElementTypesV31.INLINE_RADIO_BUTTONS:
+    case FlowPageLayoutElementTypesV31.DROPDOWN:
+      return true;
+    default:
+      return false;
+  } 
+} 

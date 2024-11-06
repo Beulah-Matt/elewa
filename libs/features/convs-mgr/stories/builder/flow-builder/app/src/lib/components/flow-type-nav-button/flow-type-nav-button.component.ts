@@ -83,6 +83,7 @@ export class FlowTypeNavButtonComponent implements OnInit, OnDestroy {
       type: this.type as unknown as FlowPageLayoutElementTypesV31,
       "on-click-action": {
         name: this.buttonAction,
+        // The payload is configured when we build the JSON, as it depends on the input elements
         payload: {}
       }
     };

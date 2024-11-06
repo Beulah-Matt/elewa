@@ -1,7 +1,4 @@
-
-
-
-import { FlowJSONV31, FlowPageLayoutElementV31, FlowScreenV31 } from "@app/model/convs-mgr/stories/flows";
+import { FlowJSONV31, FlowPageFooterV31, FlowPageLayoutElementTypesV31, FlowPageLayoutElementV31, FlowScreenV31, FlowTextInput, isInputElement } from "@app/model/convs-mgr/stories/flows";
 
 import { FlowBuilderStateFrame } from "../model/flow-builder-state-frame.interface";
 
@@ -27,6 +24,28 @@ export function buildFlowJSON(state: FlowBuilderStateFrame, update: FlowPageLayo
       existingElements = [update];
     }
 
+    // If it is an update to the input element, we add it to the payload to save 
+    //  while navigating between screens
+    if (isInputElement(update.type)) {
+      const inputElement = update as FlowTextInput;
+      inputElement.name = inputElement.name || _generateName(inputElement.label);
+    
+      _updateFooterButtonPayload(existingElements, inputElement);
+    
+      // If the current screen is not the last one, update the last screen's footer button
+      if (screenIndex !== allScreens.length - 1) {
+        const lastScreen = allScreens[allScreens.length - 1];
+        _updateFooterButtonPayload(lastScreen.layout.children, inputElement);
+    
+        // Update the payload to use 'data' instead of 'form'
+        const lastScreenFooterIndex = lastScreen.layout.children.findIndex(element => element.type === FlowPageLayoutElementTypesV31.FOOTER);
+        if (lastScreenFooterIndex !== -1) {
+          const lastScreenFooterButton = lastScreen.layout.children[lastScreenFooterIndex] as FlowPageFooterV31;
+          lastScreenFooterButton["on-click-action"].payload[inputElement.name] = `\${data.${inputElement.name}}`;
+        }
+      }
+    }
+
     screen.layout.children = existingElements;
     allScreens[screenIndex] = screen;
   }
@@ -40,6 +59,25 @@ export function buildFlowJSON(state: FlowBuilderStateFrame, update: FlowPageLayo
     routing_model: buildRoutingModel(allScreens),
   };
 }
+
+function _updateFooterButtonPayload(elements: FlowPageLayoutElementV31[], inputElement: FlowTextInput) {
+  const footerIndex = elements.findIndex(element => element.type === FlowPageLayoutElementTypesV31.FOOTER);
+  if (footerIndex === -1) return;
+
+  const footerButton = elements[footerIndex] as FlowPageFooterV31;
+  footerButton["on-click-action"].payload = {
+    ...footerButton["on-click-action"].payload,
+    [inputElement.name]: `\${form.${inputElement.name}}`
+  };
+
+  elements[footerIndex] = footerButton;
+}
+
+/** Function to tranform test to lowercase, and replace all spaces with underscore */
+function _generateName(label: string) {
+  return label.toLowerCase().replace(/\s/g, '_');
+} 
+
 
   /**
    * Build routing model for screen navigation
