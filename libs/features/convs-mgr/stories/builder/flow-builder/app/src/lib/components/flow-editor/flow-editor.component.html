@@ -24,7 +24,7 @@
             {
               <app-flow-library-item [control]="item" (click)="createField(item, $index)" [inEditor]="inEditor" cdkDrag>  </app-flow-library-item>
             }
-            <button (click)="editButton()">{{ 'BOTS.BUTTON' | transloco}}</button>  
+            <button>{{ 'BOTS.BUTTON' | transloco}}</button>  
           </ng-container>
 
           <ng-template #noDroppedItems>
@@ -51,10 +51,7 @@
       </mat-menu>
 
       <ng-container #vcr> </ng-container>
-      <div class="edit-btn" *ngIf="isEditing">
-        <input placeholder="Button" (keyup)="onInputChange($event)"/>
-        <span>{{currentCharCount}}/{{btnMaxChar}}</span>
-      </div>
+      <app-flow-type-nav-button> </app-flow-type-nav-button>
     </div>
     
 

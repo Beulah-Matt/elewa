@@ -1,6 +1,6 @@
 import { FormBuilder } from "@angular/forms";
 
-import { FlowControl, FlowControlType, FlowDatepickerInputV31, FlowDropDownInput, FlowPageLayoutElementV31, FlowTextAreaInput, FlowTextInput, InputOptInV31 } from "@app/model/convs-mgr/stories/flows";
+import { FlowControl, FlowControlType, FlowDatepickerInputV31, FlowDropDownInput, FlowPageFooterV31, FlowPageLayoutElementV31, FlowTextAreaInput, FlowTextInput, InputOptInV31 } from "@app/model/convs-mgr/stories/flows";
 
 import { _CreateFlowTextForm } from "./flow-forms/flow-text-form-build.model";
 import { _CreateFlowTextAreaInputForm } from './flow-forms/flow-text-area-form-build.model'
@@ -8,6 +8,7 @@ import { _CreateFlowDatePickerInputForm} from './flow-forms/flow-date-input-buil
 import { _CreateFlowTextInputForm } from "./flow-forms/flow-text-input-form-build.model";
 import { _CreateFlowOptInInputForm } from "./flow-forms/flow-opt-in-form-build.model";
 import { _CreateDropDownInputForm } from "./flow-forms/flow-dropdown-build.model";
+import { _CreateFlowNavButtonForm } from "./flow-forms/flow-nav-button-form-build.model";
 
 export function _GetFlowComponentForm(_fb: FormBuilder, componentData?: FlowPageLayoutElementV31) {
   const componentDataType = componentData as FlowControl;
@@ -34,6 +35,8 @@ export function _GetFlowComponentForm(_fb: FormBuilder, componentData?: FlowPage
       case FlowControlType.OPT_IN:
         return _CreateFlowOptInInputForm(_fb, componentData as InputOptInV31);
 
+      case FlowControlType.FOOTER:
+        return _CreateFlowNavButtonForm(_fb, componentData as FlowPageFooterV31);
     }
   }
   // Default return null

@@ -40,6 +40,7 @@ import { FlowScreenSettingsComponent } from './components/flow-screen-settings/f
 import { ConfirmDeleteElementComponent } from './modals/confirm-delete-element.component';
 import { FlowOptInComponent } from './components/flow-opt-in/flow-opt-in.component';
 import { FlowDropdownComponent } from './components/flow-dropdown/flow-dropdown.component';
+import { FlowTypeNavButtonComponent } from './components/flow-type-nav-button/flow-type-nav-button.component';
 
 import { SafePipe } from './pipes/safe.pipe';
 
@@ -88,6 +89,8 @@ import { SafePipe } from './pipes/safe.pipe';
     ConfirmDeleteElementComponent,
     FlowOptInComponent,
     FlowDropdownComponent,
+
+    FlowTypeNavButtonComponent
   ],
   providers: [WhatsappFlowsStore],
 })

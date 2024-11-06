@@ -1,0 +1,10 @@
+<div class="wrapper" *ngIf="control && elementForm">
+  <form [formGroup]="elementForm">
+    <div class="edit-btn">
+      <input placeholder="Button" (keyup)="onInputChange($event)"/>
+      <span>{{currentCharCount}}/{{btnMaxChar}}</span>
+    </div>
+  </form>
+</div>
+
+

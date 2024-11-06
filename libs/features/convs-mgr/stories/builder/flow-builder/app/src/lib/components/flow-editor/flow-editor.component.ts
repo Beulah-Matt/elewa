@@ -63,11 +63,7 @@ export class FlowEditorComponent implements OnInit, OnDestroy
       elements.forEach((item) => this.createInputForm(item));
     })
   }
-
-  editButton() {
-    this.isEditing = true;
-  }
-
+  
   openScreenSettings() {
     this.showScreenSettings = true;
   }
@@ -77,15 +73,6 @@ export class FlowEditorComponent implements OnInit, OnDestroy
   }
   
 
-  onInputChange(event: KeyboardEvent){
-    const editBtn = event.target as HTMLInputElement;
-    this.currentCharCount = editBtn.value.length;
-
-    if(this.currentCharCount >= this.btnMaxChar){
-      editBtn.value = editBtn.value.slice(0, this.btnMaxChar);
-      this.currentCharCount = this.btnMaxChar;
-    }
-  }
 
   toggleSidenav(){
     this.sideScreen.toggleSideScreen(!this.isSideScreenOpen);
