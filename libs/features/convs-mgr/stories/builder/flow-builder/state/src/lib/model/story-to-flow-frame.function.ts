@@ -1,6 +1,6 @@
 import { Story } from "@app/model/convs-mgr/stories/main";
 import { FlowBuilderStateFrame } from "./flow-builder-state-frame.interface";
-import { FlowScreenV31, FlowStory, WFlow } from "@app/model/convs-mgr/stories/flows";
+import { FlowpageForm, FlowPageLayoutElementTypesV31, FlowScreenV31, FlowStory, WFlow } from "@app/model/convs-mgr/stories/flows";
 import { generateId } from "../utils/get-uuid.util";
 
 /**
@@ -46,10 +46,16 @@ export function _CreateScreen(n: number): FlowScreenV31 {
     id: `${generateId()}`,
     layout: {
       type: 'SingleColumnLayout',
-      children: []
+      children: [flowForm]
     },
     data: { },
     title: `SCREEN ${n}`,
     terminal: true
   };
 }
+
+const flowForm =  {
+  type: FlowPageLayoutElementTypesV31.FORM,
+  name: "form",
+  children: []
+} as FlowpageForm;

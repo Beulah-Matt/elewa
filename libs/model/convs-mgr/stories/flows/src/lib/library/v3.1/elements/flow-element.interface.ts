@@ -11,6 +11,11 @@ export interface FlowPageLayoutElementV31
   /** Type of the layout element */
   type: FlowPageLayoutElementTypesV31;
 
+  /**
+   * Represents an array of components from the WhatsApp Flows Library.
+   */
+  children: FlowPageLayoutElementV31[];
+
 }
 
 /**

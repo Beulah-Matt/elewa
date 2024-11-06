@@ -114,6 +114,11 @@ export interface FlowPageLayoutV31
 
   /**
    * Represents an array of components from the WhatsApp Flows Library.
+   * 
+   * This outer children array represents the form in which the elements will be placed in. The form
+   *  is a collection of elements used to capture user data.
+   * 
+   * For now we only support one form.
    */
   children: FlowPageLayoutElementV31[];
 }
