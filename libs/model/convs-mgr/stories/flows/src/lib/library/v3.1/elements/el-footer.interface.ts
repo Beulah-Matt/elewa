@@ -6,7 +6,7 @@ import { FlowPageLayoutElementTypesV31, FlowPageLayoutElementV31 } from "./flow-
  * 
  * @see https://developers.facebook.com/docs/whatsapp/flows/reference/flowjson/components#foot
  */
-export interface FlowPageFooterV31<T> extends FlowPageLayoutElementV31
+export interface FlowPageFooterV31 extends FlowPageLayoutElementV31
 {
   /** The label to show on the footer button. Max 35 chars */
   label: string;
