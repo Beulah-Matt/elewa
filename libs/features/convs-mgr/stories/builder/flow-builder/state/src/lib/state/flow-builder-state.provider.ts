@@ -68,9 +68,9 @@ export class FlowBuilderStateProvider
       if(!activeScreen) {
         const newScreen = _CreateScreen(activeScreen);
 
-        elements = newScreen.layout.children[0].children;
+        elements = newScreen.layout.children[0].children as FlowPageLayoutElementV31[];
       } else {
-        elements  = activeScreen.layout.children[0].children;
+        elements  = activeScreen.layout.children[0].children as FlowPageLayoutElementV31[];
       }
 
       const controls = elements.map((e)=>  _MapToFlowControl(e))
