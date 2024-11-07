@@ -71,10 +71,11 @@ export class ChangeTrackerService {
       name: `Flow_${Date.now()}`,
       validation_errors: [],
       timestamp: new Date().getTime(),
-      id: getUUID()
+      id: getUUID(),
+      orgId: state.story.orgId
     };
     
-    return wflow
+    return wflow;
   }
 
   /**

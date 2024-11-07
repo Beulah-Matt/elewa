@@ -42,7 +42,7 @@ export enum  FlowPageLayoutElementTypesV31
 
   TextHeading = 'TextHeading',
 
-  TextSubHeading = 'TextSubHeading',
+  TextSubHeading = 'TextSubheading',
 
   TextBody = 'TextBody',
 

@@ -17,7 +17,7 @@ export enum FlowControlType
 
   TextHeading = 'TextHeading',
 
-  TextSubHeading = 'TextSubHeading',
+  TextSubHeading = 'TextSubheading',
 
   TextBody = 'TextBody',
 

@@ -57,10 +57,10 @@ export function _CreateScreen(n: number): FlowScreenV31 {
 
 /** Initialize footer for a new screen */
 const footer = {
-  label: 'Continue',
+  label: 'Complete',
   type: FlowPageLayoutElementTypesV31.FOOTER,
   "on-click-action": {
-    name: 'navigate',
+    name: 'complete',
     // The payload is configured when we build the JSON, as it depends on the input elements
     payload: {}
   }

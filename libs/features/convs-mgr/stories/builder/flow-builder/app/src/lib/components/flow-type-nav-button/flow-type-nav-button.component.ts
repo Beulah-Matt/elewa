@@ -23,7 +23,7 @@ export class FlowTypeNavButtonComponent implements OnInit, OnDestroy {
 
   inputId = '';
 
-  buttonAction: 'navigate' | 'complete' = 'navigate';
+  buttonAction: 'navigate' | 'complete' = 'complete';
 
   currentCharCount = 0;
   readonly btnMaxChar = 30;
@@ -66,7 +66,8 @@ export class FlowTypeNavButtonComponent implements OnInit, OnDestroy {
       // Check if the current screen is the last screen, screen is the index of the screen
       const isLastScreen = screen === screens.length - 1;
 
-      if(isLastScreen) this.buttonAction = 'complete';
+      // TODO:: Add navigation to next screen
+      if(!isLastScreen) this.buttonAction = 'navigate';
     })
   }
 

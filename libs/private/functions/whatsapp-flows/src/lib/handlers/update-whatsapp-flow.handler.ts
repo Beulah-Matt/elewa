@@ -54,10 +54,12 @@ export class UpdateWhatsappFlowHandler extends FunctionHandler<WFlow, {success: 
           ...formData.getHeaders()
         }
       })
+      
+      this._tools.Logger.log(()=> `Request successful :: ${JSON.stringify(response.data)}`);
 
       return response.data;
     } catch (error) {
-      this._tools.Logger.error(()=> `Error when updating flow :: ${JSON.stringify(error.response.data)}`);
+      this._tools.Logger.error(()=> `Error when updating flow :: ${JSON.stringify(error.response ? error.response.data : error)}`);
       return {success: false};
     }
   }
