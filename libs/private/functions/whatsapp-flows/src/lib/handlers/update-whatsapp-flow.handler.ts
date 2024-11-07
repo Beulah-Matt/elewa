@@ -10,22 +10,24 @@ import { FunctionContext, FunctionHandler } from '@ngfi/functions';
 import { Query } from '@ngfi/firestore-qbuilder';
 
 import { WhatsAppCommunicationChannel } from '@app/model/convs-mgr/conversations/admin/system';
-import { FlowJSONV31 } from "@app/model/convs-mgr/stories/flows";
+import { FlowJSONV31, WFlow } from "@app/model/convs-mgr/stories/flows";
 
 const GRAPH_API = process.env['GRAPH_API'];
 const API_VERSION: string = process.env['API_VERSION'] || 'v18.0';
 
-export class UpdateWhatsappFlowHandler extends FunctionHandler<{data: FlowJSONV31, orgId: string}, {success: boolean, validationErrors?: any[];}> {
+export class UpdateWhatsappFlowHandler extends FunctionHandler<WFlow, {success: boolean, validationErrors?: any[];}> {
   _tools: HandlerTools;
 
-  async execute(req: {data: FlowJSONV31, orgId: string}, context: FunctionContext, tools: HandlerTools): Promise<{success: boolean, validationErrors?: any[];}> 
+  async execute(req: WFlow, context: FunctionContext, tools: HandlerTools): Promise<{success: boolean, validationErrors?: any[];}> 
   {
     this._tools = tools;
+
+    const FLOW_JSON = req.flow;
 
     try {
       tools.Logger.log(()=> `🟤 Incoming payload: ${JSON.stringify(req)}`)
 
-      const base_url= `${GRAPH_API}/${API_VERSION}/${req.data.id}/assets`;
+      const base_url= `${GRAPH_API}/${API_VERSION}/${FLOW_JSON.id}/assets`;
     
       const channel = await this._getChannel(req.orgId, tools);
       tools.Logger.log(()=> `🟤 This is the channel: ${channel}`)
@@ -38,7 +40,7 @@ export class UpdateWhatsappFlowHandler extends FunctionHandler<{data: FlowJSONV3
   
       const GRAPH_ACCESS_TOKEN = whatsappChannel.accessToken;
   
-      const jsonPath = await this.createJSON(req.data);
+      const jsonPath = await this.createJSONFile(FLOW_JSON);
   
       if(!jsonPath) {
         throw 'Error creating JSON file';
@@ -60,7 +62,7 @@ export class UpdateWhatsappFlowHandler extends FunctionHandler<{data: FlowJSONV3
     }
   }
 
-  async createJSON(flowJson: FlowJSONV31) {
+  async createJSONFile(flowJson: FlowJSONV31) {
     // Create json file with data and return path
     try {
       const tempFilePath = path.join(tmpdir(), ('flow.json'));

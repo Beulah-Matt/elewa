@@ -1,11 +1,13 @@
-import { RestRegistrar } from '@ngfi/functions';
-import { ConvLearnFunction } from "../../conv-learn-func.class";
+import { FirestoreCreateRegistrar } from '@ngfi/functions';
 import { UpdateWhatsappFlowHandler } from '@app/functions/whatsapp-flows';
 
-const onUpdateWhatsappFlowHandler = new UpdateWhatsappFlowHandler();
+import { ConvLearnFunction } from "../../conv-learn-func.class";
 
-export const updateWhatsappFlow = new ConvLearnFunction('updateWhatsappFlow',
-                                                  new RestRegistrar(),
+const updateWhatsappFlowHandler = new UpdateWhatsappFlowHandler();
+const FLOWS_REPO = `orgs/{orgId}/stories/{storyId}/flows/{flowId}`;
+
+export const onUpdateWhatsappFlow = new ConvLearnFunction('onUpdateWhatsappFlow',
+                                                  new FirestoreCreateRegistrar(FLOWS_REPO),
                                                   [],
-                                                  onUpdateWhatsappFlowHandler)
+                                                  updateWhatsappFlowHandler)
                                                   .build()

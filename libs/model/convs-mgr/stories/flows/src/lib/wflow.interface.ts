@@ -39,4 +39,6 @@ export interface WFlow extends IObject
     expires_at: string;
   }
   timestamp: number
+
+  orgId?: string;
 }
