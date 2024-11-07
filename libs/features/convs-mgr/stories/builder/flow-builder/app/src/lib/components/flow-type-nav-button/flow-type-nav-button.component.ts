@@ -1,14 +1,14 @@
-import { Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output, ViewContainerRef } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
-import { SubSink } from 'subsink';
 import { debounceTime } from 'rxjs/operators';
+import { combineLatest } from 'rxjs';
+import { SubSink } from 'subsink';
 
-import { FlowControl, FlowControlType, FlowPageLayoutElementTypesV31 } from '@app/model/convs-mgr/stories/flows';
+import { FlowControl, FlowPageLayoutElementTypesV31 } from '@app/model/convs-mgr/stories/flows';
 import { ChangeTrackerService, FlowBuilderStateProvider } from '@app/features/convs-mgr/stories/builder/flow-builder/state';
 
-import { combineLatest } from 'rxjs';
+import { _CreateFlowNavButtonForm } from '../../providers/flow-forms/flow-nav-button-form-build.model';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -17,18 +17,11 @@ import { combineLatest } from 'rxjs';
   styleUrls: ['./flow-type-nav-button.component.scss'],
 })
 export class FlowTypeNavButtonComponent implements OnInit, OnDestroy {
-  @Input() elementForm: FormGroup;
-
-  /** The type of input, for text inputs */
-  type: FlowControlType;
-  flowControlType = FlowControlType;
-
-  /** Control being interacted with */
-  control: FlowControl;
-  @Output() changeEvent = new EventEmitter<any>();
+  @Input() control?: FlowControl;
+  
+  elementForm: FormGroup;
 
   inputId = '';
-  vrc = inject(ViewContainerRef)
 
   buttonAction: 'navigate' | 'complete' = 'navigate';
 
@@ -37,10 +30,12 @@ export class FlowTypeNavButtonComponent implements OnInit, OnDestroy {
   
   private _sbS = new SubSink();
 
-  constructor(private trackerService: ChangeTrackerService, private _flowStateProvider: FlowBuilderStateProvider) {}
+  constructor(private trackerService: ChangeTrackerService, private _fb: FormBuilder, private _flowStateProvider: FlowBuilderStateProvider) {}
 
   ngOnInit(): void {
-    this.inputId = `input-${this.control.type}`;
+    this.elementForm = _CreateFlowNavButtonForm(this._fb, this.control as any);
+
+    this.inputId = `input-${this.control?.type}`;
 
     this.setScreenConfig();
     
@@ -78,19 +73,23 @@ export class FlowTypeNavButtonComponent implements OnInit, OnDestroy {
 
   buildV31Element(value: string) {
 
-    const footerElement = {
+    const footerElement = this.getNavButtonData(value);
+
+    this._sbS.sink = this.trackerService.updateValue(footerElement).subscribe((_res: any) =>{
+      console.log(_res)
+    }); 
+  }
+
+  getNavButtonData(value: string) {
+    return {
       label: value,
-      type: this.type as unknown as FlowPageLayoutElementTypesV31,
+      type: FlowPageLayoutElementTypesV31.FOOTER,
       "on-click-action": {
         name: this.buttonAction,
         // The payload is configured when we build the JSON, as it depends on the input elements
         payload: {}
       }
     };
-
-    this._sbS.sink = this.trackerService.updateValue(footerElement).subscribe((_res: any) =>{
-      console.log(_res)
-    }); 
   }
 
   ngOnDestroy(): void

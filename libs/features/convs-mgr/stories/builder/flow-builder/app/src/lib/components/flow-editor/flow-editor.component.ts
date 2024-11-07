@@ -9,7 +9,7 @@ import { Observable, of, take } from 'rxjs';
 import { FlowBuilderStateFrame, FlowBuilderStateProvider } from '@app/features/convs-mgr/stories/builder/flow-builder/state';
 import { WFlowService } from '@app/state/convs-mgr/wflows';
 import { ChangeTrackerService } from '@app/features/convs-mgr/stories/builder/flow-builder/state';
-import { FlowControl } from '@app/model/convs-mgr/stories/flows';
+import { FlowControl, FlowControlType, FlowPageLayoutElementTypesV31 } from '@app/model/convs-mgr/stories/flows';
 
 import { EditorComponentFactory } from '../../services/editor-component-factory.service';
 import { _GetFlowComponentForm } from '../../providers/flow-forms-build-factory.util';
@@ -37,6 +37,7 @@ export class FlowEditorComponent implements OnInit, OnDestroy
   isSideScreenOpen: boolean;
   inEditor = true;
   showScreenSettings = true;
+  footerElement?: FlowControl;
 
   constructor( private _flowBuilderState: FlowBuilderStateProvider,
                private editorComponentFactory: EditorComponentFactory,
@@ -59,11 +60,13 @@ export class FlowEditorComponent implements OnInit, OnDestroy
       // Clear all the views from the container
       this.vcr.clear();
 
-      this.droppedItems = elements;
-      elements.forEach((item) => this.createInputForm(item));
+      this.footerElement = elements.find((c: FlowControl) => c.type === FlowPageLayoutElementTypesV31.FOOTER);
+
+      this.droppedItems = elements.filter((c: FlowControl) => c.type !== FlowPageLayoutElementTypesV31.FOOTER);
+      this.droppedItems.forEach((item) => this.createInputForm(item));
     })
   }
-  
+
   openScreenSettings() {
     this.showScreenSettings = true;
   }

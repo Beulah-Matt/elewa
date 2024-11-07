@@ -1,6 +1,6 @@
 import { Story } from "@app/model/convs-mgr/stories/main";
 import { FlowBuilderStateFrame } from "./flow-builder-state-frame.interface";
-import { FlowpageForm, FlowPageLayoutElementTypesV31, FlowScreenV31, FlowStory, WFlow } from "@app/model/convs-mgr/stories/flows";
+import { FlowPageFooterV31, FlowpageForm, FlowPageLayoutElementTypesV31, FlowScreenV31, FlowStory, WFlow } from "@app/model/convs-mgr/stories/flows";
 import { generateId } from "../utils/get-uuid.util";
 
 /**
@@ -55,8 +55,22 @@ export function _CreateScreen(n: number): FlowScreenV31 {
   };
 }
 
+/** Initialize footer for a new screen */
+const footer = {
+  label: 'Continue',
+  type: FlowPageLayoutElementTypesV31.FOOTER,
+  "on-click-action": {
+    name: 'navigate',
+    // The payload is configured when we build the JSON, as it depends on the input elements
+    payload: {}
+  }
+} as FlowPageFooterV31; 
+
+
+/** Initialize form to capture data */
 const flowForm =  {
   type: FlowPageLayoutElementTypesV31.FORM,
   name: "form",
-  children: []
+  children: [footer]
 } as FlowpageForm;
+
