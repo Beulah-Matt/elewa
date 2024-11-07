@@ -17,6 +17,9 @@ import { ConfirmDeleteElementComponent } from '../../modals/confirm-delete-eleme
 export class FlowDatepickInputComponent implements OnInit
 { 
   @Input() elementForm: FormGroup;
+
+  elementIndex: number;
+
   /** The type of input, for text inputs */
   type: FlowControlType
   /** Type of control enum */
@@ -95,7 +98,7 @@ export class FlowDatepickInputComponent implements OnInit
 
    /** Trigger autosave servie */
    private triggerAutosave(newValue: FlowDatePickerInput): void {
-    this.trackerService.updateValue(newValue);
+    this.trackerService.updateValue(newValue, this.elementIndex);
   }
 
 }

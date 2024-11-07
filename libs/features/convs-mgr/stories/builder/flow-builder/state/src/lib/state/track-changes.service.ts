@@ -28,15 +28,15 @@ export class ChangeTrackerService {
   /**
    * Update value and trigger save
    */
-  updateValue(newValue: FlowPageLayoutElementV31) {
+  updateValue(newValue: FlowPageLayoutElementV31, i: number) {
       // Build and post the updated flow with all screens and controls
       const state = this._flowBuilderState.get();
       const activeScreen = this._flowBuilderState.activeScreen$;
       const screens = this._flowBuilderState.getScreens();
 
-      return combineLatest([state, activeScreen, screens]).pipe(take(1),switchMap(([state, activeScreen, screens]) => {
+      return combineLatest([state, activeScreen, screens]).pipe(take(1),concatMap(([state, activeScreen, screens]) => {
 
-        const wflow = this._generateFlow(state, newValue, activeScreen, screens[activeScreen]);
+        const wflow = this._generateFlow(state, newValue, i, activeScreen, screens[activeScreen]);
 
         const config = state.flow;
         if (config && config.flow.id) {
@@ -65,9 +65,9 @@ export class ChangeTrackerService {
   }
   
 
-  private _generateFlow(state: FlowBuilderStateFrame, update: FlowPageLayoutElementV31,screenIndex: number, screen: FlowScreenV31) {
+  private _generateFlow(state: FlowBuilderStateFrame, update: FlowPageLayoutElementV31, elementIndex: number, screenIndex: number, screen: FlowScreenV31) {
     const wflow: WFlow = {
-      flow: buildFlowJSON(state, update,screenIndex, screen),
+      flow: buildFlowJSON(state, update, elementIndex, screenIndex, screen),
       name: `Flow_${Date.now()}`,
       validation_errors: [],
       timestamp: new Date().getTime(),

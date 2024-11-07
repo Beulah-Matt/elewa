@@ -63,7 +63,7 @@ export class FlowEditorComponent implements OnInit, OnDestroy
       this.footerElement = elements.find((c: FlowControl) => c.type === FlowPageLayoutElementTypesV31.FOOTER);
 
       this.droppedItems = elements.filter((c: FlowControl) => c.type !== FlowPageLayoutElementTypesV31.FOOTER);
-      this.droppedItems.forEach((item) => this.createInputForm(item));
+      this.droppedItems.forEach((item, i) => this.createInputForm(item, i));
     })
   }
 
@@ -129,7 +129,7 @@ export class FlowEditorComponent implements OnInit, OnDestroy
       const hasInput = this.droppedItems.filter((c: FlowControl)=> c.hasInput).find((c: FlowControl)=> c.id === element.id);
       
       if(!hasInput) {
-        this.createInputForm(element);
+        this.createInputForm(element, i);
     
         this.droppedItems[i].hasInput = true;
       }
@@ -137,13 +137,16 @@ export class FlowEditorComponent implements OnInit, OnDestroy
     }
   }
   
-  createInputForm(element: FlowControl) {
+  createInputForm(element: FlowControl, i: number) {
     const componentRef = this.editorComponentFactory.createEditorComponent(element, this.vcr);
         
     componentRef.instance.control = element;
     
     const elementForm  = _GetFlowComponentForm(this._fb, element);
     componentRef.instance.elementForm = elementForm;
+
+    // Set the element index. We add 1 because of the already existing footer button element on all screens
+    componentRef.instance.elementIndex = i+1;
     
     componentRef.instance.type = element.controlType;  // Pass the value to the component
     

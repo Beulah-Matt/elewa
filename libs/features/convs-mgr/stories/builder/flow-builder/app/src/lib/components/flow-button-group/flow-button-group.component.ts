@@ -17,6 +17,8 @@ import { ConfirmDeleteElementComponent } from '../../modals/confirm-delete-eleme
 })
 export class FlowButtonGroupComponent implements OnInit
 {
+  elementIndex: number;
+
   /** The type of input, for text inputs */
   type: FlowControlType
   /** Type of control enum */
@@ -94,7 +96,7 @@ export class FlowButtonGroupComponent implements OnInit
       this.showConfigs = false;
       this.flowGroup = this.radioGroupForm.value;
       const metaRGroup = __buildV31RadioGroup(this.radioGroupForm.value);
-      this._trackerService.updateValue(metaRGroup)
+      this._trackerService.updateValue(metaRGroup, this.elementIndex)
       
     } else {
       console.log('Form is invalid');

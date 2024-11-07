@@ -19,6 +19,8 @@ import { ConfirmDeleteElementComponent } from '../../modals/confirm-delete-eleme
 export class FlowTypeTextComponent implements OnInit {
   @Input() elementForm: FormGroup;
 
+  elementIndex: number;
+
   /** The type of input, for text inputs */
   type: FlowControlType;
   flowControlType = FlowControlType;
@@ -84,7 +86,7 @@ export class FlowTypeTextComponent implements OnInit {
       type: this.type as unknown as FlowPageLayoutElementTypesV31
     };
 
-    this.trackerService.updateValue(textElement).subscribe((_res: any) =>{
+    this.trackerService.updateValue(textElement, this.elementIndex).subscribe((_res: any) =>{
       console.log(_res)
     });
     

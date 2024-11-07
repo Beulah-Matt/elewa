@@ -18,6 +18,9 @@ import { MatDialog } from '@angular/material/dialog';
 export class FlowTypeInputComponent implements OnInit 
 { 
   @Input() elementForm: FormGroup;
+
+  elementIndex: number;
+
   /** The type of input, for text inputs */
   type: FlowControlType
   /** Type of control enum */
@@ -94,6 +97,6 @@ export class FlowTypeInputComponent implements OnInit
 
   /** Trigger autosave */
   private triggerAutosave(newValue: any): void {
-    this.trackerService.updateValue(newValue);
+    this.trackerService.updateValue(newValue, this.elementIndex);
   }
 }

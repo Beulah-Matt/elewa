@@ -18,6 +18,8 @@ import { ConfirmDeleteElementComponent } from '../../modals/confirm-delete-eleme
 })
 export class ImageTypeInputComponent implements OnInit
 {
+  elementIndex: number;
+
   /** The type of input, for text inputs */
   type: FlowControlType;
   /** Type of control enum */
@@ -140,6 +142,6 @@ export class ImageTypeInputComponent implements OnInit
 
   /** Trigger autosave */
   private triggerAutosave(newValue: any): void {
-    this.trackerService.updateValue(newValue);
+    this.trackerService.updateValue(newValue, this.elementIndex);
   }
 }

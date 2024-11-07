@@ -14,6 +14,8 @@ import { ChangeTrackerService } from '@app/features/convs-mgr/stories/builder/fl
 export class FlowOptInComponent implements OnInit {
   @Input() elementForm: FormGroup;
 
+  elementIndex: number;
+
   type: FlowControlType;
   flowControlType = FlowControlType;
 
@@ -55,7 +57,7 @@ export class FlowOptInComponent implements OnInit {
   /** Trigger autosave */
   private triggerAutosave(newValue: any): void 
   {
-    this.trackerService.updateValue(newValue);
+    this.trackerService.updateValue(newValue, this.elementIndex);
   }
 
   onInputChange(event: KeyboardEvent){

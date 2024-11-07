@@ -18,6 +18,8 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class FlowCheckboxOptionsComponent implements OnInit, OnDestroy
 {
+  elementIndex: number;
+  
   /** The type of input, for text inputs */
   type: FlowControlType
   /** Type of control enum */
@@ -96,7 +98,7 @@ export class FlowCheckboxOptionsComponent implements OnInit, OnDestroy
       const metaRGroup = buildV31CheckboxGroup(this.checkboxGroupForm.value)
 
       this.showConfigs = false;
-      this._trackerService.updateValue(metaRGroup);
+      this._trackerService.updateValue(metaRGroup, this.elementIndex);
       
     } else {
       console.error('Form is invalid');

@@ -75,7 +75,7 @@ export class FlowTypeNavButtonComponent implements OnInit, OnDestroy {
 
     const footerElement = this.getNavButtonData(value);
 
-    this._sbS.sink = this.trackerService.updateValue(footerElement).subscribe((_res: any) =>{
+    this._sbS.sink = this.trackerService.updateValue(footerElement, 0).subscribe((_res: any) =>{
       console.log(_res)
     }); 
   }
