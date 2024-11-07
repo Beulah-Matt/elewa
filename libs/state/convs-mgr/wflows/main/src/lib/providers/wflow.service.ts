@@ -43,23 +43,7 @@ export class WFlowService
   }
 
   updateFlow(flow: WFlow) {
-
-    return this._activeOrg.get().pipe(
-      switchMap((org)=> {
-        const payload = {
-          data: flow.flow,
-          orgId: org.id
-        }
-        return this._aff.httpsCallable('updateWhatsappFlow')(payload)
-      }), 
-      switchMap((resp)=> {
-        if(resp.success) {
-          // TODO: Display flow validation errors 
-          return this.add(flow);
-        } else {
-          return of(null);
-        }
-      }))
+    return this.add(flow);
   }
 
   /**
@@ -79,7 +63,6 @@ export class WFlowService
           flow: flow,
           orgId: org.id
         }
-        console.log(payload)
         return this._aff.httpsCallable('createWhatsappFlow')(payload)
       }), 
       switchMap((resp)=> {

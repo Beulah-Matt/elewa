@@ -14,12 +14,12 @@ export function __StoryToFlowFrame(story: Story, flow?: WFlow): FlowBuilderState
 {
   return {
     story: story as FlowStory,
-    flow: flow ?? _initFrame()
+    flow: flow ?? _initFrame(story.orgId)
   };
 }
 
 /** Initialise the default story configuration */
-function _initFrame(): WFlow
+function _initFrame(orgId: string): WFlow
 {
   return {
     flow: {
@@ -30,6 +30,7 @@ function _initFrame(): WFlow
       },
       screens: [_CreateScreen(1)]
     },
+    orgId: orgId,
     validation_errors: [],
     timestamp: new Date().getTime()
   };
