@@ -10,7 +10,7 @@ export interface FlowControl extends FlowPageLayoutElementV31
   group: string;
 
   /** Label/name of the control */
-  label: string;
+  controlLabel: string;
 
   /** Value of the control */
   controlType: FlowControlType;
