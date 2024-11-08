@@ -129,11 +129,13 @@ export class FlowBuilderStateProvider
    * Updates the list of controls and notifies subscribers.
    * @param controls - The new list of controls.
    */
-  setControls(control: FlowControl)
+  setControls(controls: FlowControl[])
   {
-    const current = this._controls$$.getValue();
-    current.push(control);
-    this._controls$$.next(current);
+    const currentControls = this._controls$$.getValue();
+    const updatedControls = [currentControls[0], ...controls];
+
+    this._controls$$.next(updatedControls);
+    return this._controls$$.asObservable();
   }
 
 

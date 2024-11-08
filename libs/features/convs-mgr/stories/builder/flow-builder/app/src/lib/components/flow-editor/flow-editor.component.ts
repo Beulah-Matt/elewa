@@ -4,16 +4,17 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { SubSink } from 'subsink';
-import { Observable, of, take } from 'rxjs';
+import { map, Observable, of, switchMap, take, tap } from 'rxjs';
 
 import { FlowBuilderStateFrame, FlowBuilderStateProvider } from '@app/features/convs-mgr/stories/builder/flow-builder/state';
 import { WFlowService } from '@app/state/convs-mgr/wflows';
 import { ChangeTrackerService } from '@app/features/convs-mgr/stories/builder/flow-builder/state';
-import { FlowControl, FlowControlType, FlowPageLayoutElementTypesV31 } from '@app/model/convs-mgr/stories/flows';
+import { FlowControl, FlowControlType, FlowPageLayoutElementTypesV31, FlowPageLayoutElementV31 } from '@app/model/convs-mgr/stories/flows';
 
 import { EditorComponentFactory } from '../../services/editor-component-factory.service';
 import { _GetFlowComponentForm } from '../../providers/flow-forms-build-factory.util';
 import { SideScreenToggleService } from '@app/features/convs-mgr/stories/builder/editor-state';
+import { transformToFlowElement } from '../../utils/tranform-elements-type.util';
 
 
 @Component({
@@ -42,7 +43,7 @@ export class FlowEditorComponent implements OnInit, OnDestroy
   constructor( private _flowBuilderState: FlowBuilderStateProvider,
                private editorComponentFactory: EditorComponentFactory,
                private _fb: FormBuilder,
-               private trackerService: ChangeTrackerService,
+               private _trackChangesService: ChangeTrackerService,
                private _wFlowService: WFlowService,
                private cdr: ChangeDetectorRef,
                private sideScreen: SideScreenToggleService
@@ -61,7 +62,6 @@ export class FlowEditorComponent implements OnInit, OnDestroy
       this.vcr.clear();
 
       this.footerElement = elements.find((c: FlowControl) => c.type === FlowPageLayoutElementTypesV31.FOOTER);
-
       this.droppedItems = elements.filter((c: FlowControl) => c.type !== FlowPageLayoutElementTypesV31.FOOTER);
       this.droppedItems.forEach((item, i) => this.createInputForm(item, i));
     })
@@ -108,6 +108,13 @@ export class FlowEditorComponent implements OnInit, OnDestroy
     }
     if(event.previousContainer === event.container){
       moveItemInArray(this.droppedItems,event.previousIndex, event.currentIndex)
+
+      // const updatedItems = droppedItems.map((c)=> c as unknown as FlowPageLayoutElementTypesV31);
+    /** Update the order of elements */
+    this._flowBuilderState.setControls(this.droppedItems)
+      .pipe(map((droppedItems)=> transformToFlowElement(droppedItems)),
+      switchMap((elements)=> this._trackChangesService.updateElements(elements)))
+        .subscribe();
     }
   }
 

@@ -63,6 +63,18 @@ export class ChangeTrackerService {
       return this._wFlowService.updateFlow(wFlow);
     }));
   }
+
+  updateElements(elements: FlowPageLayoutElementV31[]) {
+    const state = this._flowBuilderState.get();
+    const activeScreen = this._flowBuilderState.activeScreen$;
+
+    return combineLatest([activeScreen, state]).pipe(switchMap(([screen, state])=> {
+      const wFlow = state.flow;
+
+      wFlow.flow.screens[screen].layout.children[0].children = elements;
+      return this._wFlowService.updateFlow(wFlow);
+    }))
+  }
   
 
   private _generateFlow(state: FlowBuilderStateFrame, update: FlowPageLayoutElementV31, elementIndex: number, screenIndex: number, screen: FlowScreenV31) {

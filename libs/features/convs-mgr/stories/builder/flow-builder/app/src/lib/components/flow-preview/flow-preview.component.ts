@@ -21,7 +21,7 @@ export class FlowPreviewComponent implements OnInit, OnDestroy
 
   ngOnInit(): void {
     const state$ = this._flowStateService.state$;
-    this._sbS.sink = state$.pipe(filter((state)=> !!state), switchMap((state)=> {
+    this._sbS.sink = state$.pipe(filter((state)=> !!state && !!state.flow.flow.id), switchMap((state)=> {
       const flowId = state.flow.flow.id;
 
       return this._wFlowService.getPreview(flowId);
