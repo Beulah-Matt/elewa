@@ -13,4 +13,6 @@ jobs:
       environment: elewa-prod
       project_id: elewa-conv-learning-prod
       channelId: live
-    secrets: inherit
+    secrets:
+      FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_ELEWA_CONV_LEARNING_PROD}}
+      ENVIRONMENT_FILE: ${{ secrets.ENVIRONMENT_FILE_ELEWA_CONV_LEARNING_PROD }}

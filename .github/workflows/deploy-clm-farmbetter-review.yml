@@ -14,4 +14,6 @@ jobs:
       project_id: farmbetter-review
       channelId: live
       target: convl-manager
-    secrets: inherit
+    secrets:
+      FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_FARMBETTER_REVIEW }}
+      ENVIRONMENT_FILE: ${{ secrets.ENVIRONMENT_FILE_FARMBETTER_REVIEW }}

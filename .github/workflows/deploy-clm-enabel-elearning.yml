@@ -13,4 +13,6 @@ jobs:
       environment: enabel-elearning
       project_id: enabel-elearning
       channelId: live
-    secrets: inherit
+    secrets:
+      FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_ENABEL_ELEARNING }}
+      ENVIRONMENT_FILE: ${{ secrets.ENVIRONMENT_FILE_ENABEL_ELEARNING }}
