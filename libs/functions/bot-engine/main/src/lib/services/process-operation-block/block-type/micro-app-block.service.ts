@@ -77,7 +77,8 @@ export class MicroAppBlockService implements IProcessOperationBlock
 
       config: config,
       endUserId: endUser.id,
-      endUserName: endUser.variables ? endUser.variables['name'] || '' : ''
+      endUserName: endUser.variables ? endUser.variables['name'] || '' : '',
+      createdOn: new Date()
     };
     
 
