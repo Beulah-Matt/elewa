@@ -59,6 +59,12 @@ export class AssessmentFeedbackSectionComponent implements OnInit
   ngOnInit(): void {
     this.getAllowedAttempts();
     this.setResultMode();
+
+    this.isGettingPDF = true;
+    this._feedbackPDF$.generateAndUploadPDF(this.assessmentProgress, this.assessmentQuestions, this.app)
+      .subscribe(()=> {
+          this.isGettingPDF = false;
+        })   
   }
 
   hasPassed() {
@@ -169,11 +175,6 @@ export class AssessmentFeedbackSectionComponent implements OnInit
   }
 
   backToApp(){
-    this.isGettingPDF = true;
-    this._feedbackPDF$.generateAndUploadPDF(this.assessmentProgress, this.assessmentQuestions, this.app)
-      .subscribe(()=> {
-          this.isGettingPDF = false;
-          this._router.navigate(['redirect', this.app.id]);
-        })   
+    this._router.navigate(['redirect', this.app.id]);
   }
 }
