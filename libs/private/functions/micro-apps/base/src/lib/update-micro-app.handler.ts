@@ -13,12 +13,11 @@ export class UpdateMicroAppHandler extends FunctionHandler<MicroAppStatus, InitM
   public async execute(req: MicroAppStatus, context: FunctionContext, tools: HandlerTools): Promise<InitMicroAppResponse>
   {
     tools.Logger.log(() => `Updating micro-app ${JSON.stringify(req)}`)
-    req = ___isString(req) ? JSON.parse(req) : req;
 
     try 
     {
       const appRegistrationRepo$ =  tools.getRepository<MicroAppStatus>(`appExecs`);
-      const app = await appRegistrationRepo$.update(req);
+      const app = await appRegistrationRepo$.write(req, req.id);
 
       return { success: true, app };
       

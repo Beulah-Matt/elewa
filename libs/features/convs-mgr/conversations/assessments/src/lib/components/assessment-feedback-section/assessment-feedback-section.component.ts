@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -13,7 +13,7 @@ import { AssessmentFeedbackPDFService } from '../../services/assessment-pdf-feed
   templateUrl: './assessment-feedback-section.component.html',
   styleUrls: ['./assessment-feedback-section.component.scss'],
 })
-export class AssessmentFeedbackSectionComponent implements OnInit 
+export class AssessmentFeedbackSectionComponent implements OnInit, AfterViewInit 
 {
   /** Assessment that's underway */
   @Input() assessment: Assessment;
@@ -59,12 +59,15 @@ export class AssessmentFeedbackSectionComponent implements OnInit
   ngOnInit(): void {
     this.getAllowedAttempts();
     this.setResultMode();
+  }
 
+  ngAfterViewInit(): void
+  {
     this.isGettingPDF = true;
     this._feedbackPDF$.generateAndUploadPDF(this.assessmentProgress, this.assessmentQuestions, this.app)
       .subscribe(()=> {
           this.isGettingPDF = false;
-        })   
+       })   
   }
 
   hasPassed() {
